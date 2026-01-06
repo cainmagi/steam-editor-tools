@@ -1,0 +1,128 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "steam-editor-tools"
+authors = [{ name = "Yuchen Jin", email = "cainmagi@gmail.com" }]
+maintainers = [{ name = "Yuchen Jin", email = "cainmagi@gmail.com" }]
+dynamic = [
+  "version",
+  "readme",
+  "description",
+  "classifiers",
+  "dependencies",
+  "optional-dependencies",
+]
+keywords = [
+  "python",
+  "python3",
+  "python-library",
+  "image-processing",
+  "steam-api",
+  "steam-guide",
+  "steam-bbcode",
+  "steam-bbcode-converter",
+  "bbcode",
+  "markdown-to-bbcode",
+  "html-to-bbcode"
+]
+license = { text = "MIT License" }
+requires-python = ">=3.9"
+
+[project.urls]
+Homepage = "https://github.com/cainmagi/steam-editor-tools"
+Documentation = "https://cainmagi.github.io/steam-editor-tools/"
+Repository = "https://github.com/cainmagi/steam-editor-tools.git"
+Issues = "https://github.com/cainmagi/steam-editor-tools/issues"
+Changelog = "https://github.com/cainmagi/steam-editor-tools/blob/main/Changelog.md"
+
+[tool.setuptools]
+zip-safe = true
+include-package-data = false
+
+[tool.setuptools.dynamic]
+version = { attr = "version.__version__" }
+description = { file = "py-description.txt" }
+readme = { file = ["README.md"], content-type = "text/markdown" }
+classifiers = { file = "classifiers.txt" }
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools.dynamic.optional-dependencies]
+dev = { file = ["requirements-dev.txt"] }
+test = { file = ["tests/requirements.txt"] }
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["steam_editor_tools"]
+exclude = [
+  "version",
+  "docker",
+  "tests*",
+  "examples*",
+  "docs*",
+  "instance",
+  "migrations",
+]
+namespaces = false
+
+[tool.black]
+line-length = 88
+include = '\.pyi?$'
+# 'extend-exclude' excludes files or directories in addition to the defaults
+extend-exclude = '''
+# A regex preceded with ^/ will apply only to files and directories
+# in the root of the project.
+(
+  ^/docs
+  |^/steam_editor_tools\.egg-info
+  |^/instance
+  |^/migrations
+  |^/tests/data
+)
+'''
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = "tests/"
+addopts = "-rsxX -vv"
+log_level = "DEBUG"
+log_format = "%(name)s | %(filename)s - %(funcName)s @ %(asctime)s: %(levelname)s %(message)s"
+log_date_format = "%Y-%m-%d %H:%M:%S"
+log_cli = true
+log_cli_level = "DEBUG"
+filterwarnings = []
+
+[tool.pyright]
+include = ["./create_test_files.py", "steam_editor_tools", "tests", "examples"]
+exclude = [
+  "**/node_modules",
+  "**/.*",
+  "**/__pycache__",
+  "alpha-*",
+  "data-*",
+  "logs",
+  "outputs",
+  "docs",
+  "instance",
+  "migrations",
+  ".VSCodeCounter",
+  ".github",
+  ".git",
+  "deps",
+  "inst/deps",
+  "man",
+  "env",
+  "ENV",
+  "venv",
+  "VENV",
+  ".env",
+  ".venv",
+  "typestubs",
+  "setup.py",
+  "version",
+]
+ignore = ["version", "setup.py"]
+defineConstant = { DEBUG = true }
+reportMissingImports = "error"
+reportMissingTypeStubs = false

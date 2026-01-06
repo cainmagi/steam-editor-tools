@@ -1,0 +1,1 @@
+This package offers editor tools helping users write Steam guides and reviews. Support Steam information queries, image editing tools, and BBCode text processing tools.

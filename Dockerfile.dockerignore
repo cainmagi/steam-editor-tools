@@ -2,7 +2,7 @@
 ### Webpack
 .build_cache
 ### VisualStudioCode template
-.vscode/*
+# .vscode/*
 # !.vscode/settings.json
 # !.vscode/tasks.json
 # !.vscode/launch.json
@@ -41,14 +41,8 @@
 
 # Marked by dev.
 /alpha*
-/data*
-/temp*
-!/data/*.py
 /logs
 /outputs
-/cache
-/instance
-/migrations
 
 # Temp files
 /examples/markdown.bbcode

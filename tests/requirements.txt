@@ -1,0 +1,12 @@
+# The requriements for testing.
+pytest
+pytest-base-url
+pytest-html
+pytest-metadata
+py
+pytest-variables
+pytest-xdist
+
+# Packages that are used only during tests
+numpy
+scikit-image

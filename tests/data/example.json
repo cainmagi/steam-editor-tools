@@ -1,0 +1,629 @@
+{
+  "type": "document",
+  "children": [
+    {
+      "type": "heading",
+      "level": 1,
+      "children": [
+        {
+          "type": "text",
+          "text": "1. Title"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "text": "2. Subtitle"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "text": "Example table"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "rows": [
+        {
+          "type": "table_row",
+          "cells": [
+            {
+              "type": "table_cell",
+              "header": true,
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Head"
+                }
+              ]
+            },
+            {
+              "type": "table_cell",
+              "header": true,
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Head2"
+                }
+              ]
+            },
+            {
+              "type": "table_cell",
+              "header": true,
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Head3"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "table_row",
+          "cells": [
+            {
+              "type": "table_cell",
+              "header": false,
+              "children": [
+                {
+                  "type": "text",
+                  "text": "val1"
+                }
+              ]
+            },
+            {
+              "type": "table_cell",
+              "header": false,
+              "children": [
+                {
+                  "type": "text",
+                  "text": "2"
+                }
+              ]
+            },
+            {
+              "type": "table_cell",
+              "header": false,
+              "children": [
+                {
+                  "type": "bold",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "val3"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "table_row",
+          "cells": [
+            {
+              "type": "table_cell",
+              "header": false,
+              "children": []
+            },
+            {
+              "type": "table_cell",
+              "header": false,
+              "children": []
+            },
+            {
+              "type": "table_cell",
+              "header": false,
+              "children": [
+                {
+                  "type": "link",
+                  "href": "google.com",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Goolgle"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 2,
+      "children": [
+        {
+          "type": "text",
+          "text": "3. Subtitle 2"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "text": "Examples of text styles:"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "bold",
+          "children": [
+            {
+              "type": "text",
+              "text": "bold"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": " text"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "italic",
+          "children": [
+            {
+              "type": "text",
+              "text": "italic"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": " text"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "bold",
+          "children": [
+            {
+              "type": "italic",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Bold italic"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": " text"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "strike",
+          "children": [
+            {
+              "type": "text",
+              "text": "Strike"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": " text"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "spoiler",
+          "children": [
+            {
+              "type": "text",
+              "text": "Spoiler"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": " text"
+        }
+      ]
+    },
+    {
+      "type": "hr"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "href": "https://google.com",
+          "children": [
+            {
+              "type": "text",
+              "text": "Example Link"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "href": "https://google.com",
+          "children": [
+            {
+              "type": "text",
+              "text": "Example Link2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "href": "https://google.com",
+          "children": []
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "children": [
+        {
+          "type": "text",
+          "text": "3.1. Sub-sub title"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "text": "Example blocks"
+        }
+      ]
+    },
+    {
+      "type": "quote",
+      "cite": "",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "text": "A simple quote block"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "quote",
+      "cite": "",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "text": "A quote block"
+            }
+          ]
+        },
+        {
+          "type": "quote",
+          "cite": "",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Quote in Quote"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "code_block",
+          "code": "Code block in quote\n"
+        }
+      ]
+    },
+    {
+      "type": "code_block",
+      "code": "const example = () => {\n  return 1;\n};\n"
+    },
+    {
+      "type": "heading",
+      "level": 3,
+      "children": [
+        {
+          "type": "text",
+          "text": "3.2. Sub-sub title 2"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "text": "Example lists"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        {
+          "type": "list_item",
+          "children": [
+            {
+              "type": "text",
+              "text": "Item 1"
+            }
+          ]
+        },
+        {
+          "type": "list_item",
+          "children": [
+            {
+              "type": "text",
+              "text": "Item 2"
+            }
+          ]
+        },
+        {
+          "type": "list_item",
+          "children": [
+            {
+              "type": "text",
+              "text": "Item 3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "ordered": true,
+      "items": [
+        {
+          "type": "list_item",
+          "children": [
+            {
+              "type": "text",
+              "text": "Item 1"
+            }
+          ]
+        },
+        {
+          "type": "list_item",
+          "children": [
+            {
+              "type": "text",
+              "text": "Item 2"
+            }
+          ]
+        },
+        {
+          "type": "list_item",
+          "children": [
+            {
+              "type": "text",
+              "text": "Item 3"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "items": [
+        {
+          "type": "list_item",
+          "children": [
+            {
+              "type": "text",
+              "text": "Item 1"
+            },
+            {
+              "type": "list",
+              "ordered": true,
+              "items": [
+                {
+                  "type": "list_item",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Item-item 1"
+                    }
+                  ]
+                },
+                {
+                  "type": "list_item",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Item-item 2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "list_item",
+          "children": [
+            {
+              "type": "text",
+              "text": "Item 2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "ordered": true,
+      "items": [
+        {
+          "type": "list_item",
+          "children": [
+            {
+              "type": "text",
+              "text": "Item 1"
+            },
+            {
+              "type": "list",
+              "ordered": false,
+              "items": [
+                {
+                  "type": "list_item",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Item-item 1"
+                    }
+                  ]
+                },
+                {
+                  "type": "list_item",
+                  "children": [
+                    {
+                      "type": "text",
+                      "text": "Item-item 2"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "list_item",
+          "children": [
+            {
+              "type": "text",
+              "text": "Item 2"
+            }
+          ]
+        },
+        {
+          "type": "list_item",
+          "children": [
+            {
+              "type": "text",
+              "text": "Table in item"
+            },
+            {
+              "type": "table",
+              "rows": [
+                {
+                  "type": "table_row",
+                  "cells": [
+                    {
+                      "type": "table_cell",
+                      "header": true,
+                      "children": [
+                        {
+                          "type": "text",
+                          "text": "Test"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "table_row",
+                  "cells": [
+                    {
+                      "type": "table_cell",
+                      "header": false,
+                      "children": [
+                        {
+                          "type": "text",
+                          "text": "This is a table"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 4,
+      "children": [
+        {
+          "type": "text",
+          "text": "3.2.1. H4 title 1"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 5,
+      "children": [
+        {
+          "type": "text",
+          "text": "3.2.1.1. H5 title"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "level": 6,
+      "children": [
+        {
+          "type": "text",
+          "text": "3.2.1.1.1. H6 title"
+        }
+      ]
+    }
+  ]
+}
