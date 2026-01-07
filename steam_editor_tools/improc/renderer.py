@@ -703,10 +703,7 @@ class ImageText:
             n_width, size_font = self.font_size.get_line_size(len(self.text))
         size_line = int(size_font * 1.5)
         font = (
-            ImageFont.truetype(
-                R"C:\Users\cainm\Documents\Scripts\test-font\SourceHanSerifSC-Bold.otf",
-                size_font,
-            )
+            ImageFont.truetype(self.font, size_font)
             if self.font
             else ImageFont.load_default_imagefont()
         )
