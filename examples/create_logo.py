@@ -59,7 +59,21 @@ def create_logo_styled(
     shadow_color: `str`
         The HEX color of the logo shadow.
     """
-    img_logo = Image.open(logo_path).copy().getchannel("A")
+    img_logo = (
+        stet.ImageMultiLayer(
+            stet.ImageSingle(Image.new("L", (300, 300), color=0)),
+            "bg",
+        )
+        .add_image(
+            stet.ImageSingle(
+                Image.open(logo_path).copy().getchannel("A").resize((160, 160))
+            ),
+            "logo",
+        )
+        .flatten()
+        .convert("L")
+        .img
+    )
     img_logo = Image.composite(
         Image.new("RGBA", img_logo.size, color=color),
         Image.new("RGBA", img_logo.size, color=color + "00"),
@@ -76,13 +90,12 @@ def create_logo_styled(
                 Image.composite(
                     Image.new("RGBA", img_logo.size, color=shadow_color),
                     Image.new("RGBA", img_logo.size, color=shadow_color + "00"),
-                    img_logo,
+                    stet.ImageSingle(img_logo).blur(blur_size=16).img,
                 )
             ),
             "logo",
         )
         .flatten()
-        .blur(blur_size=16)
     )
 
     img_logo_stroke = (
@@ -95,13 +108,12 @@ def create_logo_styled(
                 Image.composite(
                     Image.new("RGBA", img_logo.size, color=stroke_color),
                     Image.new("RGBA", img_logo.size, color=stroke_color + "00"),
-                    img_logo,
+                    stet.ImageSingle(img_logo).blur(blur_size=0, dil_size=2).img,
                 )
             ),
             "logo",
         )
         .flatten()
-        .blur(blur_size=0, dil_size=2)
     )
 
     img_logo_styled = (
@@ -133,11 +145,11 @@ def create_logo_with_text(logo: stet.ImageSingle) -> stet.ImageSingle:
     img_text = (
         stet.ImageMultiLayer((1150, 300), fmt="png")
         .add_image(
-            logo.resize((int(160 / 256 * 300), None)),
+            logo.resize((300, None)),
             name="logo",
             anchor="left",
             rel_anchor="left",
-            pos_shift=(36, 0),
+            pos_shift=(36 - 70, 0),
         )
         .add_text(
             "Steam Editor Tools",
@@ -150,7 +162,7 @@ def create_logo_with_text(logo: stet.ImageSingle) -> stet.ImageSingle:
             anchor="left",
             related_to="logo",
             rel_anchor="right",
-            pos_shift=(-int(0.8 * font_size), 0),
+            pos_shift=(-int(0.8 * font_size) - 70, 10),
         )
         .add_text(
             "St",
@@ -228,7 +240,7 @@ def create_logo_banner(
     banner_size: `tuple[int, int]`
         The size of the logo banner.
     """
-    os.makedirs(os.path.dirname(out_file_path))
+    os.makedirs(os.path.dirname(os.path.abspath(out_file_path)), exist_ok=True)
     inner_width = banner_size[0] - 150
     inner_height = banner_size[1] - 100
 
@@ -271,7 +283,7 @@ def create_logo_banner(
 
     img = stet.ImageMultiLayer(banner_size, fmt="webp_lossless")
     img.add_image(img_shadow, name="shadow").add_image(img_bg, name="bg").add_image(
-        img_text, name="text", pos_shift=(36, 0)
+        img_text, name="text", pos_shift=(96, 0)
     )
     img.save(out_file_path, quality="high")
 
@@ -294,7 +306,7 @@ def create_logo_github_banner(
     inner_size: `tuple[int, int]`
         The actual available size of the logo banner
     """
-    os.makedirs(os.path.dirname(out_file_path))
+    os.makedirs(os.path.dirname(os.path.abspath(out_file_path)), exist_ok=True)
     inner_width = inner_size[0] - 32
     inner_height = inner_size[1] - 32
 
@@ -342,7 +354,7 @@ def create_logo_github_banner(
         anchor="top",
         related_to="bg",
         rel_anchor="top",
-        pos_shift=(36, 0),
+        pos_shift=(96, 0),
     ).add_text(
         "The editor tools helping users writing Steam guides and reviews.",
         name="text",
@@ -353,7 +365,7 @@ def create_logo_github_banner(
         anchor="top",
         related_to="title",
         rel_anchor="bottom",
-        pos_shift=(-36, -54),
+        pos_shift=(-96, -54),
     ).add_text(
         "Support Steam information queries, image editing tools, and "
         "BBCode text processing tools.",

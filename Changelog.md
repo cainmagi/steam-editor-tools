@@ -16,3 +16,9 @@
 6. Add the issue and pull request templates.
 7. Configure the github workflows for publishing the package.
 8. Add the banner and adjust the format in the readme.
+
+#### :wrench: Fix
+
+1. Fix: Fix the warning caused by `enum.Enum`.
+2. Fix: Correct the bad usage of the font.
+3. Fix: Correct the styles of logo and reference images.
