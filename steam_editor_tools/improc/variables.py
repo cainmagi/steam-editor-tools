@@ -47,7 +47,7 @@ steam_color_light: Literal["#66C0F4"] = "#66C0F4"
 tex_templates = Templates(
     default=TeXTemplate(
         prep=R"""
-\documentclass[preview]{standalone}
+\documentclass[preview,border=5pt]{standalone}
 \usepackage{amsmath, amssymb}
 \begin{document}
 \begin{equation*}
@@ -61,7 +61,7 @@ tex_templates = Templates(
     ),
     chinese=TeXTemplate(
         prep=R"""
-\documentclass[preview]{standalone}
+\documentclass[preview,border=5pt]{standalone}
 \usepackage{amsmath, amssymb}
 \usepackage{CJKutf8}
 \begin{document}

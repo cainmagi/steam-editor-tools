@@ -9,6 +9,7 @@
 #### :wrench: Fix
 
 1. Fix: The property `price_overview` of `stet.steaminfo.AppInfo` should be optional because some delisted apps can be queried but do not have a price.
+2. Fix: Some complicated LaTeX equation may be truncated by a little bit. Now, it has been corrected by adding paddings.
 
 ### 0.1.0 @ 01/06/2026
 
