@@ -263,7 +263,7 @@ class AppInfo(BaseModel):
     publishers: list[str] = Field(default_factory=list)
     """The list of publishers names."""
 
-    price_overview: AppPrice
+    price_overview: AppPrice | None = None
     """The price of the app."""
 
     platforms: PlatformInfo | None = None
