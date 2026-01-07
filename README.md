@@ -111,6 +111,7 @@ Currently, we offer the following examples in `./examples` folder:
 | `download_a_guide`           | Fetch a Steam guide and save it as a BBCode file.                                       |
 | `create_a_title_figure`      | Customize a figure-based title. Such title images can be inserted into the Steam guide. |
 | `create_logo`                | Render the title bar of this readme file.                                               |
+| `render_latex_equations`     | Render a LaTeX equation as an image.                                                    |
 
 The following two guides are written with the help of this tool. Check them for viewing the details:
 
