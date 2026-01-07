@@ -117,15 +117,15 @@ class ImageFontSize(enum.Enum):
             The pixel font size.
         """
         if self == ImageFontSize.h1:
-            return self.__get_line_h1(n_text)
+            return self._get_line_h1(n_text)
         elif self == ImageFontSize.h2:
-            return self.__get_line_h2(n_text)
+            return self._get_line_h2(n_text)
         elif self == ImageFontSize.h3:
-            return self.__get_line_h3(n_text)
+            return self._get_line_h3(n_text)
         else:
-            return self.__get_line_h4(n_text)
+            return self._get_line_h4(n_text)
 
-    def __get_line_h1(self, n_text: int) -> tuple[int, int]:
+    def _get_line_h1(self, n_text: int) -> tuple[int, int]:
         """(Private) Dynamically get the font size when this value is h1."""
         if n_text < 17:
             n_width = 16
@@ -141,7 +141,7 @@ class ImageFontSize(enum.Enum):
             size_font = 36
         return n_width, size_font
 
-    def __get_line_h2(self, n_text: int) -> tuple[int, int]:
+    def _get_line_h2(self, n_text: int) -> tuple[int, int]:
         """(Private) Dynamically get the font size when this value is h2."""
         if n_text < 25:
             n_width = 24
@@ -157,7 +157,7 @@ class ImageFontSize(enum.Enum):
             size_font = 30
         return n_width, size_font
 
-    def __get_line_h3(self, n_text: int) -> tuple[int, int]:
+    def _get_line_h3(self, n_text: int) -> tuple[int, int]:
         """(Private) Dynamically get the font size when this value is h3."""
         if n_text < 25:
             n_width = 24
@@ -173,7 +173,7 @@ class ImageFontSize(enum.Enum):
             size_font = 24
         return n_width, size_font
 
-    def __get_line_h4(self, n_text: int) -> tuple[int, int]:
+    def _get_line_h4(self, n_text: int) -> tuple[int, int]:
         """(Private) Dynamically get the font size when this value is h4."""
         if n_text < 31:
             n_width = 30
