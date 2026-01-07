@@ -22,3 +22,7 @@
 1. Fix: Fix the warning caused by `enum.Enum`.
 2. Fix: Correct the bad usage of the font.
 3. Fix: Correct the styles of logo and reference images.
+
+#### :floppy_disk: Change
+
+1. Drop the support of `python 3.9` because it is incompatible with the typing system.
