@@ -356,7 +356,8 @@ def create_logo_github_banner(
         rel_anchor="top",
         pos_shift=(96, 0),
     ).add_text(
-        "The editor tools helping users writing Steam guides and reviews.",
+        "This package offers editor tools helping users write Steam guides and "
+        "reviews.",
         name="text",
         font=FONT_PATH,
         font_size=stet.ImageFontAbsSize(n_per_line=56, font_size=32),
@@ -367,8 +368,8 @@ def create_logo_github_banner(
         rel_anchor="bottom",
         pos_shift=(-96, -54),
     ).add_text(
-        "Support Steam information queries, image editing tools, and "
-        "BBCode text processing tools.",
+        "Support Steam information queries, image editing tools, and BBCode "
+        "text processing tools.",
         name="text2",
         font=FONT_PATH,
         font_size=stet.ImageFontAbsSize(n_per_line=56, font_size=32),

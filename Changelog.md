@@ -4,6 +4,13 @@
 
 ## CHANGELOG
 
+### 0.1.2 @ 01/07/2026
+
+#### :wrench: Fix
+
+1. Fix: Correct a severe bug causing the pip wheel package to miss the sub-packages.
+2. Fix: Correct the text of the `examples/create_logo.py`.
+
 ### 0.1.1 @ 01/06/2026
 
 #### :mega: New

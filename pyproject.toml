@@ -54,7 +54,7 @@ test = { file = ["tests/requirements.txt"] }
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["steam_editor_tools"]
+include = ["steam_editor_tools*"]
 exclude = [
   "version",
   "docker",
