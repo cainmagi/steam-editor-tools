@@ -26,3 +26,4 @@
 #### :floppy_disk: Change
 
 1. Drop the support of `python 3.9` because it is incompatible with the typing system.
+2. Finish the docker test and update the display image.
