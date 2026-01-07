@@ -64,6 +64,13 @@ class Templates(TypedDict):
     chinese: TeXTemplate
     """The LaTeX template used for rendering equations containing Chinese."""
 
+    multilines: TeXTemplate
+    """The LaTeX template only contains a bare equation environment. Use it for
+    writing multi-line equations."""
+
+    multilines_chinese: TeXTemplate
+    """The LaTeX template "multilines" with Chinese support."""
+
 
 class ImageFontAbsSize(BaseModel):
     """Absolute image text size."""

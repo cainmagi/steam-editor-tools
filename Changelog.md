@@ -6,6 +6,10 @@
 
 ### 0.1.1 @ 01/06/2026
 
+#### :mega: New
+
+1. Support multi-line equation rendering and provide an example.
+
 #### :wrench: Fix
 
 1. Fix: The property `price_overview` of `stet.steaminfo.AppInfo` should be optional because some delisted apps can be queried but do not have a price.

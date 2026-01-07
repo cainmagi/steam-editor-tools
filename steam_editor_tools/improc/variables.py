@@ -76,5 +76,32 @@ tex_templates = Templates(
 \end{document}
 """,
     ),
+    multilines=TeXTemplate(
+        prep=R"""
+\documentclass[preview,border=5pt]{standalone}
+\usepackage{amsmath, amssymb}
+\begin{document}
+\begin{equation*}
+""",
+        end=R"""
+\end{equation*}
+\end{document}
+""",
+    ),
+    multilines_chinese=TeXTemplate(
+        prep=R"""
+\documentclass[preview,border=5pt]{standalone}
+\usepackage{amsmath, amssymb}
+\usepackage{CJKutf8}
+\begin{document}
+\begin{CJK}{UTF8}{gbsn}
+\begin{equation*}
+""",
+        end=R"""
+\end{equation*}
+\end{CJK}
+\end{document}
+""",
+    ),
 )
 """The built-in LaTeX templates."""

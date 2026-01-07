@@ -65,7 +65,7 @@ class TeXRenderer:
         """Get the LaTeX rendering template by specifying the template name."""
         if isinstance(template, TeXTemplate):
             return template
-        if template in ("default", "chinese"):
+        if template in ("default", "chinese", "multilines", "multilines_chinese"):
             return templates[template]
         else:
             return templates["default"]
