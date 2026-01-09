@@ -68,6 +68,7 @@ def create_a_title_figure(text: str, out_file_path: "str | os.PathLike[str]") ->
         color="#ffffff",
         stroke_color=stet.improc.variables.steam_color_light,
         glow_color=stet.improc.variables.steam_color_dimmed,
+        pos_shift=(0, 10),
     ).add_background().convert(
         "RGB"
     )

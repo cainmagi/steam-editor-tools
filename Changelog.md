@@ -13,6 +13,7 @@
 3. Fix: For the dev scirpt `create_test_files.py`, the file `ref-complicated.webp` should not be generated if LaTeX cannot be found.
 4. Fix: The `logo.svg` has incompatible feature `transform-origin` which cannot be recognized by many apps. Improve this logo, and regenerate the pixel-based logo with the corrected version.
 5. Fix: Fix a typo in the readme file.
+6. Fix: Fix the position of the example: `create_a_title_figure.py`.
 
 #### :floppy_disk: Change
 
