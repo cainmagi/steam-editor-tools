@@ -10,6 +10,7 @@
 
 1. Fix: The quantization method for lossless images is not configured in an appropriate way. Now, the image will be quantized by `MAXCOVERAGE` rather than `FASTOCTREE` if possible. This change preserve the quality of the loseless images.
 2. Fix: Remove a garbage file `test.json` which was included by accident.
+3. Fix: For the dev scirpt `create_test_files.py`, the file `ref-complicated.webp` should not be generated if LaTeX cannot be found.
 
 ### 0.1.2 @ 01/07/2026
 

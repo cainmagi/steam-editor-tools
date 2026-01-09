@@ -22,6 +22,7 @@ manually.
 """
 
 import os
+import shutil
 
 from typing_extensions import Literal
 
@@ -150,34 +151,35 @@ def create_test_images(
         os.path.join(out_folder, "ref-img_and_text.webp")
     )
 
-    stet.ImageMultiLayer((800, 640), fmt=stet.ImageFormat.webp_lossless).add_image(
-        img, name="layer1"
-    ).add_text(
-        "Test Text",
-        name="text1",
-        font=font,
-        font_size="h1",
-        color=color,
-        stroke_color=stroke,
-        glow_color=shadow,
-        related_to="layer1",
-        pos_shift=(0, -96),
-    ).add_latex(
-        R"\nabla \times \mathbf{E} = -\mu \frac{\partial \mathbf{H}}{\partial t}",
-        name="text2",
-        font_size="h1",
-        color=color,
-        stroke_color=stroke,
-        glow_color=shadow,
-        related_to="text1",
-        anchor="top",
-        rel_anchor="bottom",
-        pos_shift=(0, -64),
-    ).add_background().flatten().resize(
-        (160, None)
-    ).save(
-        os.path.join(out_folder, "ref-complicated.webp")
-    )
+    if shutil.which("latex") is not None:
+        stet.ImageMultiLayer((800, 640), fmt=stet.ImageFormat.webp_lossless).add_image(
+            img, name="layer1"
+        ).add_text(
+            "Test Text",
+            name="text1",
+            font=font,
+            font_size="h1",
+            color=color,
+            stroke_color=stroke,
+            glow_color=shadow,
+            related_to="layer1",
+            pos_shift=(0, -96),
+        ).add_latex(
+            R"\nabla \times \mathbf{E} = -\mu \frac{\partial \mathbf{H}}{\partial t}",
+            name="text2",
+            font_size="h1",
+            color=color,
+            stroke_color=stroke,
+            glow_color=shadow,
+            related_to="text1",
+            anchor="top",
+            rel_anchor="bottom",
+            pos_shift=(0, -64),
+        ).add_background().flatten().resize(
+            (160, None)
+        ).save(
+            os.path.join(out_folder, "ref-complicated.webp")
+        )
 
 
 def get_test_info_image(
