@@ -3,10 +3,10 @@
 Writing lists are not recommended for reviews. The better choice is to use table as an alternative.
 
 | Num |  | Positive review |
-| :------ | :-----: | :--------- | 
+| :------ | :-----: | :--------- |
 | ① | ➕ | Good **game** design. |
 | ② | ➕ | Good *music*. |
-| ③ | ➕ | Good <u>story</u>. |
+| ③ | ➕ | Good <ins>story</ins>. |
 
 | Num |  | Negative review |
 | :------ | :-----: | :--------- | 

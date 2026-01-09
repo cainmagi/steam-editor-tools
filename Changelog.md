@@ -10,6 +10,10 @@
 
 1. Fix typos in readme and example files.
 
+#### :floppy_disk: Change
+
+1. Now, the HTML `<ins>` tag will be converted to `[u]`. In examples, we prefer `<ins>` rather than `<u>` because GitHub does not render `<u>` but render `<ins>`.
+
 ### 0.2.0 @ 01/09/2026
 
 #### :mega: New

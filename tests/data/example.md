@@ -7,7 +7,7 @@ Example table
 | Head |               Head2               |                 Head3 |
 | :--- | :-------------------------------: | --------------------: |
 | val1 |                 2                 |              **val3** |
-|      | ![](https://placehold.co/600x400) | [Goolgle](google.com) |
+|      | ![](https://placehold.co/600x400) | [Google](google.com) |
 
 ## 3. Subtitle 2
 
@@ -17,7 +17,7 @@ Examples of text styles:
 
 _italic_ text
 
-<u>underline</u> text
+<ins>underline</ins> text
 
 **_Bold italic_** text
 

@@ -359,7 +359,7 @@ class DocumentParser:
             children = self._convert_children(bs_node)
             return [ItalicNode(children=children)]
 
-        if name == "u":
+        if name in ("u", "ins"):
             children = self._convert_children(bs_node)
             return [UnderlineNode(children=children)]
 
