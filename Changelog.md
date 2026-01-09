@@ -4,6 +4,12 @@
 
 ## CHANGELOG
 
+### 0.2.0 @ 01/09/2026
+
+#### :wrench: Fix
+
+1. Fix: The quantization method for lossless images is not configured in an appropriate way. Now, the image will be quantized by `MAXCOVERAGE` rather than `FASTOCTREE` if possible. This change preserve the quality of the loseless images.
+
 ### 0.1.2 @ 01/07/2026
 
 #### :wrench: Fix

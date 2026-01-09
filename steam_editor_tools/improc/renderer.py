@@ -219,7 +219,14 @@ class ImageSingle:
         #1: `Self`
             The converted image.
         """
-        img = self.img.quantize(colors=n, method=Image.Quantize.FASTOCTREE)
+        img = self.img.quantize(
+            colors=n,
+            method=(
+                Image.Quantize.FASTOCTREE
+                if self.img.mode == "RGBA"
+                else Image.Quantize.MAXCOVERAGE
+            ),
+        )
         return self.__class__(img=img, fmt=self.fmt)
 
     @staticmethod
@@ -233,8 +240,14 @@ class ImageSingle:
             n_colors = 16
         if n_colors is not None and (img.mode not in ("1", "L", "P")):
             img = img.quantize(
-                colors=n_colors, method=Image.Quantize.FASTOCTREE
-            ).convert(
+                colors=n_colors,
+                method=(
+                    Image.Quantize.FASTOCTREE
+                    if img.mode == "RGBA"
+                    else Image.Quantize.MAXCOVERAGE
+                ),
+            )
+            img = img.convert(
                 "P",
                 dither=Image.Dither.NONE,
                 palette=Image.Palette.ADAPTIVE,
