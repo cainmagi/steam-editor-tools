@@ -22,9 +22,10 @@ Markdown-to-BBCode styles.
 from pkgutil import extend_path
 
 from . import mark
+from . import alert
 
 
-__all__ = ("mark",)
+__all__ = ("mark", "alert")
 
 # Set this local module as the prefered one
 __path__ = extend_path(__path__, __name__)

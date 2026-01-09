@@ -6,6 +6,10 @@
 
 ### 0.3.0 @ 01/09/2026
 
+#### :mega: New
+
+1. Add `stet.bbcode.plugins.alert`. This sub-module is fetched from [KyleKing/mdformat-gfm-alerts :octocat:](https://github.com/KyleKing/mdformat-gfm-alerts/tree/32a7314).
+
 #### :wrench: Fix
 
 1. Fix: Fix typos in readme and example files.
