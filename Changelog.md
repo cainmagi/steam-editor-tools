@@ -14,6 +14,10 @@
 4. Fix: The `logo.svg` has incompatible feature `transform-origin` which cannot be recognized by many apps. Improve this logo, and regenerate the pixel-based logo with the corrected version.
 5. Fix: Fix a typo in the readme file.
 
+#### :floppy_disk: Change
+
+1. Add `.env` to the ignore list.
+
 ### 0.1.2 @ 01/07/2026
 
 #### :wrench: Fix
