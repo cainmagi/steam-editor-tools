@@ -42,6 +42,7 @@ from .data import (
     ImageQuality,
     ImageAnchor,
 )
+from .font import FontInfo
 from .latex_to_img import TeXRenderer
 from .variables import steam_color
 
@@ -605,7 +606,7 @@ class ImageText:
     def __init__(
         self,
         text: str,
-        font: str | None = None,
+        font: "str | os.PathLike[str] | FontInfo | None" = None,
         font_size: int | str | ImageFontSize | ImageFontAbsSize = ImageFontSize.h2,
         color: str | tuple[float, ...] = "#FFFFFF",
         stroke_color: str | tuple[float, ...] | None = None,
@@ -619,9 +620,9 @@ class ImageText:
         text: `str`
             The text to be rendered.
 
-        font: `str`
-            The path of the font used for rendering the text. If not specified, will
-            use the default font.
+        font: `str | os.PathLike[str] | FontInfo | None`
+            The path of the font, or the searched font used for rendering the text.
+            If not specified, will use the default font.
 
         font_size: `int | str | ImageFontAbsSize | ImageFontSize`
             The dynamic font size of the rendered text. If using `int`, this size
@@ -643,7 +644,7 @@ class ImageText:
         """
         text = "\n".join((line.strip() for line in text.strip().splitlines()))
         self.text: str = text
-        self.font: str | None = font
+        self.font: "str | os.PathLike[str] | FontInfo | None" = font
         self.font_size: ImageFontAbsSize | ImageFontSize = (
             ImageFontAbsSize(font_size=font_size)
             if isinstance(font_size, int)
@@ -657,6 +658,20 @@ class ImageText:
         self.stroke_color: str | tuple[float, ...] | None = stroke_color
         self.glow_color: str | tuple[float, ...] | None = glow_color
         self.shadow_color: str | tuple[float, ...] | None = shadow_color
+
+    @staticmethod
+    def _get_font(
+        font: "str | os.PathLike[str] | FontInfo | None", font_size: int
+    ) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
+        """Get the freetype font by the specified information."""
+        if font is None:
+            ImageFont.load_default_imagefont()
+        if isinstance(font, FontInfo):
+            return font.get_font(font_size)
+        font = str(font).strip()
+        if font:
+            return ImageFont.truetype(font, font_size)
+        return ImageFont.load_default_imagefont()
 
     @staticmethod
     def _cast_text_style(
@@ -715,11 +730,7 @@ class ImageText:
         else:
             n_width, size_font = self.font_size.get_line_size(len(self.text))
         size_line = int(size_font * 1.5)
-        font = (
-            ImageFont.truetype(self.font, size_font)
-            if self.font
-            else ImageFont.load_default_imagefont()
-        )
+        font = self._get_font(self.font, size_font)
         # Parse text.
         if n_width is not None:
             text_div = textwrap.wrap(self.text, width=n_width)
@@ -1258,7 +1269,7 @@ class ImageMultiLayer:
         self: Self,
         text: str,
         name: str,
-        font: str | None = None,
+        font: "str | os.PathLike[str] | FontInfo | None" = None,
         font_size: int | str | ImageFontAbsSize | ImageFontSize = ImageFontSize.h2,
         color: str | tuple[float, ...] = "#FFFFFF",
         stroke_color: str | tuple[float, ...] | None = None,
@@ -1281,9 +1292,9 @@ class ImageMultiLayer:
         name: `str`
             The name of the added text layer.
 
-        font: `str`
-            The path of the font used for rendering the text. If not specified, will
-            use the default font.
+        font: `str | os.PathLike[str] | FontInfo | None`
+            The path of the font, or the searched font used for rendering the text.
+            If not specified, will use the default font.
 
         font_size: `int | str | ImageFontAbsSize | ImageFontSize`
             The dynamic font size of the rendered text. If using `int`, this size
