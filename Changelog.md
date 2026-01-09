@@ -12,6 +12,7 @@
 2. Fix: Remove a garbage file `test.json` which was included by accident.
 3. Fix: For the dev scirpt `create_test_files.py`, the file `ref-complicated.webp` should not be generated if LaTeX cannot be found.
 4. Fix: The `logo.svg` has incompatible feature `transform-origin` which cannot be recognized by many apps. Improve this logo, and regenerate the pixel-based logo with the corrected version.
+5. Fix: Fix a typo in the readme file.
 
 ### 0.1.2 @ 01/07/2026
 

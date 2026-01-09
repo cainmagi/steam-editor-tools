@@ -43,7 +43,6 @@ import steam_editor_tools as stet
 class CustomizedRenderer(stet.BBCodeRenderer):
     def render_heading(self, node: stet.bbcode.nodes.HeadingNode) -> str:
         print(self.render_children(node.children))
-        super().render_heading(node)
         return super().render_heading(node)
 
 
