@@ -1,8 +1,8 @@
 # -*- coding: UTF-8 -*-
 """
-Parser
+Marker
 ======
-@ Steam Editor Tools - BBCode
+@ Steam Editor Tools - Renderer Plugins
 
 Author
 ------
@@ -15,7 +15,7 @@ MIT License
 
 Description
 -----------
-The parser converting the other text formats to the structured data.
+The plugin rendering `==...==` as highlight `<mark>,,,</mark>`.
 """
 
 import re

@@ -8,7 +8,8 @@
 
 #### :wrench: Fix
 
-1. Fix typos in readme and example files.
+1. Fix: Fix typos in readme and example files.
+2. Fix: Correct docstring of `stet.bbcode.plugins.mark`.
 
 #### :floppy_disk: Change
 
