@@ -200,6 +200,24 @@
       "type": "paragraph",
       "children": [
         {
+          "type": "underline",
+          "children": [
+            {
+              "type": "text",
+              "text": "underline"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "text": " text"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
           "type": "bold",
           "children": [
             {

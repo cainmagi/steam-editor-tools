@@ -4,9 +4,9 @@ Writing lists are not recommended for reviews. The better choice is to use table
 
 | Num |  | Positive review |
 | :------ | :-----: | :--------- | 
-| ① | ➕ | Good game design. |
-| ② | ➕ | Good music. |
-| ③ | ➕ | Good story. |
+| ① | ➕ | Good **game** design. |
+| ② | ➕ | Good *music*. |
+| ③ | ➕ | Good <u>story</u>. |
 
 | Num |  | Negative review |
 | :------ | :-----: | :--------- | 

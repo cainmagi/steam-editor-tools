@@ -17,6 +17,8 @@ Examples of text styles:
 
 _italic_ text
 
+<u>underline</u> text
+
 **_Bold italic_** text
 
 ~~Strike~~ text
