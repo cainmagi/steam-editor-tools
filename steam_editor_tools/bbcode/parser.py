@@ -19,16 +19,13 @@ The parser converting the other text formats to the structured data.
 """
 
 import os
-import re
 import collections.abc
 
-from typing import Any, IO
+from typing import IO
 
 from bs4 import BeautifulSoup, Tag
 from bs4.element import NavigableString, PageElement
 from markdown_it.main import MarkdownIt
-from markdown_it.token import Token
-from markdown_it.renderer import RendererHTML
 
 from .nodes import (
     TextNode,
@@ -54,30 +51,11 @@ from .nodes import (
     Node,
 )
 
+from . import plugins
 from .renderer import BBCodeRenderer
 
 
 __all__ = ("DocumentParser",)
-
-MARK_RE = re.compile(r"==(.+?)==")
-
-
-def mark_plugin(md: MarkdownIt) -> None:
-    """
-    Simple plugin: replace ==text== with <mark>text</mark> using regex.
-    """
-
-    def render_text(
-        self: RendererHTML,
-        tokens: list[Token],
-        idx: int,
-        options: dict[str, Any],
-        env: dict[str, Any],
-    ) -> str:
-        content = tokens[idx].content
-        return MARK_RE.sub(r"<mark>\1</mark>", content)
-
-    md.add_render_rule("text", render_text)
 
 
 class DocumentParser:
@@ -138,7 +116,7 @@ class DocumentParser:
         """
         md = md if isinstance(md, str) else md.read()
         engine = MarkdownIt("gfm-like")
-        engine.use(mark_plugin)
+        engine.use(plugins.mark.mark_plugin)
         return self.parse_html(engine.render(md))
 
     def parse_html(self, html: str | IO[str]) -> Document:

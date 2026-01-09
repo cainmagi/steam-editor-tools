@@ -27,6 +27,7 @@ by themselves.
 from pkgutil import extend_path
 
 from . import nodes
+from . import plugins
 from . import parser
 from . import guide
 from . import renderer
@@ -38,6 +39,7 @@ from .renderer import BBCodeRenderer, BBCodeConfig
 
 __all__ = (
     "nodes",
+    "plugins",
     "parser",
     "renderer",
     "guide",

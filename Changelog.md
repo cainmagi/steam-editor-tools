@@ -24,6 +24,7 @@
 1. Add `.env` to the ignore list.
 2. Add an example of the underline text in the test file. Some inline tests are also added in `examples/markdown.md`.
 3. Allow users to pass `stet.improc.font.FontInfo` to `stet.improc.render.ImageText` directly.
+4. Move all `markdown-it` plugins to `stet.bbcode.plugins`. This change is prepared for supporting more plugins in the future.
 
 ### 0.1.2 @ 01/07/2026
 
