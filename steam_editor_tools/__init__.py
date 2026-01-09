@@ -33,6 +33,8 @@ from . import steaminfo
 from .version import __version__
 from .bbcode import DocumentParser, GuideParser, BBCodeRenderer, BBCodeConfig
 from .improc import (
+    FontLanguage,
+    FontLocator,
     ImageFontAbsSize,
     ImageFontSize,
     ImageFormat,
@@ -56,6 +58,8 @@ __all__ = (
     "GuideParser",
     "BBCodeRenderer",
     "BBCodeConfig",
+    "FontLanguage",
+    "FontLocator",
     "ImageFontAbsSize",
     "ImageFontSize",
     "ImageFormat",

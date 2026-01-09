@@ -28,6 +28,7 @@ from pkgutil import extend_path
 from . import data
 from . import variables
 from . import latex_to_img
+from . import font
 from . import renderer
 from . import tools
 
@@ -40,6 +41,7 @@ from .data import (
     TeXTemplate,
 )
 from .latex_to_img import TeXRenderer
+from .font import FontLanguage, FontInfo, FontLocator
 from .renderer import ImageSingle, ImageText, ImageTeX, ImageMultiLayer
 
 
@@ -47,6 +49,7 @@ __all__ = (
     "data",
     "variables",
     "latex_to_img",
+    "font",
     "renderer",
     "tools",
     "TeXTemplate",
@@ -56,6 +59,9 @@ __all__ = (
     "ImageQuality",
     "ImageAnchor",
     "TeXRenderer",
+    "FontLanguage",
+    "FontInfo",
+    "FontLocator",
     "ImageSingle",
     "ImageText",
     "ImageTeX",

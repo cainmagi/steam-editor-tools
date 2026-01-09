@@ -3,9 +3,10 @@ typing-extensions>=4.1.0
 pydantic>=2
 markdown-it-py[linkify]
 beautifulsoup4
-pillow
+pillow>=10.0.0
 httpx
 rapidfuzz
+fonttools>=4.0.0
 
 # The requriements for testing.
 pytest

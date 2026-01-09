@@ -6,6 +6,10 @@
 
 ### 0.2.0 @ 01/09/2026
 
+#### :mega: New
+
+1. Add the font search utility: `stet.improc.font`. Now, users can search the system fonts by name.
+
 #### :wrench: Fix
 
 1. Fix: The quantization method for lossless images is not configured in an appropriate way. Now, the image will be quantized by `MAXCOVERAGE` rather than `FASTOCTREE` if possible. This change preserve the quality of the loseless images.

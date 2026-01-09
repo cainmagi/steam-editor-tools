@@ -76,6 +76,7 @@ Currently, we support the following features:
 | Image modifications | Basic image modification tools such as image resizing, cropping and blurring.                                                              |
 | Thumbnail           | Provide an option to create Steam-compatible thumbnails. This feature is useful when users need to upload screenshots by themselves.       |
 | Batch processing    | Walk through a folder, apply a customized image processing function to each image, and save the results with thumbnails in another folder. |
+| Font searching      | Perform fuzzy searches for system or customized fonts. Users can provide a list of fallback options.                                       |
 
 Actually, the title banner of this Readme file is created by the image editing tools. See the examples.
 
@@ -111,6 +112,7 @@ Currently, we offer the following examples in `./examples` folder:
 | `create_a_title_figure`      | Customize a figure-based title. Such title images can be inserted into the Steam guide. |
 | `create_logo`                | Render the title bar of this readme file.                                               |
 | `render_latex_equations`     | Render a LaTeX equation as an image.                                                    |
+| `search_font`                | Search the font by name, and use the searched font to render an image.                  |
 
 The following two guides are written with the help of this tool. Check them for viewing the details:
 
@@ -128,6 +130,13 @@ Check the documentation to find more details about the examples and APIs.
 
 https://cainmagi.github.io/steam-editor-tools/
 
+See the articles discussing about this tool:
+
+| Article                                               |                                    Link                                     |
+| :---------------------------------------------------- | :-------------------------------------------------------------------------: |
+| Steam Editor Tools: Help You Write Guides and Reviews | [:link:](https://steamcommunity.com/sharedfiles/filedetails/?id=3641150966) |
+| Steam Editor Tools: 帮助你撰写评测和指南              | [:link:](https://steamcommunity.com/sharedfiles/filedetails/?id=3641166480) |
+
 ## 6. Contributing
 
 See [CONTRIBUTING.md :book:][link-contributing]
@@ -143,7 +152,7 @@ See [Changelog.md :book:][link-changelog]
 - [x] Query Steam app ID by name
 - [x] Get Steam app details by ID
 - [x] Screenshot formatting
-- [ ] System/User font file detection
+- [x] System/User font file detection
 - [ ] Image overlay with alpha channel
 - [ ] Image layer properties
 - [ ] Improved image anchor interfaces

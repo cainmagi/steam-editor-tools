@@ -16,6 +16,7 @@ def pytest_configure(config: pytest.Config) -> None:
     logging.getLogger("PIL").setLevel(logging.INFO)
     logging.getLogger("httpcore").setLevel(logging.INFO)
     logging.getLogger("httpx").setLevel(logging.INFO)
+    logging.getLogger("fontTools").setLevel(logging.INFO)
     logging.getLogger("steam_editor_tools").setLevel(logging.DEBUG)
 
     # Configure test mark.
