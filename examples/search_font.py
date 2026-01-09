@@ -44,7 +44,9 @@ def search_a_font_and_create_figure(out_file_path: "str | os.PathLike[str]") -> 
         The path to the output file.
     """
     font_locator = stet.FontLocator(FONT_FALLBACK_PATH)
-    font = font_locator.query_best_with_fallbacks(["Century School", "Arial", ""])
+    font = font_locator.query_best_with_fallbacks(
+        ["Century School", "Arial", "Times New Roman", "Roboto"]
+    )
     if font is None:
         raise ValueError(
             "This situation cannot happen because we have used Roboto as a fallback "

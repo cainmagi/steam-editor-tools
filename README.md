@@ -130,7 +130,7 @@ Check the documentation to find more details about the examples and APIs.
 
 https://cainmagi.github.io/steam-editor-tools/
 
-See the articles discussing about this tool:
+See the articles discussing this tool:
 
 | Article                                               |                                    Link                                     |
 | :---------------------------------------------------- | :-------------------------------------------------------------------------: |
@@ -148,6 +148,7 @@ See [Changelog.md :book:][link-changelog]
 ## 8. Future plan
 
 - [x] HTML/Markdown to BBCode
+- [ ] Support the conversion of extensive Markdown alert block.
 - [x] Multi-layer image synthesis
 - [x] Query Steam app ID by name
 - [x] Get Steam app details by ID

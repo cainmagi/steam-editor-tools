@@ -4,6 +4,12 @@
 
 ## CHANGELOG
 
+### 0.3.0 @ 01/09/2026
+
+#### :wrench: Fix
+
+1. Fix typos in readme and example files.
+
 ### 0.2.0 @ 01/09/2026
 
 #### :mega: New
