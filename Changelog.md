@@ -18,6 +18,7 @@
 #### :floppy_disk: Change
 
 1. Now, the HTML `<ins>` tag will be converted to `[u]`. In examples, we prefer `<ins>` rather than `<u>` because GitHub does not render `<u>` but render `<ins>`.
+2. Optimize the code structure of `stet.bbcode`, especially for the efficiency of `stet.bbcode.plugins.alert`.
 
 ### 0.2.0 @ 01/09/2026
 

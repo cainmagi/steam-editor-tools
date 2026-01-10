@@ -39,6 +39,7 @@ __all__ = (
     "HeadingNode",
     "ParagraphNode",
     "QuoteNode",
+    "AlertNode",
     "ListItemNode",
     "ListNode",
     "TableCellNode",
@@ -216,6 +217,39 @@ class QuoteNode(BaseModel):
     children: "list[Node]"
 
 
+class AlertNode(BaseModel):
+    """Node: Alert
+
+    Provide the alert block, representing the following pattern in HTML:
+    ```
+    <div class="markdown-alert markdown-alert-caution">
+        <p class="markdown-alert-title">Caution</p>
+        ...
+    </div>
+    ```
+    which is converted from
+    ```
+    > [!CAUTION]
+    > ...
+    ```
+
+    Sometimes, the class names may differ.
+
+    We support this node because it is used for supporting block-style fences like
+    ```
+    [spoiler]
+    ...
+    [/spoiler]
+    ```
+    ```
+
+    """
+
+    type: Literal["alert"] = "alert"
+    title: str = "Caution"
+    children: "list[Node]"
+
+
 class ListItemNode(BaseModel):
     """Node: List Item
 
@@ -309,6 +343,7 @@ Node = Annotated[
     | HeadingNode
     | ParagraphNode
     | QuoteNode
+    | AlertNode
     | ListItemNode
     | ListNode
     | TableCellNode

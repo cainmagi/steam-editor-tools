@@ -20,18 +20,24 @@ Description
 -----------
 Format 'GitHub Markdown Alerts,' which use blockquotes to render admonitions.
 
+Modified by
+===========
+Yuchen Jin (cainmagi)
+cainmagi@gmail.com
+
+Preserve the MIT License.
+
 Comments by cainmagi
 --------------------
-The following codes are copied from the source. I preserve them as they are because
-the conversion to BBCode is handled in `renderer`.
-
-The reason why I did not add this project into the dependency list but choose to
-copy the code is because the project has an unused dependency `mdit-py-plugin`.
+We decide to modify this plugin. All modifications preserve the original
+functionalities. The main motivation of the changes is to improve the
+efficiency when there are a lot of candidates passed to the `titles`
+argument.
 """
 
 import re
 from functools import cached_property
-from typing import Callable
+from collections.abc import Callable, Sequence, Mapping
 
 from markdown_it import MarkdownIt
 from markdown_it.renderer import RendererProtocol
@@ -52,8 +58,8 @@ class AlertRuleFactory:
 
     def __init__(
         self,
-        titles: list[str] | None = None,
-        icons: dict[str, str] | None = None,
+        titles: Sequence[str] | None = None,
+        icons: Mapping[str, str] | None = None,
         class_prefix: str = "markdown-alert",
         *,
         parse_nested: bool = True,
@@ -61,7 +67,7 @@ class AlertRuleFactory:
     ) -> None:
         if titles is None:
             titles = DEFAULT_TITLES
-        self.titles = titles
+        self.titles: set[str] = set(title.strip().casefold() for title in titles)
         if icons is None:
             icons = {}
         self.icons = icons
@@ -71,21 +77,15 @@ class AlertRuleFactory:
         self.match_case_sensitive = match_case_sensitive
 
     @cached_property
-    def patterns(
+    def pattern(
         self,
-    ) -> list[re.Pattern[str]]:
-        marker_name_re = "\\w+" if self.titles == ["*"] else "|".join(self.titles)
+    ) -> re.Pattern[str]:
+        marker_name_re = "\\w+"
         flags = 0 if self.match_case_sensitive else re.IGNORECASE
-        return [
-            re.compile(
-                r"^(?P<marker>\*\*(?P<title>(Note|Warning))\*\*:?)\s*(?P<inline>[^\\n\\r]*)?",
-                flags=flags,
-            ),
-            re.compile(
-                rf"^(?P<marker>\\?\[!(?P<title>({marker_name_re}))\\?\])\s*(?P<inline>[^\\n\\r]*)?",
-                flags=flags,
-            ),
-        ]
+        return re.compile(
+            rf"^(?P<marker>\\?\[!(?P<title>({marker_name_re}))\\?\])\s*(?P<inline>[^\\n\\r]*)?",
+            flags=flags,
+        )
 
     @staticmethod
     def _get_first_inline(tokens: list[Token], start: int, end: int) -> Token | None:
@@ -104,15 +104,20 @@ class AlertRuleFactory:
         if not first_inline:
             return
 
-        match = self.patterns[0].match(first_inline.content) or self.patterns[1].match(
-            first_inline.content,
-        )
+        match = self.pattern.match(first_inline.content)
 
         if not match:
             return
 
         title = match.group("title").strip()
-        icon = self.icons.get(title.lower(), "")
+        icon = self.icons.get(title.casefold(), "")
+
+        if len(self.titles) == 0:
+            return
+        elif (not (len(self.titles) == 1 and "*" in self.titles)) and (
+            title.casefold() not in self.titles
+        ):
+            return
 
         first_inline.content = first_inline.content[
             len(match.group("marker")) :
@@ -154,8 +159,8 @@ class AlertRuleFactory:
 
 def gfm_alerts_plugin(
     md: MarkdownIt,
-    titles: list[str] | None = None,
-    icons: dict[str, str] | None = None,
+    titles: Sequence[str] | None = None,
+    icons: Mapping[str, str] | None = None,
     class_prefix: str = "markdown-alert",
     *,
     parse_nested: bool = True,

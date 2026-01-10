@@ -117,6 +117,9 @@ class DocumentParser:
         md = md if isinstance(md, str) else md.read()
         engine = MarkdownIt("gfm-like")
         engine.use(plugins.mark.mark_plugin)
+        engine.use(plugins.alert.gfm_alerts_plugin)
+        with open("test.html", "w", encoding="utf-8") as fobj:
+            fobj.write(engine.render(md))
         return self.parse_html(engine.render(md))
 
     def parse_html(self, html: str | IO[str]) -> Document:
@@ -257,19 +260,7 @@ class DocumentParser:
 
         # Block code: <pre><code>...</code></pre> or <pre>...</pre>
         if name == "pre":
-            # If there is a single <code> child, treat its text as the block code.
-            code_tag = None
-            if len(bs_node.contents) == 1 and isinstance(bs_node.contents[0], Tag):
-                child = bs_node.contents[0]
-                if child.name and child.name.lower() == "code":
-                    code_tag = child
-
-            if code_tag is not None:
-                code_text = code_tag.get_text()
-            else:
-                code_text = bs_node.get_text()
-
-            return [CodeBlockNode(code=code_text)]
+            return self._handle_pre(bs_node)
 
         # Inline code: <code> outside of <pre>
         if name == "code":
@@ -298,59 +289,121 @@ class DocumentParser:
         if name == "blockquote":
             children = self._convert_children(bs_node)
             cite = bs_node.attrs.get("cite")
-            cite = str(cite) if cite is not None else ""
-            return [QuoteNode(children=children, cite=cite)]
+            cite = (
+                cite
+                if isinstance(cite, str)
+                else ("".join(str(val) for val in cite) if cite is not None else "")
+            )
+            return [QuoteNode(children=children, cite=cite.strip())]
 
         # Lists
         if name in {"ul", "ol"}:
-            ordered = name == "ol"
-            items: list[ListItemNode] = []
-            for li in bs_node.find_all("li", recursive=False):
-                item_children = self._convert_children(li)
-                n_children = len(item_children)
-                if n_children > 1:
-                    _item_children: list[Node] = []
-                    for idx in range(n_children):
-                        cur_child = item_children[idx]
-                        if cur_child.type != "paragraph":
-                            _item_children.append(cur_child)
-                            continue
-                        if idx > 0:
-                            if item_children[idx - 1].type == "paragraph":
-                                _item_children.append(cur_child)
-                                continue
-                        if idx < (n_children - 1):
-                            if item_children[idx + 1].type == "paragraph":
-                                _item_children.append(cur_child)
-                                continue
-                        _item_children.extend(cur_child.children)
-                    item_children = _item_children
-                elif n_children == 1:
-                    if item_children[0].type == "paragraph":
-                        item_children = item_children[0].children
-                items.append(ListItemNode(children=item_children))
-            if not items:
-                return []
-            return [ListNode(ordered=ordered, items=items)]
+            return self._handle_list(bs_node, is_ordered=(name == "ol"))
 
         # Tables
         if name == "table":
-            rows: list[TableRowNode] = []
-
-            # Only direct row-like children: <tr> or sections containing <tr>
-            for child in bs_node.children:
-                if isinstance(child, Tag):
-                    if child.name.lower() == "tr":
-                        rows.append(self._convert_tr(child))
-                    elif child.name.lower() in {"thead", "tbody", "tfoot"}:
-                        for tr in child.find_all("tr", recursive=False):
-                            rows.append(self._convert_tr(tr))
-
-            if not rows:
-                return []
-            return [TableNode(rows=rows)]
+            return self._handle_tables(bs_node)
 
         # Inline formatting: bold / italic / underline / strike / spoiler
+        res = self._handle_inline_formats(name, bs_node)
+        if res is not None:
+            return res
+
+        # Generic containers we don't preserve as tags
+        # For any tag that isn't explicitly supported, just recurse into its children.
+        return self._convert_children(bs_node)
+
+    def _handle_pre(self, bs_node: Tag) -> list[Node]:
+        """(Private) Handle code blocks.
+
+        Block code: `<pre><code>...</code></pre>` or `<pre>...</pre>`
+
+        If there is a single `<code>` child, treat its text as the block code.
+        """
+        code_tag = None
+        if len(bs_node.contents) == 1 and isinstance(bs_node.contents[0], Tag):
+            child = bs_node.contents[0]
+            if child.name and child.name.lower() == "code":
+                code_tag = child
+
+        if code_tag is not None:
+            code_text = code_tag.get_text()
+        else:
+            code_text = bs_node.get_text()
+
+        return [CodeBlockNode(code=code_text)]
+
+    def _handle_list(self, bs_node: Tag, is_ordered: bool = False) -> list[Node]:
+        """(Private) Handle ordered and unordered lists.
+
+        Will handle the following special case:
+        `<li><p>...</p></li>`
+        and convert it as
+        `<li>...</li>`
+
+        However, if there are consecutive paragraphs appearing in the same `<li>`,
+        such as
+        `<li><p>...</p><p>...</p>...</li>`
+        The structure will be preserved.
+        """
+        items: list[ListItemNode] = []
+        for li in bs_node.find_all("li", recursive=False):
+            item_children = self._convert_children(li)
+            n_children = len(item_children)
+            if n_children == 0:
+                items.append(ListItemNode(children=item_children))
+                continue
+            if n_children == 1:
+                if item_children[0].type == "paragraph":
+                    item_children = item_children[0].children
+                items.append(ListItemNode(children=item_children))
+                continue
+            _item_children: list[Node] = []
+            for idx in range(n_children):
+                cur_child = item_children[idx]
+                if cur_child.type != "paragraph":
+                    _item_children.append(cur_child)
+                    continue
+                if (idx > 0) and (item_children[idx - 1].type == "paragraph"):
+                    _item_children.append(cur_child)
+                    continue
+                if (idx < (n_children - 1)) and (
+                    item_children[idx + 1].type == "paragraph"
+                ):
+                    _item_children.append(cur_child)
+                    continue
+                _item_children.extend(cur_child.children)
+            item_children = _item_children
+            items.append(ListItemNode(children=item_children))
+        if not items:
+            return []
+        return [ListNode(ordered=is_ordered, items=items)]
+
+    def _handle_tables(self, bs_node: Tag) -> list[Node]:
+        """(Private) Handle the HTML table structure.
+
+        The `<thead>`, `<tbody>` and <tfoot> tags will be unwraped.
+        """
+        rows: list[TableRowNode] = []
+
+        # Only direct row-like children: <tr> or sections containing <tr>
+        for child in bs_node.children:
+            if isinstance(child, Tag):
+                if child.name.casefold() == "tr":
+                    rows.append(self._convert_tr(child))
+                elif child.name.casefold() in {"thead", "tbody", "tfoot"}:
+                    for tr in child.find_all("tr", recursive=False):
+                        rows.append(self._convert_tr(tr))
+
+        if not rows:
+            return []
+        return [TableNode(rows=rows)]
+
+    def _handle_inline_formats(self, name: str, bs_node: Tag) -> list[Node] | None:
+        """(Private) handle the inline formats.
+
+        Inline formatting: bold / italic / underline / strike / spoiler
+        """
         if name in {"b", "strong"}:
             children = self._convert_children(bs_node)
             return [BoldNode(children=children)]
@@ -380,9 +433,8 @@ class DocumentParser:
             children = self._convert_children(bs_node)
             return [LinkNode(href=str(href), children=children)]
 
-        # Generic containers we don't preserve as tags
-        # For any tag that isn't explicitly supported, just recurse into its children.
-        return self._convert_children(bs_node)
+        # No inline formats are found.
+        return None
 
     def _convert_children(self, bs_tag: Tag) -> list[Node]:
         """(Private)
