@@ -185,7 +185,7 @@ def gfm_alerts_plugin(
     ) -> str:
         meta = tokens[idx].meta
         return (
-            f'<div class="{class_prefix} {class_prefix}-{meta["title"].lower()}">\n'
+            f'<div class="{class_prefix} {class_prefix}-{meta["title"].casefold()}">\n'
             f'<p class="{class_prefix}-title">'
             f"{meta['icon']}{meta['title'].title()}</p>\n"
         )

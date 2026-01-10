@@ -14,6 +14,7 @@
 
 1. Fix: Fix typos in readme and example files.
 2. Fix: Correct docstring of `stet.bbcode.plugins.mark`.
+3. Fix: Improve the robustness of the `str` normalization. Prefer `casefold` than `lower` method.
 
 #### :floppy_disk: Change
 

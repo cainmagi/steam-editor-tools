@@ -165,7 +165,7 @@ class DocumentParser:
             if ":" not in decl:
                 continue
             prop, value = decl.split(":", 1)
-            prop = prop.strip().lower()
+            prop = prop.strip().casefold()
             value = value.strip()
             if not prop:
                 continue
@@ -192,7 +192,7 @@ class DocumentParser:
             return True
 
         # aria-hidden
-        if str(getattr(attrs, "aria-hidden", "")).lower() == "true":
+        if str(getattr(attrs, "aria-hidden", "")).casefold() == "true":
             return True
 
         # inline style
@@ -209,7 +209,7 @@ class DocumentParser:
         if disp is not None:
             # Normalize tokens (e.g., "none !important")
             tokens = {
-                tok.strip().lower()
+                tok.strip().casefold()
                 for tok in disp.replace("!", " !").split()
                 if tok.strip()
             }
@@ -220,7 +220,7 @@ class DocumentParser:
         vis = styles.get("visibility")
         if vis is not None:
             tokens = {
-                tok.strip().lower()
+                tok.strip().casefold()
                 for tok in vis.replace("!", " !").split()
                 if tok.strip()
             }
@@ -256,7 +256,7 @@ class DocumentParser:
         if self._is_hidden(bs_node):
             return []
 
-        name = bs_node.name.lower()
+        name = bs_node.name.casefold()
 
         # Block code: <pre><code>...</code></pre> or <pre>...</pre>
         if name == "pre":
@@ -323,7 +323,7 @@ class DocumentParser:
         code_tag = None
         if len(bs_node.contents) == 1 and isinstance(bs_node.contents[0], Tag):
             child = bs_node.contents[0]
-            if child.name and child.name.lower() == "code":
+            if child.name and child.name.casefold() == "code":
                 code_tag = child
 
         if code_tag is not None:
@@ -471,7 +471,7 @@ class DocumentParser:
         """
         cells: list[TableCellNode] = []
         for cell in tr_tag.find_all(["td", "th"], recursive=False):
-            is_header = cell.name.lower() == "th"
+            is_header = cell.name.casefold() == "th"
             cell_children = self._convert_children(cell)
             if not self.__test_renderer.render_children(cell_children).strip():
                 cell_children = []
