@@ -4,9 +4,9 @@
 
 Example table
 
-| Head |               Head2               |                 Head3 |
-| :--- | :-------------------------------: | --------------------: |
-| val1 |                 2                 |              **val3** |
+| Head |               Head2               |                Head3 |
+| :--- | :-------------------------------: | -------------------: |
+| val1 |                 2                 |             **val3** |
 |      | ![](https://placehold.co/600x400) | [Google](google.com) |
 
 ## 3. Subtitle 2
@@ -25,7 +25,7 @@ _italic_ text
 
 ==Spoiler== text
 
---------
+---
 
 [Example Link](https://google.com)
 
@@ -42,6 +42,12 @@ Example blocks
 > A quote block
 >
 > > Quote in Quote
+>
+> > <cite>Author</cite>
+> >
+> > Quote with an author. Only the first `<cite>` tag will be catched. More `<cite>` tags in the same block will be rendered as text.
+> >
+> > <cite>Author2</cite>
 >
 > ```python
 > Code block in quote
@@ -80,6 +86,23 @@ Example lists
    | This is a table |
 
 #### 3.2.1. H4 title 1
+
+Examples of extensive blocks
+
+> [!caution]
+> A caution block is accepted by Typora and GitHub.
+>
+> It will be rendered as spoiler block in Steam BBcode.
+
+> [!important]
+> The important block will be rendered as `[b]...[/b]`.
+>
+> > [!warning]
+> > This is a block in block. it will be rendered as `[u]...[/u]`.
+
+> [!note]
+> > [!tip]
+> > `[!note]` or `[!tip]` blocks will fallback into `[quote]` blocks.
 
 ##### 3.2.1.1. H5 title
 

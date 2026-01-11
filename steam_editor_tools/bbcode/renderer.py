@@ -34,12 +34,67 @@ from .nodes import (
     HeadingNode,
     ParagraphNode,
     QuoteNode,
+    AlertNode,
     ListNode,
     ListItemNode,
     TableNode,
     TableRowNode,
     TableCellNode,
 )
+
+
+__all__ = ("AlertTitleConfigs", "BBCodeConfig", "BBCodeRenderer")
+
+
+class AlertTitleConfigs(BaseModel):
+    """The translation list of alert box titles.
+
+    Each field name will be interpreted as an allowed alert box title in Markdown.
+    For example, users can write
+    ```
+    > [!note]
+    > A example of note box.
+    ```
+    which will be interpreted as
+    ```
+    [quote]
+    A example of note box.
+    [/quote]
+    ```
+    if `AlertTitleConfigs.note == "quote"`.
+
+    Any alert box title that are not defined in this list will be interpreted as
+    `quote` when rendering BBCode.
+    """
+
+    # Need to support at least the following five types.
+    note: str = "quote"
+    tip: str = "quote"
+    important: str = "b"
+    warning: str = "u"
+    caution: str = "spoiler"
+    # The following titles are not official formats.
+    tag_b: str = "b"
+    tag_i: str = "i"
+    tag_u: str = "u"
+    tag_strike: str = "strike"
+    tag_spoiler: str = "spoiler"
+
+    def render_title_as_tag(self, title: str) -> str | None:
+        """Given a title specified in `AlertNode`, get the appropriate BBCode tag
+        for it.
+
+        This method may return `None`. In this case, the `AlertNode` will fall
+        back into a `QuoteNode`.
+        """
+        this_fields = self.__class__.model_fields
+        if title not in this_fields:
+            return None
+        val = self.__dict__.get(title, None)
+        if not (isinstance(val, str) and val):
+            return None
+        val = val.strip()
+        return val
 
 
 class BBCodeConfig(BaseModel):
@@ -80,6 +135,7 @@ class BBCodeConfig(BaseModel):
     table_row: str = "tr"
     table_head: str = "th"
     table_data: str = "td"
+    alert: AlertTitleConfigs = AlertTitleConfigs()
 
     def get_h_tag_by_level(self, level: int) -> str:
         """Get the heading tag by specifying the heading level.
@@ -186,6 +242,9 @@ class BBCodeRenderer:
         if node.type == "quote":
             return self.render_quote(node)
 
+        if node.type == "alert":
+            return self.render_alert(node)
+
         if node.type == "list":
             return self.render_list(node)
 
@@ -203,6 +262,9 @@ class BBCodeRenderer:
 
         if node.type == "document":
             return self.render_document(node)
+
+        if node.type == "deleted":
+            return ""
 
         raise ValueError(f"Unknown node type: {node.type}")
 
@@ -274,6 +336,17 @@ class BBCodeRenderer:
         extra = "={0}".format(node.cite) if node.cite else ""
         return "[{tag}{extra}]\n{children}\n[/{tag}]\n\n".format(
             tag=tag, extra=extra, children=self.render_children(node.children)
+        )
+
+    def render_alert(self, node: AlertNode) -> str:
+        """Specific renderring. Render the alert block."""
+        title = node.title.strip().casefold()
+        tag = self.configs.alert.render_title_as_tag(title)
+        if not tag:
+            # Fall back to rendering a quote block.
+            return self.render_quote(QuoteNode(children=node.children))
+        return "[{tag}]\n{children}\n[/{tag}]\n\n".format(
+            tag=tag, children=self.render_children(node.children)
         )
 
     def render_list(self, node: ListNode) -> str:

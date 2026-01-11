@@ -379,6 +379,46 @@
           ]
         },
         {
+          "type": "quote",
+          "cite": "Author",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Quote with an author. Only the first "
+                },
+                {
+                  "type": "inline_code",
+                  "code": "<cite>"
+                },
+                {
+                  "type": "text",
+                  "text": " tag will be catched. More "
+                },
+                {
+                  "type": "inline_code",
+                  "code": "<cite>"
+                },
+                {
+                  "type": "text",
+                  "text": " tags in the same block will be rendered as text."
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "Author2"
+                }
+              ]
+            }
+          ]
+        },
+        {
           "type": "code_block",
           "code": "Code block in quote\n"
         }
@@ -620,6 +660,126 @@
         {
           "type": "text",
           "text": "3.2.1. H4 title 1"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "text": "Examples of extensive blocks"
+        }
+      ]
+    },
+    {
+      "type": "alert",
+      "title": "Caution",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "text": "A caution block is accepted by Typora and GitHub."
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "text": "It will be rendered as spoiler block in Steam BBcode."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "alert",
+      "title": "Important",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "text": "The important block will be rendered as "
+            },
+            {
+              "type": "inline_code",
+              "code": "[b]...[/b]"
+            },
+            {
+              "type": "text",
+              "text": "."
+            }
+          ]
+        },
+        {
+          "type": "alert",
+          "title": "Warning",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "text": "This is a block in block. it will be rendered as "
+                },
+                {
+                  "type": "inline_code",
+                  "code": "[u]...[/u]"
+                },
+                {
+                  "type": "text",
+                  "text": "."
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "alert",
+      "title": "Note",
+      "children": [
+        {
+          "type": "alert",
+          "title": "Tip",
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "inline_code",
+                  "code": "[!note]"
+                },
+                {
+                  "type": "text",
+                  "text": " or "
+                },
+                {
+                  "type": "inline_code",
+                  "code": "[!tip]"
+                },
+                {
+                  "type": "text",
+                  "text": " blocks will fallback into "
+                },
+                {
+                  "type": "inline_code",
+                  "code": "[quote]"
+                },
+                {
+                  "type": "text",
+                  "text": " blocks."
+                }
+              ]
+            }
+          ]
         }
       ]
     },

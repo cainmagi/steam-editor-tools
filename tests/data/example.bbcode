@@ -44,6 +44,12 @@ A quote block
 Quote in Quote
 [/quote]
 
+[quote=Author]
+Quote with an author. Only the first [noparse]<cite>[/noparse] tag will be catched. More [noparse]<cite>[/noparse] tags in the same block will be rendered as text.
+
+Author2
+[/quote]
+
 [code]
 Code block in quote
 [/code]
@@ -91,5 +97,27 @@ Example lists
 [/olist]
 
 [h3]3.2.1. H4 title 1[/h3]
+Examples of extensive blocks
+
+[spoiler]
+A caution block is accepted by Typora and GitHub.
+
+It will be rendered as spoiler block in Steam BBcode.
+[/spoiler]
+
+[b]
+The important block will be rendered as [noparse][b]...[/b][/noparse].
+
+[u]
+This is a block in block. it will be rendered as [noparse][u]...[/u][/noparse].
+[/u]
+[/b]
+
+[quote]
+[quote]
+[noparse][!note][/noparse] or [noparse][!tip][/noparse] blocks will fallback into [noparse][quote][/noparse] blocks.
+[/quote]
+[/quote]
+
 [h3]3.2.1.1. H5 title[/h3]
 [h3]3.2.1.1.1. H6 title[/h3]

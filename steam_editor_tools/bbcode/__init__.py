@@ -34,7 +34,7 @@ from . import renderer
 
 from .parser import DocumentParser
 from .guide import GuideParser
-from .renderer import BBCodeRenderer, BBCodeConfig
+from .renderer import BBCodeRenderer, BBCodeConfig, AlertTitleConfigs
 
 
 __all__ = (
@@ -47,6 +47,7 @@ __all__ = (
     "GuideParser",
     "BBCodeRenderer",
     "BBCodeConfig",
+    "AlertTitleConfigs",
 )
 
 # Set this local module as the prefered one

@@ -2,17 +2,17 @@
 
 Writing lists are not recommended for reviews. The better choice is to use table as an alternative.
 
-| Num |  | Positive review |
-| :------ | :-----: | :--------- |
-| ① | ➕ | Good **game** design. |
-| ② | ➕ | Good *music*. |
-| ③ | ➕ | Good <ins>story</ins>. |
+| Num |     | Positive review        |
+| :-- | :-: | :--------------------- |
+| ①   | ➕  | Good **game** design.  |
+| ②   | ➕  | Good _music_.          |
+| ③   | ➕  | Good <ins>story</ins>. |
 
-| Num |  | Negative review |
-| :------ | :-----: | :--------- | 
-| ① | ➖ | Bad art. |
-| ② | ➖ | No localization. |
-| ③ | ➖ | High price. |
+| Num |     | Negative review  |
+| :-- | :-: | :--------------- |
+| ①   | ➖  | Bad art.         |
+| ②   | ➖  | No localization. |
+| ③   | ➖  | High price.      |
 
 # Point 1: Game design
 
@@ -36,4 +36,34 @@ The story contains some ==special information==.
 
 ==Well, I would like to use a full paragraph to discuss this.==
 
-[link-ost]:https://open.spotify.com/album/4XgGOMRY7H4hl6OQi5wb2Z
+How about a very long spoiler block?
+
+> I am a cite block with an author name!
+>
+> <cite>John Smith</cite>
+>
+> More cite tags will be rendered as plain text.
+>
+> <cite>John Smith II</cite>
+
+> [!CAUTION]
+> I am spoiler block.
+>
+> I have several lines.
+>
+> #### Even I am a title, I will still be inside the block.
+
+> [!caution]
+> The block title is case insensitive.
+
+> [!tag_b]
+> This is not a standard alert format. Will it work?
+>
+> #### A strange title
+>
+> > Quote in bold env?
+
+> [!tag_spoiler]
+> A spoiler block can be created in such non-standard format.
+
+[link-ost]: https://open.spotify.com/album/4XgGOMRY7H4hl6OQi5wb2Z

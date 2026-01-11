@@ -4,11 +4,12 @@
 
 ## CHANGELOG
 
-### 0.3.0 @ 01/09/2026
+### 0.3.0 @ 01/10/2026
 
 #### :mega: New
 
 1. Add `stet.bbcode.plugins.alert`. This sub-module is fetched from [KyleKing/mdformat-gfm-alerts :octocat:](https://github.com/KyleKing/mdformat-gfm-alerts/tree/32a7314).
+2. Support the alert block HTML parsing, and the corresponding BBCode rendering. The configurations can be modified in a customized `stet.bbcode.renderer.BBCodeConfig`.
 
 #### :wrench: Fix
 

@@ -25,6 +25,7 @@ from pydantic import BaseModel, Field
 
 
 __all__ = (
+    "DeletedNode",
     "TextNode",
     "LineBreakNode",
     "HorizontalRuleNode",
@@ -48,6 +49,21 @@ __all__ = (
     "Document",
     "Node",
 )
+
+
+# Temp Nodes
+
+
+class DeletedNode(BaseModel):
+    """Node: Deleted
+
+    A node used for tagging a deleted node.
+
+    It may be created during the parsing, but will be cleared in the final results.
+    """
+
+    type: Literal["deleted"] = "deleted"
+
 
 # Leaf nodes
 
@@ -329,7 +345,8 @@ class Document(BaseModel):
 
 # Discriminated union of all node types
 Node = Annotated[
-    TextNode
+    DeletedNode
+    | TextNode
     | LineBreakNode
     | HorizontalRuleNode
     | InlineCodeNode
