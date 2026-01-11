@@ -20,7 +20,9 @@ other formats (like HTML and Markdown). The nodes only preserve the data that is
 needed for reconstructing the BBCode text.
 """
 
+import collections.abc
 from typing_extensions import Literal, Annotated
+
 from pydantic import BaseModel, Field
 
 
@@ -341,6 +343,52 @@ class Document(BaseModel):
 
     type: Literal["document"] = "document"
     children: "list[Node]"
+
+    def walk(self, func: "collections.abc.Callable[[Node], None]") -> None:
+        """Walk from the top to the down of each node in this document.
+
+        The visiting order is depth-first, i.e., the leaf nodes will be
+        processed first.
+
+        Arguments
+        ---------
+        func: `(Node) -> None`
+            A function to be applied to each node. This function is a visitor
+            that is used for processing the doucment.
+        """
+
+        def _walk_node(node: Node) -> None:
+            if isinstance(node, (ListNode,)):
+                _walk_children(node.items)
+            elif isinstance(node, (TableNode,)):
+                _walk_children(node.rows)
+            elif isinstance(node, (TableRowNode,)):
+                _walk_children(node.cells)
+            elif isinstance(
+                node,
+                (
+                    BoldNode,
+                    ItalicNode,
+                    UnderlineNode,
+                    StrikeNode,
+                    SpoilerNode,
+                    LinkNode,
+                    HeadingNode,
+                    ParagraphNode,
+                    QuoteNode,
+                    AlertNode,
+                    ListItemNode,
+                    TableCellNode,
+                ),
+            ):
+                _walk_children(node.children)
+            func(node)
+
+        def _walk_children(children: collections.abc.Sequence[Node]):
+            for child in children:
+                _walk_node(child)
+
+        _walk_children(self.children)
 
 
 # Discriminated union of all node types

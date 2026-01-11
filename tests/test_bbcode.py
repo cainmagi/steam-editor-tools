@@ -70,6 +70,28 @@ class TestBBCode:
         assert doc == _doc
         log.info("Conversion of example.html is validated.")
 
+    def test_document_structure(self) -> None:
+        """Test
+
+        Validate that the final document should not contain `DeleteNode`.
+        """
+        log = logging.getLogger("steam_editor_tools.test")
+        log.info("Load example.md")
+        doc = stet.DocumentParser().parse_file(self.get_data_path("example.md"))
+
+        seen_node_types: set[str] = set()
+
+        def visitor(node: stet.bbcode.nodes.Node) -> None:
+            """Record the node types."""
+            seen_node_types.add(node.type)
+
+        doc.walk(visitor)
+
+        log.debug("Seen node types: {0}".format(", ".join(seen_node_types)))
+        assert "delete" not in seen_node_types
+
+        log.info("The document node structure is validated.")
+
     def test_bbcode_document_to_bbcode(self) -> None:
         """Test
 
