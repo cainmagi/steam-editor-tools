@@ -70,7 +70,7 @@ class TestBBCode:
         assert doc == _doc
         log.info("Conversion of example.html is validated.")
 
-    def test_document_structure(self) -> None:
+    def test_bbcode_document_structure(self) -> None:
         """Test
 
         Validate that the final document should not contain `DeleteNode`.
@@ -105,6 +105,43 @@ class TestBBCode:
             _text = fobj.read().strip()
         assert stet.BBCodeRenderer().render(doc).strip() == _text
         log.info("Conversion of example.bbcode is validated.")
+
+    def test_bbcode_extensive_blocks(self) -> None:
+        """Test
+
+        Conversion of extensive blocks.
+        """
+        log = logging.getLogger("steam_editor_tools.test")
+        log.info("Load extensive.md")
+        doc = stet.DocumentParser().parse_file(self.get_data_path("extensive.md"))
+        with open(
+            self.get_data_path("extensive.bbcode"), "r", encoding="utf-8"
+        ) as fobj:
+            _text = fobj.read().strip()
+        assert stet.BBCodeRenderer().render(doc).strip() == _text
+        log.info("Rendering of extensive blocks is validated.")
+
+    def test_bbcode_customizations(self) -> None:
+        """Test
+
+        Conversion of customizations.
+        """
+        log = logging.getLogger("steam_editor_tools.test")
+        log.info("Load extensive.md")
+        doc = stet.DocumentParser().parse_file(self.get_data_path("extensive.md"))
+        configs = stet.BBCodeConfig(
+            quote="QUOTE",
+            table="TABLE",
+            table_head="td",
+            alert=stet.AlertTitleConfigs(note="i", warning="strike", caution="h3"),
+        )
+        log.debug("Configs: {0}".format(configs))
+        with open(
+            self.get_data_path("extensive-custom.bbcode"), "r", encoding="utf-8"
+        ) as fobj:
+            _text = fobj.read().strip()
+        assert stet.BBCodeRenderer(configs).render(doc).strip() == _text
+        log.info("Rendering of customizations is validated.")
 
     def test_bbcode_guide_fetch(self) -> None:
         """Test

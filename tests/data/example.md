@@ -101,7 +101,9 @@ Examples of extensive blocks
 > > This is a block in block. it will be rendered as `[u]...[/u]`.
 
 > [!note]
+>
 > > [!tip]
+> >
 > > `[!note]` or `[!tip]` blocks will fallback into `[quote]` blocks.
 
 ##### 3.2.1.1. H5 title

@@ -11,6 +11,7 @@
 1. Add `stet.bbcode.plugins.alert`. This sub-module is fetched from [KyleKing/mdformat-gfm-alerts :octocat:](https://github.com/KyleKing/mdformat-gfm-alerts/tree/32a7314).
 2. Support the alert block HTML parsing, and the corresponding BBCode rendering. The configurations can be modified in a customized `stet.bbcode.renderer.BBCodeConfig`.
 3. Add a test for validating the structure of `stet.bbcode.nodes.Document`.
+4. Add tests for extensive blocks such as `alert` and `quote` with a citation.
 
 #### :wrench: Fix
 

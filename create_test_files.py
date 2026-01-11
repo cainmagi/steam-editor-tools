@@ -29,14 +29,24 @@ from typing_extensions import Literal
 import steam_editor_tools as stet
 
 
-def create_test_bbcode(file_path: "str | os.PathLike[str]"):
+def create_test_bbcode(
+    file_path: "str | os.PathLike[str]",
+    configs: stet.BBCodeConfig | None = None,
+    out_file_name: str | None = None,
+    dump_json: bool = True,
+) -> None:
     """Create the testing files for BBCode validation."""
     file_path = os.path.splitext(file_path)[0].strip()
     doc = stet.DocumentParser().parse_file(file_path + ".md")
-    with open(file_path + ".json", "w", encoding="utf-8") as fobj:
-        fobj.write(doc.model_dump_json(indent=2))
-    with open(file_path + ".bbcode", "w", encoding="utf-8") as fobj:
-        fobj.write(stet.BBCodeRenderer().render(doc))
+    if out_file_name is not None:
+        out_file_path = os.path.join(os.path.dirname(file_path).strip(), out_file_name)
+    else:
+        out_file_path = file_path
+    if dump_json:
+        with open(out_file_path + ".json", "w", encoding="utf-8") as fobj:
+            fobj.write(doc.model_dump_json(indent=2))
+    with open(out_file_path + ".bbcode", "w", encoding="utf-8") as fobj:
+        fobj.write(stet.BBCodeRenderer(configs).render(doc))
 
 
 def create_test_images(
@@ -208,5 +218,17 @@ def get_test_info_image(
 
 if __name__ == "__main__":
     create_test_bbcode("./tests/data/example.md")
+    create_test_bbcode("./tests/data/extensive.md", dump_json=False)
+    create_test_bbcode(
+        "./tests/data/extensive.md",
+        configs=stet.BBCodeConfig(
+            quote="QUOTE",
+            table="TABLE",
+            table_head="td",
+            alert=stet.AlertTitleConfigs(note="i", warning="strike", caution="h3"),
+        ),
+        out_file_name="extensive-custom",
+        dump_json=False,
+    )
     create_test_images("./tests/data/example.png")
     # get_test_info_image("东方幕华祭 永夜篇", "schinese")
