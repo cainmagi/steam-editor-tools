@@ -4,6 +4,12 @@
 
 ## CHANGELOG
 
+### 0.4.0 @ 01/23/2026
+
+#### :wrench: Fix
+
+1. Fix: Correct a typo of `stet.improc.renderer.ImageText` which causes the font failure if the default font is used.
+
 ### 0.3.0 @ 01/10/2026
 
 #### :mega: New

@@ -665,7 +665,7 @@ class ImageText:
     ) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
         """Get the freetype font by the specified information."""
         if font is None:
-            ImageFont.load_default_imagefont()
+            return ImageFont.load_default_imagefont()
         if isinstance(font, FontInfo):
             return font.get_font(font_size)
         font = str(font).strip()
