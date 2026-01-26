@@ -13,6 +13,7 @@
 3. Add the image overlay effect `stet.improc.overlays` which supports blending effects covering the image content.
 4. Split `stet.improc.rederer.ImageLayer` and its related functionalities into `stet.improc.layer`, where the layer properties are implemented.
 5. Refactor the shadow/glow/stroke effects of the text images. Now, these effects are delegated to `ImageLayer`.
+6. Provide a new image processing tool `stet.improc.tools.ImageGrids` which is used to stitch images.
 
 #### :wrench: Fix
 
