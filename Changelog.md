@@ -15,6 +15,7 @@
 5. Refactor the shadow/glow/stroke effects of the text images. Now, these effects are delegated to `ImageLayer`.
 6. Provide a new image processing tool `stet.improc.tools.ImageGrids` which is used to stitch images.
 7. Provide examples for image composers and image effects.
+8. Add tests for image composers and image effects.
 
 #### :wrench: Fix
 
@@ -25,6 +26,7 @@
 1. Remove the hard-coded padding for the font layers. If users need padding, now, they need to specify the padding size in the arguments.
 2. Use the new code style to refactor the example `create_logo`. Now, this example is simpler.
 3. Adjust the font spacing according to the new image layer system.
+4. Adjust the font spacing during the tests.
 
 ### 0.3.0 @ 01/10/2026
 

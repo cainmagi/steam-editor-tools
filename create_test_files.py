@@ -23,6 +23,9 @@ manually.
 
 import os
 import shutil
+import json
+
+from PIL import Image
 
 from typing_extensions import Literal
 
@@ -112,8 +115,8 @@ def create_test_images(
         color=color,
         stroke_color=stroke,
         shadow_color=shadow,
-        anchor="top",
-        rel_anchor="top",
+        anchor="bottom",
+        rel_anchor="center",
     ).add_text(
         "line 1: lorem ipsum",
         name="text2",
@@ -125,7 +128,7 @@ def create_test_images(
         anchor="top",
         related_to="text1",
         rel_anchor="bottom",
-        pos_shift=(0, -64),
+        pos_shift=(0, 0),
     ).add_text(
         "line 2: test line",
         name="text3",
@@ -137,7 +140,7 @@ def create_test_images(
         anchor="top",
         related_to="text2",
         rel_anchor="bottom",
-        pos_shift=(0, -48),
+        pos_shift=(0, 0),
     ).add_background().flatten().resize(
         (160, None)
     ).save(
@@ -161,35 +164,128 @@ def create_test_images(
         os.path.join(out_folder, "ref-img_and_text.webp")
     )
 
+    # Test LaTeX
     if shutil.which("latex") is not None:
-        stet.ImageMultiLayer((800, 640), fmt=stet.ImageFormat.webp_lossless).add_image(
-            img, name="layer1"
-        ).add_text(
-            "Test Text",
-            name="text1",
-            font=font,
-            font_size="h1",
-            color=color,
-            stroke_color=stroke,
-            glow_color=shadow,
-            related_to="layer1",
-            pos_shift=(0, -96),
-        ).add_latex(
-            R"\nabla \times \mathbf{E} = -\mu \frac{\partial \mathbf{H}}{\partial t}",
-            name="text2",
-            font_size="h1",
-            color=color,
-            stroke_color=stroke,
-            glow_color=shadow,
-            related_to="text1",
-            anchor="top",
-            rel_anchor="bottom",
-            pos_shift=(0, -64),
-        ).add_background().flatten().resize(
-            (160, None)
-        ).save(
+
+        def set_glow_mode(
+            img: stet.ImageMultiLayer, name: str, mode: stet.ImageComposerMode
+        ) -> None:
+            glow = img.layers[name].effects.glow
+            if glow is None:
+                return
+            glow.mode = mode
+
+        _img = (
+            stet.ImageMultiLayer((800, 640), fmt=stet.ImageFormat.webp_lossless)
+            .add_image(img, name="layer1")
+            .add_text(
+                "Test Text",
+                name="text1",
+                font=font,
+                font_size="h1",
+                color=color,
+                stroke_color=stroke,
+                glow_color=shadow,
+                related_to="layer1",
+                pos_shift=(0, -96),
+            )
+            .add_latex(
+                R"\nabla \times \mathbf{E} = -\mu \frac{\partial \mathbf{H}}{\partial t}",
+                name="text2",
+                font_size="h1",
+                color=color,
+                stroke_color=stroke,
+                glow_color=shadow,
+                related_to="text1",
+                anchor="top",
+                rel_anchor="bottom",
+                pos_shift=(0, 0),
+            )
+        )
+        set_glow_mode(_img, "text1", "multiply")
+        set_glow_mode(_img, "text2", "multiply")
+        _img.add_background().flatten().resize((160, None)).save(
             os.path.join(out_folder, "ref-complicated.webp")
         )
+
+    # Test effects
+    _img = (
+        stet.ImageMultiLayer((800, 640), fmt=stet.ImageFormat.webp_lossless)
+        .add_image(img, name="layer1")
+        .add_image(
+            stet.ImageSingle(Image.new("RGBA", (500, 200), color="red")),
+            name="block",
+            related_to="layer1",
+        )
+        .add_background()
+    )
+    _img.layers["block"].effects.alpha_content = 0
+    _img.layers["block"].add_overlay_color("#ffff0044", mode="screen")
+    _img.layers["block"].set_bevel(max_distance=20)
+    _img.layers["block"].set_shadow(size=10, offset=16)
+    _img.flatten().resize((160, None)).save(
+        os.path.join(out_folder, "ref-effects.webp")
+    )
+
+
+def create_composer_test_files(
+    out_folder: "str | os.PathLike[str]" = "./tests/data",
+) -> None:
+    """Create test reference file from the image composer.
+
+    Arguments
+    ---------
+    out_folder: `str | PathLike[str]`
+        The path to the folder where the file is saved.
+    """
+    img = stet.ImageMultiLayer((64, 64)).add_background(color="#307040")
+    img.add_image(
+        stet.ImageSingle(Image.new("RGB", (32, 32), color="#112233")), "block"
+    )
+    _img = img.flatten().img
+    _img_p = _img.load()
+    if _img_p is None:
+        raise ValueError("Unable to get the image pixels.")
+    base_val = _img_p[0, 0]
+    if isinstance(base_val, (int, float)):
+        base_val = float(base_val)
+        base_val = (base_val, base_val, base_val, 255.0)
+    else:
+        base_val = tuple(float(_val) for _val in base_val)
+
+    modes: tuple[stet.ImageComposerMode, ...] = (
+        "default",
+        "add",
+        "add_modulo",
+        "screen",
+        "lighter",
+        "subtract",
+        "subtract_modulo",
+        "multiply",
+        "darker",
+        "difference",
+        "soft_light",
+        "hard_light",
+    )
+
+    data: dict[str, tuple[float, ...]] = {"base": base_val}
+
+    for mode in modes:
+        img.layers["block"].effects.blend = mode
+        _img = img.flatten().img
+        _img_p = _img.load()
+        if _img_p is None:
+            raise ValueError("Unable to get the image pixels.")
+        val = _img_p[32, 32]
+        if isinstance(val, (int, float)):
+            val = float(val)
+            val = (val, val, val, 255.0)
+        else:
+            val = tuple(float(_val) for _val in val)
+        data[mode] = val
+
+    with open(os.path.join(out_folder, "composer.json"), "w", encoding="utf-8") as fobj:
+        json.dump(data, fobj, ensure_ascii=False)
 
 
 def get_test_info_image(
@@ -231,4 +327,5 @@ if __name__ == "__main__":
         dump_json=False,
     )
     create_test_images("./tests/data/example.png")
+    create_composer_test_files()
     # get_test_info_image("东方幕华祭 永夜篇", "schinese")

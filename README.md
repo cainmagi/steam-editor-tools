@@ -114,6 +114,8 @@ Currently, we offer the following examples in `./examples` folder:
 | `create_logo`                | Render the title bar of this readme file.                                               |
 | `render_latex_equations`     | Render a LaTeX equation as an image.                                                    |
 | `search_font`                | Search the font by name, and use the searched font to render an image.                  |
+| `composer_list`              | Generate examples for each image composer, and gather the results as an image.          |
+| `effect_list`                | Show the performance of all image layer effects in an image.                            |
 
 The following two guides are written with the help of this tool. Check them for viewing the details:
 

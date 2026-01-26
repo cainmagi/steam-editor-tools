@@ -19,6 +19,7 @@ The tests for image processing.
 """
 
 import os
+import json
 import logging
 
 from typing_extensions import ClassVar
@@ -257,8 +258,8 @@ class TestImageProcessing:
                 color=color,
                 stroke_color=stroke,
                 shadow_color=shadow,
-                anchor="top",
-                rel_anchor="top",
+                anchor="bottom",
+                rel_anchor="center",
             )
             .add_text(
                 "line 1: lorem ipsum",
@@ -271,7 +272,7 @@ class TestImageProcessing:
                 anchor="top",
                 related_to="text1",
                 rel_anchor="bottom",
-                pos_shift=(0, -64),
+                pos_shift=(0, 0),
             )
             .add_text(
                 "line 2: test line",
@@ -284,7 +285,7 @@ class TestImageProcessing:
                 anchor="top",
                 related_to="text2",
                 rel_anchor="bottom",
-                pos_shift=(0, -48),
+                pos_shift=(0, 0),
             )
             .add_background()
             .flatten(),
@@ -335,9 +336,17 @@ class TestImageProcessing:
         stroke = "#000000"
         shadow = "#000000"
         font = self.get_data_path("Roboto-Regular.ttf")
-        score = self.ssim(
-            stet.ImageSingle(self.get_data_path("ref-complicated.webp")),
-            stet.ImageMultiLayer((800, 640))
+
+        def set_glow_mode(
+            img: stet.ImageMultiLayer, name: str, mode: stet.ImageComposerMode
+        ) -> None:
+            glow = img.layers[name].effects.glow
+            if glow is None:
+                return
+            glow.mode = mode
+
+        _img = (
+            stet.ImageMultiLayer((800, 640), fmt=stet.ImageFormat.webp_lossless)
             .add_image(
                 stet.ImageSingle(self.get_data_path("example.png")), name="layer1"
             )
@@ -362,10 +371,106 @@ class TestImageProcessing:
                 related_to="text1",
                 anchor="top",
                 rel_anchor="bottom",
-                pos_shift=(0, -64),
+                pos_shift=(0, 0),
             )
-            .add_background()
-            .flatten(),
+        )
+        set_glow_mode(_img, "text1", "multiply")
+        set_glow_mode(_img, "text2", "multiply")
+
+        score = self.ssim(
+            stet.ImageSingle(self.get_data_path("ref-complicated.webp")),
+            _img.add_background().flatten(),
         )
         log.info("Score [complicated]: {0:g}".format(score))
         assert score > 0.95
+
+    def test_improc_effects(self) -> None:
+        """Test
+
+        Test a complicated effect.
+        """
+        log = logging.getLogger("steam_editor_tools.test")
+
+        _img = (
+            stet.ImageMultiLayer((800, 640), fmt=stet.ImageFormat.webp_lossless)
+            .add_image(
+                stet.ImageSingle(self.get_data_path("example.png")), name="layer1"
+            )
+            .add_image(
+                stet.ImageSingle(Image.new("RGBA", (500, 200), color="red")),
+                name="block",
+                related_to="layer1",
+            )
+        )
+        _img.layers["block"].effects.alpha_content = 0
+        _img.layers["block"].add_overlay_color("#ffff0044", mode="screen")
+        _img.layers["block"].set_bevel(max_distance=20)
+        _img.layers["block"].set_shadow(size=10, offset=16)
+
+        score = self.ssim(
+            stet.ImageSingle(self.get_data_path("ref-effects.webp")),
+            _img.add_background().flatten(),
+        )
+        log.info("Score [effects]: {0:g}".format(score))
+        assert score > 0.95
+
+    def test_improc_composers(self) -> None:
+        """Test
+
+        Test the performance of all composers.
+        """
+        log = logging.getLogger("steam_editor_tools.test")
+
+        img = stet.ImageMultiLayer((64, 64)).add_background(color="#307040")
+        img.add_image(
+            stet.ImageSingle(Image.new("RGB", (32, 32), color="#112233")), "block"
+        )
+
+        def locate_pixel(
+            _img: stet.ImageSingle, pos: tuple[int, int]
+        ) -> tuple[float, ...]:
+            _img_i = _img.img
+            _img_p = _img_i.load()
+            if _img_p is None:
+                raise ValueError("Unable to get the image pixels.")
+            val = _img_p[pos[0], pos[1]]
+            if isinstance(val, (int, float)):
+                val = float(val)
+                val = (val, val, val, 255.0)
+            else:
+                val = tuple(float(_val) for _val in val)
+            return val
+
+        modes: tuple[stet.ImageComposerMode, ...] = (
+            "default",
+            "add",
+            "add_modulo",
+            "screen",
+            "lighter",
+            "subtract",
+            "subtract_modulo",
+            "multiply",
+            "darker",
+            "difference",
+            "soft_light",
+            "hard_light",
+        )
+
+        with open(self.get_data_path("composer.json"), "r", encoding="utf-8") as fobj:
+            data: dict[str, tuple[float, ...]] = json.load(fobj)
+
+        for mode in modes:
+            img.layers["block"].effects.blend = mode
+            bg_val = locate_pixel(img.flatten(), (0, 0))
+            fg_val = locate_pixel(img.flatten(), (32, 32))
+            score_bg = float(
+                1 - np.mean(np.abs(np.asarray(bg_val) - np.asarray(data["base"]))) / 512
+            )
+            score_fg = float(
+                1 - np.mean(np.abs(np.asarray(fg_val) - np.asarray(data[mode]))) / 512
+            )
+            log.info(
+                "Score [composer][{0}]: {1:g}, {2: g}".format(mode, score_bg, score_fg)
+            )
+            assert score_bg > 0.99
+            assert score_fg > 0.99
