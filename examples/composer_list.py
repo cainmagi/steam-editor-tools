@@ -199,8 +199,9 @@ def list_composer_operators(
         _get_imop_single_res(img_bg, "white"),
     ]
     height = sum(img.height for img in imgs) + 10 * max(0, len(imgs) - 1)
+    width = max(img.width for img in imgs)
 
-    res = stet.ImageMultiLayer((n_cols * 256, height), "png").add_background(bg_color)
+    res = stet.ImageMultiLayer((width, height), "png").add_background(bg_color)
     prev_name: str | None = None
     for idx, img in enumerate(imgs):
         cur_name = "mode{0}".format(idx)

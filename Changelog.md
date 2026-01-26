@@ -4,6 +4,12 @@
 
 ## CHANGELOG
 
+### 0.4.1 @ 01/26/2026
+
+#### :wrench: Fix
+
+1. Fix: Correct the image width of the exmple `composer_list`.
+
 ### 0.4.0 @ 01/26/2026
 
 #### :mega: New
