@@ -19,6 +19,10 @@
 
 1. Fix: Correct a typo of `stet.improc.renderer.ImageText` which causes the font failure if the default font is used.
 
+#### :floppy_disk: Change
+
+1. Use the new code style to refactor the example `create_logo`. Now, this example is simpler.
+
 ### 0.3.0 @ 01/10/2026
 
 #### :mega: New

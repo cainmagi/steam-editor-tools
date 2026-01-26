@@ -80,50 +80,16 @@ def create_logo_styled(
         img_logo,
     )
 
-    img_logo_shadow = (
-        stet.ImageMultiLayer(
-            stet.ImageSingle(Image.new("RGBA", (300, 300), color=shadow_color + "00")),
-            "bg",
-        )
-        .add_image(
-            stet.ImageSingle(
-                Image.composite(
-                    Image.new("RGBA", img_logo.size, color=shadow_color),
-                    Image.new("RGBA", img_logo.size, color=shadow_color + "00"),
-                    stet.ImageSingle(img_logo).blur(blur_size=16).img,
-                )
-            ),
-            "logo",
-        )
-        .flatten()
+    img_logo_styled = stet.ImageMultiLayer(300, 300, "png").add_image(
+        stet.ImageSingle(img_logo), "logo"
     )
 
-    img_logo_stroke = (
-        stet.ImageMultiLayer(
-            stet.ImageSingle(Image.new("RGBA", (300, 300), color=stroke_color + "00")),
-            "bg",
-        )
-        .add_image(
-            stet.ImageSingle(
-                Image.composite(
-                    Image.new("RGBA", img_logo.size, color=stroke_color),
-                    Image.new("RGBA", img_logo.size, color=stroke_color + "00"),
-                    stet.ImageSingle(img_logo).blur(blur_size=0, dil_size=2).img,
-                )
-            ),
-            "logo",
-        )
-        .flatten()
+    img_logo_styled.layers["logo"].set_glow(mode="default", size=16, color=shadow_color)
+    img_logo_styled.layers["logo"].set_stroke(
+        mode="default", size=2, color=stroke_color
     )
 
-    img_logo_styled = (
-        stet.ImageMultiLayer(300, 300, "png")
-        .add_image(img_logo_shadow, "shadow")
-        .add_image(img_logo_stroke, "stroke")
-        .add_image(stet.ImageSingle(img_logo), "logo")
-        .flatten()
-    )
-    return img_logo_styled
+    return img_logo_styled.flatten()
 
 
 def create_logo_with_text(logo: stet.ImageSingle) -> stet.ImageSingle:
@@ -162,7 +128,7 @@ def create_logo_with_text(logo: stet.ImageSingle) -> stet.ImageSingle:
             anchor="left",
             related_to="logo",
             rel_anchor="right",
-            pos_shift=(-int(0.8 * font_size) - 70, 10),
+            pos_shift=(-70, 10),
         )
         .add_text(
             "St",
@@ -185,7 +151,7 @@ def create_logo_with_text(logo: stet.ImageSingle) -> stet.ImageSingle:
             anchor="left",
             related_to="text2",
             rel_anchor="right",
-            pos_shift=(-2 * font_size, 0),
+            pos_shift=(0, 0),
         )
         .add_text(
             "E",
@@ -208,7 +174,7 @@ def create_logo_with_text(logo: stet.ImageSingle) -> stet.ImageSingle:
             anchor="left",
             related_to="text3",
             rel_anchor="right",
-            pos_shift=(-2 * font_size, 0),
+            pos_shift=(0, 0),
         )
         .add_text(
             "T",
@@ -244,19 +210,6 @@ def create_logo_banner(
     inner_width = banner_size[0] - 150
     inner_height = banner_size[1] - 100
 
-    img_shadow = (
-        stet.ImageMultiLayer(banner_size, fmt="png")
-        .add_image(
-            stet.ImageSingle(
-                Image.new("RGB", (inner_width, inner_height), color="#000000")
-            ),
-            name="shadow",
-            pos_shift=(5, 5),
-        )
-        .flatten()
-        .blur(5)
-    )
-
     img_bg = (
         stet.ImageMultiLayer(width=inner_width, height=inner_height, fmt="png")
         .add_image(
@@ -282,9 +235,8 @@ def create_logo_banner(
     img_text = create_logo_with_text(img_logo_styled)
 
     img = stet.ImageMultiLayer(banner_size, fmt="webp_lossless")
-    img.add_image(img_shadow, name="shadow").add_image(img_bg, name="bg").add_image(
-        img_text, name="text", pos_shift=(96, 0)
-    )
+    img.add_image(img_bg, name="bg").add_image(img_text, name="text", pos_shift=(96, 0))
+    img.layers["bg"].set_shadow(mode="default", size=5, offset=5)
     img.save(out_file_path, quality="high")
 
 
@@ -309,19 +261,6 @@ def create_logo_github_banner(
     os.makedirs(os.path.dirname(os.path.abspath(out_file_path)), exist_ok=True)
     inner_width = inner_size[0] - 32
     inner_height = inner_size[1] - 32
-
-    img_shadow = (
-        stet.ImageMultiLayer(outer_size, fmt="png")
-        .add_image(
-            stet.ImageSingle(
-                Image.new("RGB", (inner_width, inner_height), color="#000000")
-            ),
-            name="shadow",
-            pos_shift=(5, 5),
-        )
-        .flatten()
-        .blur(5)
-    )
 
     img_bg = (
         stet.ImageMultiLayer(width=inner_width, height=inner_height, fmt="png")
@@ -348,7 +287,7 @@ def create_logo_github_banner(
     img_text = create_logo_with_text(img_logo_styled)  # Expected to be (1150, 300)
 
     img = stet.ImageMultiLayer(outer_size, fmt="png")
-    img.add_image(img_shadow, name="shadow").add_image(img_bg, name="bg").add_image(
+    img.add_image(img_bg, name="bg").add_image(
         img_text.resize((int(inner_size[0] * 0.8), None)),
         name="title",
         anchor="top",
@@ -366,7 +305,7 @@ def create_logo_github_banner(
         anchor="top",
         related_to="title",
         rel_anchor="bottom",
-        pos_shift=(-96, -54),
+        pos_shift=(-96, -16),
     ).add_text(
         "Support Steam information queries, image editing tools, and BBCode "
         "text processing tools.",
@@ -378,8 +317,9 @@ def create_logo_github_banner(
         anchor="top left",
         related_to="text",
         rel_anchor="bottom left",
-        pos_shift=(0, -48),
+        pos_shift=(0, 16),
     )
+    img.layers["bg"].set_shadow(mode="default", size=5, offset=5)
     img.save(out_file_path, quality="high")
 
 
