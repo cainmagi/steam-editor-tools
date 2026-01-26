@@ -50,10 +50,6 @@ def create_a_title_figure(text: str, out_file_path: "str | os.PathLike[str]") ->
     """
     img = stet.ImageMultiLayer(width=1200, height=240, fmt="png")
     img.add_image(
-        stet.ImageSingle(Image.new("RGB", (900, 200), color="#000000")),
-        name="shadow",
-        pos_shift=(5, 5),
-    ).add_image(
         stet.ImageSingle(
             Image.new(
                 "RGB", (900, 200), color=stet.improc.variables.steam_color_secondary
@@ -72,6 +68,9 @@ def create_a_title_figure(text: str, out_file_path: "str | os.PathLike[str]") ->
     ).add_background().convert(
         "RGB"
     )
+    img.layers["bg"].set_shadow()
+    img.layers["title"].set_bevel()
+    img.layers["title"].effects.alpha_content = 0
     img.save(out_file_path, quality="high")
 
 
