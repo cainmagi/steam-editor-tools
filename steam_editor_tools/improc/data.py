@@ -112,8 +112,8 @@ class ImageFontSize(enum.Enum):
 
         Arguments
         ---------
-        text: `str`
-            The text to be rendered.
+        n_text: `int`
+            The length of the text to be rendered.
 
         Returns
         -------

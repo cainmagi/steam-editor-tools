@@ -44,10 +44,12 @@ from .data import (
 )
 from .font import FontInfo
 from .latex_to_img import TeXRenderer
+from .composer import ImageComposer
+from .layer import ImageLayer
 from .variables import steam_color
 
 
-__all__ = ("ImageSingle", "ImageText", "ImageTeX", "ImageLayer", "ImageMultiLayer")
+__all__ = ("ImageSingle", "ImageText", "ImageTeX", "ImageMultiLayer")
 
 
 class _LayerPos(TypedDict):
@@ -594,13 +596,13 @@ class ImageText:
     """
 
     __slots__ = (
-        "text",
+        "__text",
         "font",
-        "font_size",
+        "__font_size",
+        "pad_size",
         "color",
-        "stroke_color",
-        "glow_color",
-        "shadow_color",
+        "__temp_vars",
+        "__temp_img",
     )
 
     def __init__(
@@ -608,10 +610,8 @@ class ImageText:
         text: str,
         font: "str | os.PathLike[str] | FontInfo | None" = None,
         font_size: int | str | ImageFontSize | ImageFontAbsSize = ImageFontSize.h2,
+        pad_size: int = 0,
         color: str | tuple[float, ...] = "#FFFFFF",
-        stroke_color: str | tuple[float, ...] | None = None,
-        glow_color: str | tuple[float, ...] | None = None,
-        shadow_color: str | tuple[float, ...] | None = None,
     ) -> None:
         """Initialization.
 
@@ -628,24 +628,16 @@ class ImageText:
             The dynamic font size of the rendered text. If using `int`, this size
             will be absolute.
 
+        pad_size: `int`
+            The size used for padding on all sides of the text.
+
         color: `str | tuple[float, ...]`
             The text color.
-
-        stroke_color: `str | tuple[float, ...] | None`
-            The text stroke color. If not specified, will not add a stroke to the
-            text.
-
-        glow_color: `str | tuple[float, ...] | None`
-            The text glow color. If not specified, will not add a glow to the text.
-
-        shadow_color: `str | tuple[float, ...] | None`
-            The text shadow color. If not specified, will not add a shadow to the
-            text.
         """
         text = "\n".join((line.strip() for line in text.strip().splitlines()))
-        self.text: str = text
+        self.__text: str = text
         self.font: "str | os.PathLike[str] | FontInfo | None" = font
-        self.font_size: ImageFontAbsSize | ImageFontSize = (
+        self.__font_size: ImageFontAbsSize | ImageFontSize = (
             ImageFontAbsSize(font_size=font_size)
             if isinstance(font_size, int)
             else (
@@ -654,10 +646,107 @@ class ImageText:
                 else ImageFontSize.from_str(font_size)
             )
         )
+        self.pad_size: int = int(pad_size)
         self.color: str | tuple[float, ...] = color
-        self.stroke_color: str | tuple[float, ...] | None = stroke_color
-        self.glow_color: str | tuple[float, ...] | None = glow_color
-        self.shadow_color: str | tuple[float, ...] | None = shadow_color
+
+        # Temp vars
+        self.__temp_vars: dict[str, Any] = dict()
+        self.__temp_img: Image.Image | None = None
+
+    @property
+    def text(self) -> str:
+        """Property: The text to be rendered."""
+        return self.__text
+
+    @text.setter
+    def text(self, val: str) -> None:
+        """Property: The text to be rendered."""
+        self.__text = "\n".join((line.strip() for line in val.strip().splitlines()))
+        self.__temp_vars.clear()
+        self.__temp_img = None
+
+    @property
+    def font_size(self) -> ImageFontAbsSize | ImageFontSize:
+        """Property: The font size (dynamic or absolute size)."""
+        return self.__font_size
+
+    @font_size.setter
+    def font_size(self, val: int | str | ImageFontSize | ImageFontAbsSize) -> None:
+        """Property: The font size (dynamic or absolute size)."""
+        self.__font_size = (
+            ImageFontAbsSize(font_size=val)
+            if isinstance(val, int)
+            else (
+                val
+                if isinstance(val, ImageFontAbsSize)
+                else ImageFontSize.from_str(val)
+            )
+        )
+        self.__temp_vars.clear()
+        self.__temp_img = None
+
+    @property
+    def width(self) -> int:
+        if "im_width" not in self.__temp_vars:
+            self._renew_size_info()
+        return self.__temp_vars["im_width"] + 2 * self.pad_size
+
+    @property
+    def height(self) -> int:
+        if "im_height" not in self.__temp_vars:
+            self._renew_size_info()
+        return self.__temp_vars["im_height"] + 2 * self.pad_size
+
+    @property
+    def size(self) -> tuple[int, int]:
+        if ("im_width" not in self.__temp_vars) or (
+            "im_height" not in self.__temp_vars
+        ):
+            self._renew_size_info()
+        pad_size = 2 * self.pad_size
+        return (
+            self.__temp_vars["im_width"] + pad_size,
+            self.__temp_vars["im_height"] + pad_size,
+        )
+
+    def copy(self) -> Self:
+        """Get a copy of this instance."""
+        return self.__class__(
+            text=self.__text,
+            font=self.font,
+            font_size=self.__font_size,
+            pad_size=self.pad_size,
+            color=self.color,
+        )
+
+    def _renew_size_info(self) -> None:
+        """(Private) Renew the size information. This method needs to be called when
+        the text or font size is changed.
+        """
+        if isinstance(self.__font_size, ImageFontAbsSize):
+            n_width = self.__font_size.n_per_line
+            size_font = self.__font_size.font_size
+        else:
+            n_width, size_font = self.__font_size.get_line_size(len(self.__text))
+        size_line = int(size_font * 1.5)
+        font = self._get_font(self.font, size_font)
+        # Parse text.
+        if n_width is not None:
+            text_div = textwrap.wrap(self.__text, width=n_width)
+        else:
+            text_div = [self.__text.strip()]
+        num_lines = len(text_div)
+        dummy_image = Image.new("RGB", (1, 1), (255, 255, 255))
+        draw = ImageDraw.Draw(dummy_image)
+        max_width = 0
+        for line in text_div:
+            bbox = draw.textbbox((0, 0), line, font=font)
+            max_width = int(max(max_width, bbox[2] - bbox[0]))
+        im_width = max_width
+        im_height = num_lines * size_line
+        self.__temp_vars.update(
+            n_width=n_width, size_font=size_font, im_width=im_width, im_height=im_height
+        )
 
     @staticmethod
     def _get_font(
@@ -675,11 +764,8 @@ class ImageText:
 
     @staticmethod
     def _cast_text_style(
-        img_shape: Image.Image,
-        text_color: str | tuple[float, ...],
-        dil_size: int = 2,
-        filter_size: int = 2,
-    ):
+        img_shape: Image.Image, text_color: str | tuple[float, ...]
+    ) -> Image.Image:
         """(Private) Cast the text with the style configuration.
 
         This method accept the L-mode `img_shape` and return the styled `img`.
@@ -687,17 +773,11 @@ class ImageText:
         clr = ImageColor.getcolor(text_color, "RGBA")
         if isinstance(clr, int):
             clr = (clr, clr, clr, 255)
-        if dil_size > 0:
-            img_shape = img_shape.filter(
-                ImageFilter.MaxFilter(dil_size * 2 + 1)
-            ).filter(ImageFilter.SMOOTH)
         img_shape = Image.composite(
             Image.new("RGBA", img_shape.size, color=clr),
             Image.new("RGBA", img_shape.size, color=(*clr[:3], 0)),
             img_shape,
         )
-        if filter_size > 0:
-            img_shape = img_shape.filter(ImageFilter.GaussianBlur(radius=filter_size))
         return img_shape
 
     @staticmethod
@@ -721,57 +801,32 @@ class ImageText:
         return img_text
 
     @property
-    def img(self) -> ImageSingle:
-        """Property: Render the text as an image, and get the `ImageSingle` formatted
-        image."""
-        if isinstance(self.font_size, ImageFontAbsSize):
-            n_width = self.font_size.n_per_line
-            size_font = self.font_size.font_size
-        else:
-            n_width, size_font = self.font_size.get_line_size(len(self.text))
-        size_line = int(size_font * 1.5)
-        font = self._get_font(self.font, size_font)
-        # Parse text.
-        if n_width is not None:
-            text_div = textwrap.wrap(self.text, width=n_width)
-        else:
-            text_div = [self.text.strip()]
-        num_lines = len(text_div)
-        pad_size = size_font
-        dummy_image = Image.new("RGB", (1, 1), (255, 255, 255))
-        draw = ImageDraw.Draw(dummy_image)
-        max_width = 0
-        for line in text_div:
-            bbox = draw.textbbox((0, 0), line, font=font)
-            max_width = int(max(max_width, bbox[2] - bbox[0]))
-        im_width = max_width + pad_size * 2
-        im_height = num_lines * size_line + pad_size * 2
+    def img(self) -> Image.Image:
+        """Property: Render the text as an image, and get the pixel-based image."""
+        if self.__temp_img is not None:
+            return self.__temp_img
+        if ("size_font" not in self.__temp_vars) or ("n_width" not in self.__temp_vars):
+            self._renew_size_info()
+        size_font = self.__temp_vars["size_font"]
+        n_width = self.__temp_vars["n_width"]
+        im_width = self.width
+        im_height = self.height
+        pad_size = self.pad_size
         h_start, v_start = (
             pad_size,  # width
             pad_size,  # height
         )
         # Init figure.
         img = Image.new("RGBA", (im_width, im_height), color=(0, 0, 0, 0))
-        # font = ImageFont.load_default(size_font)
 
-        # Draw the shadow.
-        if self.shadow_color is not None:
-            shadow_offset = min(4, size_font // 24)
-            shadow_size = max(2, shadow_offset // 2)
-            img_shadow = self._create_text_mask(
-                text_div,
-                img_size=img.size,
-                pos=(h_start + shadow_offset, v_start + shadow_offset),
-                line_height=size_line,
-                font=font,
-            )
-            img_shadow = self._cast_text_style(
-                img_shadow,
-                text_color=self.shadow_color,
-                dil_size=shadow_size // 2,
-                filter_size=shadow_size,
-            )
-            img.alpha_composite(img_shadow, dest=(0, 0))
+        # Parse text.
+        if n_width is not None:
+            text_div = textwrap.wrap(self.__text, width=n_width)
+        else:
+            text_div = [self.__text.strip()]
+        font = self._get_font(self.font, size_font)
+        size_line = int(size_font * 1.5)
+
         # Create text mask.
         img_text = self._create_text_mask(
             text_div,
@@ -780,32 +835,11 @@ class ImageText:
             line_height=size_line,
             font=font,
         )
-        # Draw the glow
-        if self.glow_color is not None:
-            glow_size = max(2, int(0.2 * size_font))
-            img_glow = self._cast_text_style(
-                img_text,
-                text_color=self.glow_color,
-                dil_size=glow_size,
-                filter_size=glow_size,
-            )
-            # im = ImageChops.screen(im, im_glow)
-            img.alpha_composite(img_glow, dest=(0, 0))
-        # After drawing the shades of the texts, draw the font texts.
-        if self.stroke_color is not None:
-            img_stroke = self._cast_text_style(
-                img_text,
-                text_color=self.stroke_color,
-                dil_size=max(2, size_font // 32),
-                filter_size=0,
-            )
-            img.alpha_composite(img_stroke, dest=(0, 0))
         # Compose text.
-        img_text = self._cast_text_style(
-            img_text, text_color=self.color, dil_size=0, filter_size=0
-        )
+        img_text = self._cast_text_style(img_text, text_color=self.color)
         img.alpha_composite(img_text, dest=(0, 0))
-        return ImageSingle(img)
+        self.__temp_img = img
+        return img
 
 
 class ImageTeX(ImageText):
@@ -814,25 +848,15 @@ class ImageTeX(ImageText):
     The image will be rendered every time when it is accessed.
     """
 
-    __slots__ = (
-        "text",
-        "template",
-        "font_size",
-        "color",
-        "stroke_color",
-        "glow_color",
-        "shadow_color",
-    )
+    __slots__ = ("template", "color", "__temp_vars", "__temp_img")
 
     def __init__(
         self,
         equation: str,
         template: str | TeXTemplate = "default",
-        font_size: str | ImageFontSize = ImageFontSize.h2,
+        font_size: int | str | ImageFontAbsSize | ImageFontSize = ImageFontSize.h2,
+        pad_size: int = 0,
         color: str | tuple[float, ...] = "#FFFFFF",
-        stroke_color: str | tuple[float, ...] | None = None,
-        glow_color: str | tuple[float, ...] | None = None,
-        shadow_color: str | tuple[float, ...] | None = None,
     ) -> None:
         """Initialization.
 
@@ -853,31 +877,19 @@ class ImageTeX(ImageText):
         font_size: `str | ImageFontSize`
             The dynamic font size of the rendered text.
 
+        pad_size: `int`
+            The size used for padding on all sides of the text.
+
         color: `str | tuple[float, ...]`
             The text color.
-
-        stroke_color: `str | tuple[float, ...] | None`
-            The text stroke color. If not specified, will not add a stroke to the
-            text.
-
-        glow_color: `str | tuple[float, ...] | None`
-            The text glow color. If not specified, will not add a glow to the text.
-
-        shadow_color: `str | tuple[float, ...] | None`
-            The text shadow color. If not specified, will not add a shadow to the
-            text.
         """
-        super().__init__(
-            text="",
-            font_size=font_size,
-            color=color,
-            stroke_color=stroke_color,
-            glow_color=glow_color,
-            shadow_color=shadow_color,
-        )
+        super().__init__(text="", font_size=font_size, color=color, pad_size=pad_size)
         equation = equation.strip()
         self.text: str = equation
         self.template: str | TeXTemplate = template
+
+        self.__temp_vars: dict[str, Any] = dict()
+        self.__temp_img: Image.Image | None = None
 
     @property
     def equation(self) -> str:
@@ -885,21 +897,72 @@ class ImageTeX(ImageText):
         return self.text
 
     @property
-    def img(self) -> ImageSingle:
-        """Property: Render the equation as an image, and get the `ImageSingle`
-        formatted image."""
-        renderer = TeXRenderer()
+    def width(self) -> int:
+        if "img_equation" not in self.__temp_vars:
+            self._renew_size_info()
+        return self.__temp_vars["img_equation"].width + 2 * self.pad_size
+
+    @property
+    def height(self) -> int:
+        if "img_equation" not in self.__temp_vars:
+            self._renew_size_info()
+        return self.__temp_vars["img_equation"].height + 2 * self.pad_size
+
+    @property
+    def size(self) -> tuple[int, int]:
+        if "img_equation" not in self.__temp_vars:
+            self._renew_size_info()
+        pad_size = 2 * self.pad_size
+        mask: Image.Image = self.__temp_vars["img_equation"]
+        return (mask.width + pad_size, mask.height + pad_size)
+
+    def copy(self) -> Self:
+        """Get a copy of this instance."""
+        return self.__class__(
+            equation=self.equation,
+            template=self.template,
+            font_size=self.font_size,
+            pad_size=self.pad_size,
+            color=self.color,
+        )
+
+    def _renew_size_info(self) -> None:
+        """(Private) Renew the size information. This method needs to be called when
+        the text or font size is changed.
+        """
         resize_factor: float | None = None
-        if self.font_size == ImageFontSize.h1:
-            resize_factor = None
-        elif self.font_size == ImageFontSize.h2:
-            resize_factor = 0.8
-        elif self.font_size == ImageFontSize.h3:
-            resize_factor = 0.6
+        font_size = self.font_size
+        if isinstance(font_size, ImageFontAbsSize):
+            if font_size.font_size > 96:
+                resize_factor = None
+            elif font_size.font_size > 96 * 0.4:
+                resize_factor = font_size.font_size / 96
+            else:
+                resize_factor = 0.4
         else:
-            resize_factor = 0.4
-        # Get equation mask.
-        _equation = renderer.render(equation=self.text, template=self.template)
+            if font_size == ImageFontSize.h1:
+                resize_factor = None
+            elif font_size == ImageFontSize.h2:
+                resize_factor = 0.8
+            elif font_size == ImageFontSize.h3:
+                resize_factor = 0.6
+            else:
+                resize_factor = 0.4
+        renderer = TeXRenderer()
+        img_equation = renderer.render(equation=self.text, template=self.template)
+        self.__temp_vars.update(resize_factor=resize_factor, img_equation=img_equation)
+
+    @property
+    def img(self) -> Image.Image:
+        """Property: Render the text as an image, and get the pixel-based image."""
+        if self.__temp_img is not None:
+            return self.__temp_img
+        if ("resize_factor" not in self.__temp_vars) or (
+            "img_equation" not in self.__temp_vars
+        ):
+            self._renew_size_info()
+        resize_factor: float = self.__temp_vars["resize_factor"]
+        _equation: Image.Image = self.__temp_vars["img_equation"]
         if resize_factor is not None:
             _equation = _equation.resize(
                 size=(
@@ -907,7 +970,7 @@ class ImageTeX(ImageText):
                     int(resize_factor * _equation.height),
                 ),
             )
-        pad_size = 64
+        pad_size = self.pad_size
         equation = Image.new(
             "L",
             (_equation.width + pad_size * 2, _equation.height + pad_size * 2),
@@ -918,151 +981,11 @@ class ImageTeX(ImageText):
         # Init figure.
         img = Image.new("RGBA", (equation.width, equation.height), color=(0, 0, 0, 0))
 
-        # Draw the shadow.
-        if self.shadow_color is not None:
-            shadow_offset = 4
-            shadow_size = max(2, shadow_offset // 2)
-            img_shadow = Image.new(
-                "L",
-                (_equation.width + pad_size * 2, _equation.height + pad_size * 2),
-                color=0,
-            )
-            img_shadow.paste(
-                _equation, (pad_size + shadow_offset, pad_size + shadow_offset)
-            )
-            img_shadow = self._cast_text_style(
-                img_shadow,
-                text_color=self.shadow_color,
-                dil_size=shadow_size // 2,
-                filter_size=shadow_size,
-            )
-            img.alpha_composite(img_shadow, dest=(0, 0))
-        # Create text mask.
-        # Draw the glow
-        if self.glow_color is not None:
-            glow_size = 8
-            img_glow = self._cast_text_style(
-                equation,
-                text_color=self.glow_color,
-                dil_size=glow_size,
-                filter_size=glow_size,
-            )
-            # im = ImageChops.screen(im, im_glow)
-            img.alpha_composite(img_glow, dest=(0, 0))
-        # After drawing the shades of the texts, draw the font texts.
-        if self.stroke_color is not None:
-            img_stroke = self._cast_text_style(
-                equation,
-                text_color=self.stroke_color,
-                dil_size=4,
-                filter_size=0,
-            )
-            img.alpha_composite(img_stroke, dest=(0, 0))
-        # Compose text.
-        img_text = self._cast_text_style(
-            equation, text_color=self.color, dil_size=0, filter_size=0
-        )
+        # Draw the font texts.
+        img_text = self._cast_text_style(equation, text_color=self.color)
         img.alpha_composite(img_text, dest=(0, 0))
-        return ImageSingle(img)
-
-
-class ImageLayer:
-    """A layer of image. It is typically used as a member of MultiLayerImage stack.
-
-    All instance operations of this class are non-inplace.
-    """
-
-    __slots__ = (
-        "name",
-        "img",
-        "anchor",
-        "related_to",
-        "rel_anchor",
-        "pos_shift",
-    )
-
-    def __init__(
-        self,
-        name: str,
-        img: ImageSingle | ImageText,
-        anchor: str | ImageAnchor = ImageAnchor.center,
-        related_to: str | None = None,
-        rel_anchor: str | ImageAnchor = ImageAnchor.center,
-        pos_shift: tuple[int, int] | None = None,
-    ) -> None:
-        """Initialization.
-
-        In most cases, we do not instantiate this class explicitly. This
-        instance shold be created by the methods like `ImageMultiLayer.add_image`.
-
-        Arguments
-        ---------
-        name: `str`
-            The name of this layer.
-
-        img: `ImageSingle | ImageText`
-            The image instance maintained by this layer.
-
-        anchor: `str | ImageAnchor`
-            The anchor of this image.
-
-        related_to: `str | None`
-            The name of another image layer. When rendering the image, will place
-            this image based on the position of the image specified by `related_to`.
-
-            If not specified, the image layer will be put related to the canvas.
-
-        rel_anchor: `str | ImageAnchor`
-            The anchor of the reference image specified by `related_to` when placing
-            this image.
-
-        pos_shift: `tuple[int, int] | None`
-            The `(h_shift, v_shift)` of this image position. If not specified, will
-            use `(0, 0)`.
-        """
-        name = str(name).strip()
-        if not name:
-            raise KeyError("The image layer name should not be empty.")
-        if isinstance(img, ImageText):
-            img = img.img
-        elif not isinstance(img, ImageSingle):
-            img = ImageSingle(img)
-        self.name = name
-        self.img: ImageSingle = img
-        self.anchor: ImageAnchor = ImageAnchor.from_str(anchor)
-        self.related_to = (
-            related_to.strip()
-            if (isinstance(related_to, str) and related_to.strip())
-            else None
-        )
-        self.rel_anchor: ImageAnchor = ImageAnchor.from_str(rel_anchor)
-        self.pos_shift = pos_shift if pos_shift is not None else (0, 0)
-
-    @property
-    def width(self) -> int:
-        """Property: The width of the image."""
-        return self.img.width
-
-    @property
-    def height(self) -> int:
-        """Property: The height of the image."""
-        return self.img.height
-
-    @property
-    def size(self) -> tuple[int, int]:
-        """Property: The `(width, height)` of the image."""
-        return self.img.size
-
-    def copy(self) -> Self:
-        """Get a copy of this instance."""
-        return self.__class__(
-            img=self.img.copy(),
-            name=self.name,
-            anchor=self.anchor,
-            related_to=self.related_to,
-            rel_anchor=self.rel_anchor,
-            pos_shift=self.pos_shift,
-        )
+        self.__temp_img = img
+        return img
 
 
 class ImageMultiLayer:
@@ -1172,7 +1095,7 @@ class ImageMultiLayer:
             width = img.width
             height = img.height
             fmt = img.fmt if fmt is None else ImageFormat.from_str(fmt)
-            layers = (ImageLayer(img=img.copy(), name=name),)
+            layers = (ImageLayer(parent=self, img=img.copy(), name=name),)
             mode = img.img.mode
             return layers, mode, width, height, fmt
 
@@ -1183,7 +1106,7 @@ class ImageMultiLayer:
             height = img.height
             if isinstance(img, ImageLayer):
                 layers = (img,)
-                fmt = img.img.fmt if fmt is None else ImageFormat.from_str(fmt)
+                fmt = img.fmt if fmt is None else ImageFormat.from_str(fmt)
                 mode = img.img.img.mode
             else:
                 layers = tuple(img_l.copy() for img_l in img.layers.values())
@@ -1336,22 +1259,31 @@ class ImageMultiLayer:
         #1: `Self`
             The inplace-modified multi-layered image.
         """
+        img = ImageText(text, font=font, font_size=font_size, color=color)
         self.add_image(
             name=name,
-            img=ImageText(
-                text,
-                font=font,
-                font_size=font_size,
-                color=color,
-                stroke_color=stroke_color,
-                glow_color=glow_color,
-                shadow_color=shadow_color,
-            ),
+            img=img,
             anchor=anchor,
             related_to=related_to,
             rel_anchor=rel_anchor,
             pos_shift=pos_shift,
         )
+        layer = self.layers[name]
+        if stroke_color is not None:
+            layer.set_stroke(size=2, color=stroke_color)
+        font_size = img.font_size
+        size_font = (
+            font_size.font_size
+            if isinstance(font_size, ImageFontAbsSize)
+            else font_size.get_line_size(len(img.text))[1]
+        )
+        if glow_color is not None:
+            glow_size = max(2, int(0.2 * size_font))
+            layer.set_glow(size=glow_size, color=glow_color)
+        if shadow_color is not None:
+            shadow_offset = min(4, size_font // 24)
+            shadow_size = max(2, shadow_offset // 2)
+            layer.set_shadow(size=shadow_size, offset=shadow_offset, color=shadow_color)
         return self
 
     def add_latex(
@@ -1429,22 +1361,25 @@ class ImageMultiLayer:
         #1: `Self`
             The inplace-modified multi-layered image.
         """
+        img = ImageTeX(equation, template=template, font_size=font_size, color=color)
         self.add_image(
             name=name,
-            img=ImageTeX(
-                equation,
-                template=template,
-                font_size=font_size,
-                color=color,
-                stroke_color=stroke_color,
-                glow_color=glow_color,
-                shadow_color=shadow_color,
-            ),
+            img=img,
             anchor=anchor,
             related_to=related_to,
             rel_anchor=rel_anchor,
             pos_shift=pos_shift,
         )
+        layer = self.layers[name]
+        if stroke_color is not None:
+            layer.set_stroke(size=2, color=stroke_color)
+        if glow_color is not None:
+            glow_size = 8
+            layer.set_glow(size=glow_size, color=glow_color)
+        if shadow_color is not None:
+            shadow_offset = 4
+            shadow_size = max(2, shadow_offset // 2)
+            layer.set_shadow(size=shadow_size, offset=shadow_offset, color=shadow_color)
         return self
 
     def add_image(
@@ -1509,6 +1444,7 @@ class ImageMultiLayer:
                 'The argument "related_to" does not refer to an existing image layer.'
             )
         self.layers[name] = ImageLayer(
+            parent=self,
             name=name,
             img=img,
             anchor=anchor,
@@ -1520,71 +1456,13 @@ class ImageMultiLayer:
 
     def __render(self) -> Image.Image:
         """(Private) Render the layer stack as a single image."""
-        real_pos: dict[str, _LayerPos] = dict()
-
-        def get_real_pos(layer: ImageLayer) -> _LayerPos:
-            name = layer.name
-            if name in real_pos:
-                return real_pos[name]
-            rel_to = layer.related_to
-            anchor = layer.anchor.value
-            rel_anchor = layer.rel_anchor.value
-            if rel_to is None:  # Related to container
-                boundary_l = 0
-                boundary_r = self.width
-                boundary_t = 0
-                boundary_b = self.height
-            else:
-                rel_lp = get_real_pos(self.layers[rel_to])
-                boundary_l = rel_lp["pos"][0]
-                boundary_r = boundary_l + rel_lp["size"][0]
-                boundary_t = rel_lp["pos"][1]
-                boundary_b = boundary_t + rel_lp["size"][1]
-            # Solve horizontal position.
-            if "left" in rel_anchor:
-                _pos_rel_l = boundary_l
-            elif "right" in rel_anchor:
-                _pos_rel_l = boundary_r
-            else:
-                _pos_rel_l = (boundary_l + boundary_r) // 2
-            if "left" in anchor:
-                _pos_l = _pos_rel_l
-            elif "right" in anchor:
-                _pos_l = _pos_rel_l - layer.width
-            else:
-                _pos_l = _pos_rel_l - (layer.width // 2)
-            # Solve vertical position.
-            if "top" in rel_anchor:
-                _pos_rel_t = boundary_t
-            elif "bottom" in rel_anchor:
-                _pos_rel_t = boundary_b
-            else:
-                _pos_rel_t = (boundary_t + boundary_b) // 2
-            if "top" in anchor:
-                _pos_t = _pos_rel_t
-            elif "bottom" in anchor:
-                _pos_t = _pos_rel_t - layer.height
-            else:
-                _pos_t = _pos_rel_t - (layer.height // 2)
-            _pos = _LayerPos(
-                pos=(_pos_l + layer.pos_shift[0], _pos_t + layer.pos_shift[1]),
-                size=(layer.width, layer.height),
-            )
-            real_pos[name] = _pos
-            return _pos
 
         img_new = Image.new("RGBA", size=(self.width, self.height), color=(0, 0, 0, 0))
+        pos_cache = dict()
+        comp = ImageComposer()
 
         for _, layer in self.layers.items():
-            # Get real pos
-            pos = get_real_pos(layer)
-            img_layer = layer.img.img
-            if img_layer.has_transparency_data:
-                img_layer = img_layer.convert("RGBA")
-                img_new.alpha_composite(img_layer, dest=pos["pos"])
-            else:
-                img_layer = img_layer.convert("RGBA")
-                img_new.paste(img_layer, pos["pos"])
+            img_new = layer.render(comp, img_new, pos_cache)
 
         return img_new
 

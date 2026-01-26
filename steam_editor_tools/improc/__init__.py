@@ -29,6 +29,10 @@ from . import data
 from . import variables
 from . import latex_to_img
 from . import font
+from . import composer
+from . import effects
+from . import overlays
+from . import layer
 from . import renderer
 from . import tools
 
@@ -42,6 +46,8 @@ from .data import (
 )
 from .latex_to_img import TeXRenderer
 from .font import FontLanguage, FontInfo, FontLocator
+from .composer import ImageComposer, ImageComposerMode
+from .layer import ImageEffects, ImageLayer
 from .renderer import ImageSingle, ImageText, ImageTeX, ImageMultiLayer
 
 
@@ -50,6 +56,10 @@ __all__ = (
     "variables",
     "latex_to_img",
     "font",
+    "composer",
+    "effects",
+    "overlays",
+    "layer",
     "renderer",
     "tools",
     "TeXTemplate",
@@ -62,6 +72,10 @@ __all__ = (
     "FontLanguage",
     "FontInfo",
     "FontLocator",
+    "ImageComposer",
+    "ImageComposerMode",
+    "ImageEffects",
+    "ImageLayer",
     "ImageSingle",
     "ImageText",
     "ImageTeX",

@@ -68,15 +68,16 @@ Currently, we support the following features:
 
 ### 2.2. Image editing tools
 
-| Functionality       | Description                                                                                                                                |
-| :------------------ | :----------------------------------------------------------------------------------------------------------------------------------------- |
-| Image stack         | A code-based image editor, allowing users to stack multiple layers of images, texts, or LaTeX equations with styles.                       |
-| Image anchor        | Inspired by LaTeX's TikZ package, this package allows users to place images on the same canvas by using their relative positions.          |
-| Image optimization  | Users only need to specify the quality and the saving format. The package can choose the best way to optimize the saved image size.        |
-| Image modifications | Basic image modification tools such as image resizing, cropping and blurring.                                                              |
-| Thumbnail           | Provide an option to create Steam-compatible thumbnails. This feature is useful when users need to upload screenshots by themselves.       |
-| Batch processing    | Walk through a folder, apply a customized image processing function to each image, and save the results with thumbnails in another folder. |
-| Font searching      | Perform fuzzy searches for system or customized fonts. Users can provide a list of fallback options.                                       |
+| Functionality       | Description                                                                                                                                        |
+| :------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Image stack         | A code-based image editor, allowing users to stack multiple layers of images, texts, or LaTeX equations with styles.                               |
+| Image anchor        | Inspired by LaTeX's TikZ package, this package allows users to place images on the same canvas by using their relative positions.                  |
+| Image optimization  | Users only need to specify the quality and the saving format. The package can choose the best way to optimize the saved image size.                |
+| Image modifications | Basic image modification tools such as image resizing, cropping and blurring.                                                                      |
+| Image effects       | Features mimicing the "Layer blending options" of the image editor, allowing users to add stroke, shadows, and other effects to an existing layer. |
+| Thumbnail           | Provide an option to create Steam-compatible thumbnails. This feature is useful when users need to upload screenshots by themselves.               |
+| Batch processing    | Walk through a folder, apply a customized image processing function to each image, and save the results with thumbnails in another folder.         |
+| Font searching      | Perform fuzzy searches for system or customized fonts. Users can provide a list of fallback options.                                               |
 
 Actually, the title banner of this Readme file is created by the image editing tools. See the examples.
 
@@ -154,8 +155,8 @@ See [Changelog.md :book:][link-changelog]
 - [x] Get Steam app details by ID
 - [x] Screenshot formatting
 - [x] System/User font file detection
-- [ ] Image overlay with alpha channel
-- [ ] Image layer properties
+- [x] Image overlay with alpha channel
+- [x] Image layer properties
 - [ ] Improved image anchor interfaces
 - [ ] More Steam queries based on public APIs
 
