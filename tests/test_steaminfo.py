@@ -153,11 +153,11 @@ class TestSteamInfo:
         log = logging.getLogger("steam_editor_tools.test")
         log.info(
             "Get the app ID of: {0}".format(
-                "TouHou Makuka Sai ~ Fantastic Danmaku Festival Part III"
+                "TouHou Makuka Sai Fantastic Danmaku Festival Part III"
             )
         )
         info = stet.query_app_by_name_simple(
-            "TouHou Makuka Sai ~ Fantastic Danmaku Festival Part III"
+            "TouHou Makuka Sai Fantastic Danmaku Festival Part III"
         )
         assert len(info) > 0
         app = info[0]

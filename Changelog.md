@@ -11,6 +11,10 @@
 1. Provide two built-in variaints of the BBCode renderer.
 2. Add the test `test_bbcode_variants`.
 
+#### :wrench: Fix
+
+1. Fix: Due to the change of Steam API usage, the query in `test_info_get_app_image_different` needs to be changed.
+
 #### :floppy_disk: Change
 
 1. Split the BBCode renderer into a sub-package. This change does not break the previous APIs.
