@@ -9,6 +9,7 @@
 #### :mega: New
 
 1. Provide two built-in variaints of the BBCode renderer.
+2. Add the test `test_bbcode_variants`.
 
 #### :floppy_disk: Change
 

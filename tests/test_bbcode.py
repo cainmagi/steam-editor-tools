@@ -121,6 +121,37 @@ class TestBBCode:
         assert stet.BBCodeRenderer().render(doc).strip() == _text
         log.info("Rendering of extensive blocks is validated.")
 
+    def test_bbcode_variants(self) -> None:
+        """Test
+
+        Built-in variants of BBCode renderers.
+        """
+        log = logging.getLogger("steam_editor_tools.test")
+        log.info("Load conversion.md")
+        doc = stet.DocumentParser().parse_file(self.get_data_path("conversion.md"))
+
+        # Varaint 1: Table preferred
+        with open(
+            self.get_data_path("conversion-var-table.bbcode"), "r", encoding="utf-8"
+        ) as fobj:
+            _text = fobj.read().strip()
+        assert (
+            stet.bbcode.renderer.BBCodeRendererTablePreferred().render(doc).strip()
+            == _text
+        )
+        log.info("Renderer variant BBCodeRendererTablePreferred is validated.")
+
+        # Varaint 2: List preferred
+        with open(
+            self.get_data_path("conversion-var-list.bbcode"), "r", encoding="utf-8"
+        ) as fobj:
+            _text = fobj.read().strip()
+        assert (
+            stet.bbcode.renderer.BBCodeRendererListPreferred().render(doc).strip()
+            == _text
+        )
+        log.info("Renderer variant BBCodeRendererListPreferred is validated.")
+
     def test_bbcode_customizations(self) -> None:
         """Test
 
