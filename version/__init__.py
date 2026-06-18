@@ -25,24 +25,30 @@ import importlib
 import importlib.util
 import types
 
-from typing import Union, Optional
-
-
 __all__ = ("import_dummy", "__version__")
 
 
 def import_dummy(
-    module_path: Union[str, os.PathLike], module_name: Optional[str] = None
+    module_path: str | os.PathLike, module_name: str | None = None
 ) -> types.ModuleType:
     """Get a module without importing its parent.
 
     This dummy import should be only used when the module to be import does not rely
     on any other modules in its package.
 
-    Arguments:
-        module_path: The path of the module file.
-        module_name: The module name registered in the system global list. If not
-            provided, will specify the `module_name` using the file name.
+    Arguments
+    ---------
+    module_path: `str | PathLike`
+        The path of the module file.
+
+    module_name: `str | None`
+        The module name registered in the system global list. If not provided, will
+        specify the `module_name` using the file name.
+
+    Returns
+    -------
+    #1: `ModuleType`
+        The imported dummy module.
     """
     module_path = str(os.path.normpath(module_path))
     if not os.path.isfile(module_path):

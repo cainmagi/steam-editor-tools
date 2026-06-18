@@ -13,6 +13,7 @@
 #### :floppy_disk: Change
 
 1. Split the BBCode renderer into a sub-package. This change does not break the previous APIs.
+2. Update the style of the version detection script.
 
 ### 0.4.1 @ 01/26/2026
 
