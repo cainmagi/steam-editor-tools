@@ -91,6 +91,7 @@ Actually, the title banner of this Readme file is created by the image editing t
 | Structured data     | All conversions are divided into two steps: Other formats -> `Document` stucture -> Steam BBCode. The intermediate `Document` strcture is supported by [pydantic][link-pydantic]. |
 | HTML to BBCode      | Recursively parse an HTML file, and convert it into `Document` or Steam BBCode.                                                                                                   |
 | Markdown to BBCode  | Use [markdown-it][link-markdown-it] to convert a Markdown file to HTML, then convert the HTML to `Document` or BBCode.                                                            |
+| Read BBCode         | Use [bbcode][link-bbcode] to load a BBCode file. The loaded file can be rendered with style customizations.                                                                       |
 | Fetch a Steam guide | Given the URL of a Steam guide, convert it into `Document` or BBcode.                                                                                                             |
 
 ## 3. Why using this package
@@ -107,6 +108,7 @@ Currently, we offer the following examples in `./examples` folder:
 | Example                      | Description                                                                             |
 | :--------------------------- | :-------------------------------------------------------------------------------------- |
 | `markdown_to_bbcode`         | A minimal example converting Markdown to BBCode.                                        |
+| `bbcode_table_to_list`       | An example of loading a BBCode file, and convert the tables inside it to lists.         |
 | `save_description_of_a_game` | Save the "about the game" section of a Steam app as an HTML file.                       |
 | `download_screenshots`       | Download all official screenshots of a game and create thumbnails of them.              |
 | `download_a_guide`           | Fetch a Steam guide and save it as a BBCode file.                                       |
@@ -166,6 +168,7 @@ See [Changelog.md :book:][link-changelog]
 [link-contributing]: https://github.com/cainmagi/steam-editor-tools/blob/main/CONTRIBUTING.md
 [link-changelog]: https://github.com/cainmagi/steam-editor-tools/blob/main/Changelog.md
 [link-pydantic]: https://docs.pydantic.dev/
+[link-bbcode]: https://dcwatson.github.io/bbcode/
 [link-markdown-it]: https://markdown-it-py.readthedocs.io/
 [link-html2bbcode]: https://github.com/tengattack/html2bbcode.js
 [link-html2phpbbcode]: https://github.com/tdiam/html2phpbbcode

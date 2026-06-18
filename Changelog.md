@@ -10,6 +10,7 @@
 
 1. Provide two built-in variaints of the BBCode renderer.
 2. Add the test `test_bbcode_variants`.
+3. Add the feature of loading a BBCode file.
 
 #### :wrench: Fix
 

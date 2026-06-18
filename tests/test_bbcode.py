@@ -70,6 +70,22 @@ class TestBBCode:
         assert doc == _doc
         log.info("Conversion of example.html is validated.")
 
+    def test_bbcode_bbcode_to_document(self) -> None:
+        """Test
+
+        Conversion from BBCode to `Document`.
+        """
+        log = logging.getLogger("steam_editor_tools.test")
+        log.info("Load example.bbcode")
+        doc = stet.DocumentParser().parse_file(self.get_data_path("example.bbcode"))
+        log.debug(doc)
+        with open(
+            self.get_data_path("example-load.json"), "r", encoding="utf-8"
+        ) as fobj:
+            _doc = stet.bbcode.nodes.Document.model_validate_json(fobj.read())
+        assert doc == _doc
+        log.info("Conversion of example.bbcode is validated.")
+
     def test_bbcode_document_structure(self) -> None:
         """Test
 

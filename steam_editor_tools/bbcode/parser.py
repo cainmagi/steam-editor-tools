@@ -26,6 +26,7 @@ from typing import Any, IO, Generic, TypeVar
 from bs4 import BeautifulSoup, Tag
 from bs4.element import NavigableString, PageElement
 from markdown_it.main import MarkdownIt
+from bbcode import Parser as BBCodeParser
 
 from .nodes import (
     DeletedNode,
@@ -55,7 +56,6 @@ from .nodes import (
 
 from . import plugins
 from .renderer import BBCodeRenderer, AlertTitleConfigs
-
 
 __all__ = ("HandleMemory", "DocumentParser")
 _Tag = TypeVar("_Tag", bound=Tag)
@@ -116,8 +116,8 @@ class HandleMemory(Generic[_Tag]):
 class DocumentParser:
     """Document Parser.
 
-    This parser converts the other document formats (like Markdown or HTML) to
-    structured pydantic data.
+    This parser converts the other document formats (like BBCode, Markdown or HTML)
+    to structured pydantic data.
     """
 
     __slots__ = ("__test_renderer",)
@@ -151,6 +151,9 @@ class DocumentParser:
         elif ext == "md":
             with open(file_path, "r", encoding=encoding) as fobj:
                 return self.parse_markdown(fobj)
+        elif ext == "bbcode":
+            with open(file_path, "r", encoding=encoding) as fobj:
+                return self.parse_bbcode(fobj)
 
         raise TypeError(
             "The file path does not provide a known file type: {0}".format(file_path)
@@ -205,6 +208,96 @@ class DocumentParser:
 
         # Optionally, you could merge adjacent TextNodes here if desired.
         return Document(children=children_nodes)
+
+    def parse_bbcode(self, bbcode: str | IO[str]) -> Document:
+        """Parse the BBCode data.
+
+        Arguments
+        ---------
+        bbcode: `str | IO[str]`
+            The BBCode text or BBCode file-like object.
+
+        Returns
+        -------
+        #1: `Document`
+            The parsed structured data.
+        """
+        bbcode = bbcode if isinstance(bbcode, str) else bbcode.read()
+        parser = BBCodeParser()
+        parser.add_simple_formatter("hr", "<hr/>", strip=True)  # Override [hr]
+        parser.add_simple_formatter(
+            "table",
+            "<table><tbody>%(value)s</tbody></table>",
+            strip=True,
+            swallow_trailing_newline=True,
+        )
+        parser.add_simple_formatter("noparse", "<code>%(value)s</code>", strip=True)
+        parser.add_simple_formatter(
+            "tr",
+            "<tr>%(value)s</tr>",
+            newline_closes=True,
+            transform_newlines=False,
+            same_tag_closes=True,
+            strip=True,
+        )
+        parser.add_simple_formatter("th", "<th>%(value)s</th>", strip=True)
+        parser.add_simple_formatter("td", "<td>%(value)s</td>", strip=True)
+        for num in range(1, 7):
+            parser.add_simple_formatter(
+                "h{0}".format(num), "<h{0}>%(value)s</h{0}>".format(num), strip=True
+            )
+
+        # Handle spoiler
+        def _render_spoiler(name, value, options, parent, context):
+            n_splits = len(str(value).splitlines())
+            if n_splits < 2:
+                return "<mark>{0}</mark>".format(value)
+            return '<div class="md-alert"><strong class="md-alert-text">tag_spoiler</strong>{0}</div>'.format(
+                value
+            )
+
+        parser.add_formatter(
+            "spoiler", _render_spoiler, strip=True, swallow_trailing_newline=True
+        )
+
+        # Handle strike
+        def _render_strike(name, value, options, parent, context):
+            n_splits = len(str(value).splitlines())
+            if n_splits < 2:
+                return "<strike>{0}</strike>".format(value)
+            return '<div class="md-alert"><strong class="md-alert-text">tag_strike</strong>{0}</div>'.format(
+                value
+            )
+
+        parser.add_formatter(
+            "strike", _render_strike, strip=True, swallow_trailing_newline=True
+        )
+
+        # Override lists
+        def _render_list(name, value, options, parent, context):
+            return "<{0}>{1}</{0}>".format("ul", value)
+
+        def _render_olist(name, value, options, parent, context):
+            return "<{0}>{1}</{0}>".format("ol", value)
+
+        parser.add_formatter(
+            "list",
+            _render_list,
+            transform_newlines=False,
+            strip=True,
+            swallow_trailing_newline=True,
+        )
+        parser.add_formatter(
+            "olist",
+            _render_olist,
+            transform_newlines=False,
+            strip=True,
+            swallow_trailing_newline=True,
+        )
+
+        return self.parse_html(
+            "<html><body>{0}</body></html>".format(parser.format(bbcode))
+        )
 
     @staticmethod
     def _parse_style(bs_node: Tag) -> dict[str, str]:
