@@ -4,6 +4,12 @@
 
 ## CHANGELOG
 
+### 0.5.0 @ 06/17/2026
+
+#### :floppy_disk: Change
+
+1. Split the BBCode renderer into a sub-package. This change does not break the previous APIs.
+
 ### 0.4.1 @ 01/26/2026
 
 #### :wrench: Fix
