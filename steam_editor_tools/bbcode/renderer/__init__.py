@@ -24,16 +24,21 @@ from pkgutil import extend_path
 
 from . import configs
 from . import base
+from . import variants
 
 from .configs import AlertTitleConfigs, BBCodeConfig
 from .base import BBCodeRenderer
+from .variants import BBCodeRendererTablePreferred, BBCodeRendererListPreferred
 
 __all__ = (
     "configs",
     "base",
+    "variants",
     "AlertTitleConfigs",
     "BBCodeRenderer",
     "BBCodeConfig",
+    "BBCodeRendererTablePreferred",
+    "BBCodeRendererListPreferred",
 )
 
 # Set this local module as the prefered one
