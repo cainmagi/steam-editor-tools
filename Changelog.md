@@ -4,6 +4,12 @@
 
 ## CHANGELOG
 
+### 0.5.1 @ 06/18/2026
+
+#### :floppy_disk: Change
+
+1. Adjust the behavior of `BBCodeRendererListPreferred`. Now, the small column (with the length no more than 1) will be rendered without separator.
+
 ### 0.5.0 @ 06/17/2026
 
 #### :mega: New

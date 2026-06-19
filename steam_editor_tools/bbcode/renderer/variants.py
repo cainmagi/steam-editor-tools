@@ -23,6 +23,8 @@ reviews. Users can implement their own variants by following the same example
 style in this module.
 """
 
+import itertools
+
 from typing_extensions import override
 from ..nodes import (
     TextNode,
@@ -136,6 +138,30 @@ class BBCodeRendererListPreferred(BBCodeRenderer):
             _lines.append(char * (len(line) - len(_line)) + _line)
         return "".join(_lines)
 
+    def __flatten_table_row(self, row: TableRowNode) -> ListItemNode:
+        """Convert a table row to a list item."""
+        if not isinstance(row, TableRowNode):
+            return ListItemNode(children=[TextNode(text=self.render(row))])
+        if not row.cells:
+            return ListItemNode(children=[])
+        if len(row.cells) == 1:
+            return ListItemNode(children=[row.cells[0]])
+        _row_raw: list[str] = [self.render(cell) for cell in row.cells]
+        _row: list[str] = [_row_raw[0]]
+        for prev_cell, cell in itertools.pairwise(_row_raw):
+            if not cell:
+                continue
+            if len(cell) < 2 and len(prev_cell) < 2:
+                pass
+            elif len(cell) < 2:
+                _row.append(" ")
+            elif len(prev_cell) < 2:
+                _row.append(": ")
+            else:
+                _row.append(" | ")
+            _row.append(cell)
+        return ListItemNode(children=[TextNode(text="".join(_row))])
+
     @override
     def render_code_block(self, node: CodeBlockNode) -> str:
         """Specific renderring. Render the block code as
@@ -184,20 +210,7 @@ class BBCodeRendererListPreferred(BBCodeRenderer):
         configs.table = "ordered"
         ```
         """
-        rows = [
-            (
-                ListItemNode(
-                    children=[
-                        TextNode(
-                            text=" | ".join(self.render(cell) for cell in row.cells)
-                        )
-                    ]
-                )
-                if isinstance(row, TableRowNode)
-                else ListItemNode(children=[TextNode(text=self.render(row))])
-            )
-            for row in node.rows
-        ]
+        rows = [self.__flatten_table_row(row) for row in node.rows]
         return BBCodeRenderer.render_list(
             self, ListNode(ordered="ordered" in self.configs.table, items=rows)
         )
@@ -205,7 +218,7 @@ class BBCodeRendererListPreferred(BBCodeRenderer):
     @override
     def render_table_row(self, node: TableRowNode) -> str:
         """Specific renderring. Render the table row."""
-        cells = " | ".join(self.render(cell) for cell in node.cells)
+        cells = self.__flatten_table_row(node)
         return "⬊ {cells}\n".format(cells=cells)
 
     @override
