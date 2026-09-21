@@ -65,6 +65,16 @@ class DeletedNode(BaseModel):
 
     type: Literal["deleted"] = "deleted"
 
+    @property
+    def size(self) -> int:
+        """The estimated text length of the current node."""
+        return 0
+
+    @property
+    def pure_text(self) -> str:
+        """The pure text of the current node."""
+        return ""
+
 
 # Leaf nodes
 
@@ -78,6 +88,16 @@ class TextNode(BaseModel):
     type: Literal["text"] = "text"
     text: str
 
+    @property
+    def size(self) -> int:
+        """The estimated text length of the current node."""
+        return len(self.text)
+
+    @property
+    def pure_text(self) -> str:
+        """The pure text of the current node."""
+        return self.text
+
 
 class LineBreakNode(BaseModel):
     """Node: Line Break
@@ -86,6 +106,16 @@ class LineBreakNode(BaseModel):
     """
 
     type: Literal["br"] = "br"
+
+    @property
+    def size(self) -> int:
+        """The estimated text length of the current node."""
+        return 0
+
+    @property
+    def pure_text(self) -> str:
+        """The pure text of the current node."""
+        return ""
 
 
 class HorizontalRuleNode(BaseModel):
@@ -96,6 +126,16 @@ class HorizontalRuleNode(BaseModel):
 
     type: Literal["hr"] = "hr"
 
+    @property
+    def size(self) -> int:
+        """The estimated text length of the current node."""
+        return 0
+
+    @property
+    def pure_text(self) -> str:
+        """The pure text of the current node."""
+        return ""
+
 
 class InlineCodeNode(BaseModel):
     """Node: Code (Inline)
@@ -105,6 +145,16 @@ class InlineCodeNode(BaseModel):
 
     type: Literal["inline_code"] = "inline_code"
     code: str
+
+    @property
+    def size(self) -> int:
+        """The estimated text length of the current node."""
+        return len(self.code)
+
+    @property
+    def pure_text(self) -> str:
+        """The pure text of the current node."""
+        return self.code
 
 
 class CodeBlockNode(BaseModel):
@@ -125,11 +175,37 @@ class CodeBlockNode(BaseModel):
     type: Literal["code_block"] = "code_block"
     code: str
 
+    @property
+    def size(self) -> int:
+        """The estimated text length of the current node."""
+        return len(self.code)
+
+    @property
+    def pure_text(self) -> str:
+        """The pure text of the current node."""
+        return self.code
+
 
 # Inline formatting
 
 
-class BoldNode(BaseModel):
+class NodePureText(BaseModel):
+    """The mixin used for fetching the"""
+
+    children: "list[Node]"
+
+    @property
+    def size(self) -> int:
+        """The estimated text length of the current node."""
+        return sum(node.size for node in self.children)
+
+    @property
+    def pure_text(self) -> str:
+        """The pure text of the current node."""
+        return "".join(node.pure_text for node in self.children)
+
+
+class BoldNode(NodePureText):
     """Node: Bold
 
     Provide the bold inline format.
@@ -139,7 +215,7 @@ class BoldNode(BaseModel):
     children: "list[Node]"
 
 
-class ItalicNode(BaseModel):
+class ItalicNode(NodePureText):
     """Node: Italic
 
     Provide the italic inline format.
@@ -149,7 +225,7 @@ class ItalicNode(BaseModel):
     children: "list[Node]"
 
 
-class UnderlineNode(BaseModel):
+class UnderlineNode(NodePureText):
     """Node: Underline
 
     Provide the underline inline format.
@@ -159,7 +235,7 @@ class UnderlineNode(BaseModel):
     children: "list[Node]"
 
 
-class StrikeNode(BaseModel):
+class StrikeNode(NodePureText):
     """Node: Strike
 
     Provide the strike inline format.
@@ -169,7 +245,7 @@ class StrikeNode(BaseModel):
     children: "list[Node]"
 
 
-class SpoilerNode(BaseModel):
+class SpoilerNode(NodePureText):
     """Node: Spoiler
 
     Provide the spoiler inline format.
@@ -185,7 +261,7 @@ class SpoilerNode(BaseModel):
     children: "list[Node]"
 
 
-class LinkNode(BaseModel):
+class LinkNode(NodePureText):
     """Node: Link
 
     Provide the URL, representing the `<a>` tag in HTML.
@@ -201,7 +277,7 @@ class LinkNode(BaseModel):
 # Block structure
 
 
-class HeadingNode(BaseModel):
+class HeadingNode(NodePureText):
     """Node: Heading
 
     Provide the one-liner title block. The level is specified as 1-6 for
@@ -213,7 +289,7 @@ class HeadingNode(BaseModel):
     children: "list[Node]"
 
 
-class ParagraphNode(BaseModel):
+class ParagraphNode(NodePureText):
     """Node: Paragraph
 
     Provide the paragraph, equivalent to `<p>` in html.
@@ -223,7 +299,7 @@ class ParagraphNode(BaseModel):
     children: "list[Node]"
 
 
-class QuoteNode(BaseModel):
+class QuoteNode(NodePureText):
     """Node: Quote
 
     Provide the quote block, representing `<blockquote>` in HTML.
@@ -234,7 +310,7 @@ class QuoteNode(BaseModel):
     children: "list[Node]"
 
 
-class AlertNode(BaseModel):
+class AlertNode(NodePureText):
     """Node: Alert
 
     Provide the alert block, representing the following pattern in HTML:
@@ -267,7 +343,7 @@ class AlertNode(BaseModel):
     children: "list[Node]"
 
 
-class ListItemNode(BaseModel):
+class ListItemNode(NodePureText):
     """Node: List Item
 
     Provide the item of a list. This node needs to be a member of `ListNode`.
@@ -289,11 +365,21 @@ class ListNode(BaseModel):
     ordered: bool
     items: list[ListItemNode]
 
+    @property
+    def size(self) -> int:
+        """The estimated text length of the current node."""
+        return sum(node.size for node in self.items)
+
+    @property
+    def pure_text(self) -> str:
+        """The pure text of the current node."""
+        return "".join(node.pure_text for node in self.items)
+
 
 # Tables
 
 
-class TableCellNode(BaseModel):
+class TableCellNode(NodePureText):
     """Node: Table Cell
 
     Provide the table cells.
@@ -315,6 +401,16 @@ class TableRowNode(BaseModel):
     type: Literal["table_row"] = "table_row"
     cells: list[TableCellNode]
 
+    @property
+    def size(self) -> int:
+        """The estimated text length of the current node."""
+        return sum(node.size for node in self.cells)
+
+    @property
+    def pure_text(self) -> str:
+        """The pure text of the current node."""
+        return "".join(node.pure_text for node in self.cells)
+
 
 class TableNode(BaseModel):
     """Node: Table
@@ -324,6 +420,16 @@ class TableNode(BaseModel):
 
     type: Literal["table"] = "table"
     rows: list[TableRowNode]
+
+    @property
+    def size(self) -> int:
+        """The estimated text length of the current node."""
+        return sum(node.size for node in self.rows)
+
+    @property
+    def pure_text(self) -> str:
+        """The pure text of the current node."""
+        return "".join(node.pure_text for node in self.rows)
 
 
 # Top-level document
@@ -342,6 +448,16 @@ class Document(BaseModel):
 
     type: Literal["document"] = "document"
     children: "list[Node]"
+
+    @property
+    def size(self) -> int:
+        """The estimated text length of the current node."""
+        return sum(node.size for node in self.children)
+
+    @property
+    def pure_text(self) -> str:
+        """The pure text of the current node."""
+        return "".join(node.pure_text for node in self.children)
 
     def walk(self, func: "collections.abc.Callable[[Node], None]") -> None:
         """Walk from the top to the down of each node in this document.

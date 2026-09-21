@@ -39,7 +39,7 @@ def font_locator() -> Generator[stet.FontLocator, None, None]:
 
 
 class TestFontDetection:
-    """The the font detection.
+    """Test the font detection.
 
     Will test:
     1. Search a local font.

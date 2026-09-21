@@ -31,7 +31,7 @@ import steam_editor_tools as stet
 
 
 class TestSteamInfo:
-    """The the text processing of BBCode data.
+    """Test the text processing of BBCode data.
 
     Will test:
     1. Search a game by its English name.

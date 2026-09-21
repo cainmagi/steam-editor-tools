@@ -27,7 +27,7 @@ import steam_editor_tools as stet
 
 
 class TestBBCode:
-    """The the text processing of BBCode data.
+    """Test the text processing of BBCode data.
 
     Will test:
     1. Conversion from Markdown to `Document`.

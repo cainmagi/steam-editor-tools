@@ -34,7 +34,7 @@ import steam_editor_tools as stet
 
 
 class TestImageProcessing:
-    """The the image processing.
+    """Test the image processing.
 
     Will test:
     1. Crop an image.
