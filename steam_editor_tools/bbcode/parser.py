@@ -235,7 +235,7 @@ class DocumentParser:
         parser.add_simple_formatter(
             "tr",
             "<tr>%(value)s</tr>",
-            newline_closes=True,
+            newline_closes=False,
             transform_newlines=False,
             same_tag_closes=True,
             strip=True,
