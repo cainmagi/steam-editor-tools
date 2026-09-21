@@ -29,7 +29,6 @@ if __name__ == "__main__":
 
 import steam_editor_tools as stet
 
-
 __all__ = ("save_game_description",)
 
 HTML_TEMPLATE: str = """<!DOCTYPE html>

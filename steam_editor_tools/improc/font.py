@@ -41,7 +41,6 @@ from rapidfuzz import process, fuzz
 
 from PIL.ImageFont import FreeTypeFont
 
-
 __all__ = ("FontLanguage", "FontNameInfo", "FontInfo", "FontIndexList", "FontLocator")
 
 

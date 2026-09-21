@@ -26,7 +26,6 @@ from PIL import Image
 
 from .utils import get_image_by_url
 
-
 __all__ = (
     "PlatformInfo",
     "MetacriticInfo",

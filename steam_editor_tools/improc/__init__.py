@@ -50,7 +50,6 @@ from .composer import ImageComposer, ImageComposerMode
 from .layer import ImageEffects, ImageLayer
 from .renderer import ImageSingle, ImageText, ImageTeX, ImageMultiLayer
 
-
 __all__ = (
     "data",
     "variables",

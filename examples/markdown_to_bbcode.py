@@ -27,7 +27,6 @@ if __name__ == "__main__":
 
 import steam_editor_tools as stet
 
-
 __all__ = ("markdown_to_bbcode",)
 
 

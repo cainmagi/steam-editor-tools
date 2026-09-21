@@ -27,7 +27,6 @@ if __name__ == "__main__":
 
 import steam_editor_tools as stet
 
-
 __all__ = ("search_a_font_and_create_figure",)
 
 FONT_FALLBACK_PATH = os.path.join(

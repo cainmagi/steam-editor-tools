@@ -36,7 +36,6 @@ from .parser import DocumentParser
 from .guide import GuideParser
 from .renderer import BBCodeRenderer, BBCodeConfig, AlertTitleConfigs
 
-
 __all__ = (
     "nodes",
     "plugins",

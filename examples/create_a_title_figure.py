@@ -29,7 +29,6 @@ from PIL import Image
 
 import steam_editor_tools as stet
 
-
 __all__ = ("create_a_title_figure",)
 
 FONT_PATH = os.path.join(

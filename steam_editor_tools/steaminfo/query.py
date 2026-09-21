@@ -25,7 +25,6 @@ from rapidfuzz import process, fuzz
 
 from .data import AppQuerySimple, AppInfo
 
-
 __all__ = ("query_app_by_name_simple", "get_app_details")
 
 

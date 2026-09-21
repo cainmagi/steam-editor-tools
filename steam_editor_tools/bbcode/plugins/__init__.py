@@ -24,7 +24,6 @@ from pkgutil import extend_path
 from . import mark
 from . import alert
 
-
 __all__ = ("mark", "alert")
 
 # Set this local module as the prefered one

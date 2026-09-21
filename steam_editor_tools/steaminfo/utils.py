@@ -23,7 +23,6 @@ import io
 import httpx
 from PIL import Image
 
-
 __all__ = ("get_image_by_url",)
 
 

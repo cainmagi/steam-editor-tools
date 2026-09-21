@@ -4,7 +4,6 @@ from PIL import Image, ImageChops
 
 import steam_editor_tools as stet
 
-
 FONT_FOLDER_PATH = os.path.join(
     os.path.dirname(os.path.dirname(__file__)), "tests", "data"
 )

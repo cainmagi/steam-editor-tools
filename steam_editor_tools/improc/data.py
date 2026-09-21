@@ -26,7 +26,6 @@ from PIL import Image
 
 from pydantic import BaseModel
 
-
 __all__ = (
     "TeXTemplate",
     "Templates",

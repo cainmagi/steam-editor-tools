@@ -4,7 +4,6 @@ import shutil
 import pytest
 import logging
 
-
 LATEX_EXISTS = shutil.which("latex") is not None
 
 

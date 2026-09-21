@@ -22,7 +22,6 @@ from typing_extensions import Literal
 
 from .data import Templates, TeXTemplate
 
-
 __all__ = (
     "steam_color",
     "steam_color_secondary",

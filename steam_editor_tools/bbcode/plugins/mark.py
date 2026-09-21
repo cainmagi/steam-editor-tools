@@ -26,7 +26,6 @@ from markdown_it.main import MarkdownIt
 from markdown_it.token import Token
 from markdown_it.renderer import RendererHTML
 
-
 __all__ = ("mark_plugin",)
 
 MARK_RE = re.compile(r"==(.+?)==")

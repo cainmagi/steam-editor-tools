@@ -34,7 +34,6 @@ from . import query
 from .data import AppQuerySimple, AppInfo
 from .query import query_app_by_name_simple, get_app_details
 
-
 __all__ = (
     "utils",
     "data",

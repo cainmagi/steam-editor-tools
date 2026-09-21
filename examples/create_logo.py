@@ -29,7 +29,6 @@ from PIL import Image
 
 import steam_editor_tools as stet
 
-
 __all__ = ("create_logo_styled", "create_logo_banner")
 
 FONT_PATH = os.path.join(

@@ -34,7 +34,6 @@ from PIL import ImageChops
 
 from .composer import ImageComposer, ImageComposerMode
 
-
 __all__ = (
     "ImageOverlayAbstract",
     "ImageOverlayColor",

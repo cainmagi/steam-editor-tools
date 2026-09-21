@@ -14,6 +14,7 @@
 #### :floppy_disk: Change
 
 1. Modify the rendering of table rows and remove the `newline_closes` for them.
+2. Blackify the codes with the newest standard.
 
 ### 0.5.1 @ 06/18/2026
 

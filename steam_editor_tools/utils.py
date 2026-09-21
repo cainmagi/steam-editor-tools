@@ -27,7 +27,6 @@ import types
 
 from typing import TypeVar
 
-
 _BaseException = TypeVar("_BaseException", bound=BaseException)
 __all__ = ("NamedTempFolder",)
 

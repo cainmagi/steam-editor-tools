@@ -25,7 +25,6 @@ from typing_extensions import Literal, Annotated
 
 from pydantic import BaseModel, Field
 
-
 __all__ = (
     "DeletedNode",
     "TextNode",

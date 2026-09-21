@@ -26,7 +26,6 @@ from typing_extensions import Literal
 from PIL import Image
 from PIL import ImageChops
 
-
 __all__ = ("ImageComposerMode", "ImageComposer")
 
 ImageComposerMode = Literal[

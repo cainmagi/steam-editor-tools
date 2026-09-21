@@ -32,7 +32,6 @@ from . import overlays as _overlays
 from .composer import ImageComposer, ImageComposerMode
 from .data import ImageAnchor, ImageFormat
 
-
 __all__ = (
     "ImageLayerContentProtocol",
     "ImageLayerContainerProtocol",
