@@ -4,6 +4,12 @@
 
 ## CHANGELOG
 
+### 0.6.0 @ 09/21/2026
+
+#### :mega: New
+
+1. Add arguments `out_file_fmt`, `quality`, and `skip_thumbnails` to `improc.tools.batch_process_images` to allow more customizations. The option `skip_thumbnails` is also extended to `save_steam_screenshot` methods.
+
 ### 0.5.1 @ 06/18/2026
 
 #### :floppy_disk: Change

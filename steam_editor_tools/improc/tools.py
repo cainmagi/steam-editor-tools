@@ -32,7 +32,6 @@ from PIL import Image
 from .data import ImageQuality, ImageFormat
 from .renderer import ImageSingle, ImageMultiLayer
 
-
 __all__ = ("batch_process_images", "ImageGrids")
 
 log = logging.getLogger("steam_editor_tools")
@@ -43,6 +42,9 @@ def batch_process_images(
     folder_path: "str | os.PathLike[str]",
     out_folder_path: "str | os.PathLike[str] | None" = None,
     out_file_name_prefix: str | None = None,
+    out_file_fmt: Literal["png", "jpg", "webp"] = "png",
+    quality: ImageQuality = ImageQuality.medium,
+    skip_thumbnails: bool = False,
     verbose: bool = False,
 ) -> None:
     """Run batch processing for a group of images, and save the processed images as
@@ -66,6 +68,15 @@ def batch_process_images(
         The prefix prepended to the output image file names. If not specified, will
         not add name prefix.
 
+    out_file_fmt: `"png" | "jpg"`
+        The format of the output files. When `"png"` is used, will use quantization.
+
+    quality: `ImageQuality`
+        The quality of the output images.
+
+    skip_thumbnails: `bool`
+        A flag. If specified, will not save thumbnails.
+
     verbose: `bool`
         A flag. If specified, will display the processing progress.
     """
@@ -74,6 +85,11 @@ def batch_process_images(
         out_folder_path = os.path.join(folder_path, "out")
     else:
         out_folder_path = str(out_folder_path)
+    _fmt = out_file_fmt.casefold().strip()
+    if _fmt not in ("png", "jpg", "webp"):
+        raise TypeError(
+            'The argument "out_file_fmt" needs to be specified as jpg, png, or webp.'
+        )
     for finfo in os.scandir(folder_path):
         if not (
             finfo.is_file()
@@ -83,11 +99,14 @@ def batch_process_images(
             continue
         if verbose:
             log.info("Processing: {0}".format(finfo.name))
-        out_file_name = os.path.splitext(finfo.name)[0].strip() + ".jpg"
+        out_file_name = "{0}.{1}".format(os.path.splitext(finfo.name)[0].strip(), _fmt)
         if out_file_name_prefix:
             out_file_name = "{0}-{1}".format(out_file_name_prefix, out_file_name)
         processor(ImageSingle(finfo.path)).save_steam_screenshot(
-            out_folder_path, out_file_name, quality=ImageQuality.medium
+            out_folder_path,
+            out_file_name,
+            quality=quality,
+            skip_thumbnails=skip_thumbnails,
         )
 
 

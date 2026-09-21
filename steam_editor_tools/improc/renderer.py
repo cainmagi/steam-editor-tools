@@ -48,7 +48,6 @@ from .composer import ImageComposer
 from .layer import ImageLayer
 from .variables import steam_color
 
-
 __all__ = ("ImageSingle", "ImageText", "ImageTeX", "ImageMultiLayer")
 
 
@@ -354,6 +353,7 @@ class ImageSingle:
         folder_path: "str | os.PathLike[str]",
         file_name: str,
         quality: str | ImageQuality = ImageQuality.high,
+        skip_thumbnails: bool = False,
     ) -> None:
         """Save the image as a Steam screenshot.
 
@@ -371,15 +371,20 @@ class ImageSingle:
 
         quality: `str | ImageQuality`
             The quality of the image to be saved.
+
+        skip_thumbnails: `bool`
+            A flag. If specified, will not save thumbnails.
         """
         os.makedirs(folder_path, exist_ok=True)
-        thumb_folder = os.path.join(folder_path, "thumbnails")
-        os.makedirs(thumb_folder, exist_ok=True)
         file_path = os.path.join(folder_path, file_name)
-        thumb_path = os.path.join(thumb_folder, file_name)
         self.__class__(img=self.img, fmt=ImageFormat.jpeg).save(
             file_path, quality=quality
         )
+        if skip_thumbnails:
+            return
+        thumb_folder = os.path.join(folder_path, "thumbnails")
+        os.makedirs(thumb_folder, exist_ok=True)
+        thumb_path = os.path.join(thumb_folder, file_name)
         self.__class__(
             img=self.img.resize(
                 (200, max(1, round(self.img.height / self.img.width * 200))),
@@ -1523,6 +1528,7 @@ class ImageMultiLayer:
         folder_path: "str | os.PathLike[str]",
         file_name: str,
         quality: str | ImageQuality = ImageQuality.high,
+        skip_thumbnails: bool = False,
     ) -> None:
         """Save the image as a Steam screenshot.
 
@@ -1540,7 +1546,12 @@ class ImageMultiLayer:
 
         quality: `str | ImageQuality`
             The quality of the image to be saved.
+
+        skip_thumbnails: `bool`
+            A flag. If specified, will not save thumbnails.
         """
         ImageSingle(
             img=self.__render().convert(self.mode), fmt=self.fmt
-        ).save_steam_screenshot(folder_path, file_name, quality)
+        ).save_steam_screenshot(
+            folder_path, file_name, quality, skip_thumbnails=skip_thumbnails
+        )
