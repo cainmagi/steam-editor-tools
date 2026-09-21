@@ -98,7 +98,7 @@ class TeXRenderer:
             with open(path_tex + ".tex", "w", encoding="utf-8") as f:
                 f.write(template.render(equation))
 
-            # Compile LaTeX → DVI
+            # Compile LaTeX -> DVI
             subprocess.run(
                 ["latex", "-interaction=nonstopmode", name_tex + ".tex"],
                 cwd=path,  # current folder
@@ -106,7 +106,7 @@ class TeXRenderer:
                 stdout=None if self.verbose else subprocess.DEVNULL,
             )
 
-            # Convert DVI → PNG with DPI and tight bounding box
+            # Convert DVI -> PNG with DPI and tight bounding box
             subprocess.run(
                 [
                     "dvipng",

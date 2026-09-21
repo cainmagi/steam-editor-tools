@@ -317,7 +317,7 @@ class GuideParser:
             if isinstance(child, NavigableString):
                 if not child.strip():
                     continue
-                # Text directly under <ul>/<ol> → implicit item
+                # Text directly under <ul>/<ol> -> implicit item
                 items.append(
                     ListItemNode(children=[TextNode(text=str(child).strip("\r\n"))])
                 )
