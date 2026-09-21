@@ -9,6 +9,7 @@
 #### :mega: New
 
 1. Add arguments `out_file_fmt`, `quality`, and `skip_thumbnails` to `improc.tools.batch_process_images` to allow more customizations. The option `skip_thumbnails` is also extended to `save_steam_screenshot` methods.
+2. Support `docker compose` (let us make the development simpler).
 
 #### :floppy_disk: Change
 

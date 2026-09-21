@@ -30,6 +30,9 @@ This guide shows how to compile and test this project. Anyone who want to contri
 
 #### 2.1. Install by Docker
 
+> [!tip]
+> You can skip to 2.3. if you want to develop this project. Running `docker compose up` can automatically build the image if it does not exist.
+
 If you choose to use Docker. The only software you need to install is `docker` itself. Check the following guide to install Docker on your device:
 
 https://docs.docker.com/get-started/get-docker/
@@ -74,13 +77,13 @@ To modify the scripts, you may want to clone an Git repository by yourself:
 git clone https://github.com/cainmagi/steam-editor-tools
 ```
 
-Then, you can run the docker container and mount the newly cloned Git folder to the container:
+Then, enter the cloned folder `steam-editor-tools`, and run the following command:
 
 ``` sh
-docker run -it --rm -v <path-to-the-project>:/workdir -p 8080:8080 steam-editor-tools:latest --bash
+docker compose up
 ```
 
-When the container is running, you should be able to see that your are in the container's console.
+When the container is running, you should be able to see a running compose session (not interactive).
 
 Please leave the container open, and follow this guide to **attach your vscode to the running container**:
 
@@ -117,6 +120,14 @@ Now you will be able to start the development. You can do the following things t
     ```
 
 Before submitting a pull request, please ensure that all unit tests (`pytest`) get passed and the codes are formatted by `black`.
+
+After finishing your work, please open the console where the `docker compose` session is running. Hit <kbd>Ctrl</kbd>+<kbd>C</kbd> to stop the session. In the same console, run
+
+```sh
+docker compose down
+```
+
+to release all resources.
 
 ### 3. Work with Conda
 
