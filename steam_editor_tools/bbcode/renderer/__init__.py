@@ -28,7 +28,11 @@ from . import variants
 
 from .configs import AlertTitleConfigs, BBCodeConfig
 from .base import BBCodeRenderer
-from .variants import BBCodeRendererTablePreferred, BBCodeRendererListPreferred
+from .variants import (
+    BBCodeRendererTablePreferred,
+    BBCodeRendererListPreferred,
+    BBCodeRendererForReview,
+)
 
 __all__ = (
     "configs",
@@ -39,6 +43,7 @@ __all__ = (
     "BBCodeConfig",
     "BBCodeRendererTablePreferred",
     "BBCodeRendererListPreferred",
+    "BBCodeRendererForReview",
 )
 
 # Set this local module as the prefered one

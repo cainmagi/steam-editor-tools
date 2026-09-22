@@ -168,6 +168,23 @@ class TestBBCode:
         )
         log.info("Renderer variant BBCodeRendererListPreferred is validated.")
 
+        # Varaint 3: For Review
+        with open(
+            self.get_data_path("conversion-var-review.bbcode"), "r", encoding="utf-8"
+        ) as fobj:
+            _text = fobj.read().strip()
+        assert (
+            stet.bbcode.renderer.BBCodeRendererForReview(
+                is_quote_converted=True,
+                is_codeblock_converted=True,
+                is_h_converted=True,
+            )
+            .render(doc)
+            .strip()
+            == _text
+        )
+        log.info("Renderer variant BBCodeRendererForReview is validated.")
+
     def test_bbcode_customizations(self) -> None:
         """Test
 

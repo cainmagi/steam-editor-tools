@@ -19,6 +19,11 @@ code
 | :----- | :-----: |
 | value1 | value 2 |
 
+|      |      |                                                                      |
+| :--- | :--- | :------------------------------------------------------------------- |
+| 1    | ➕    | A Headless review table.                                             |
+| 2    | ➕    | Under the review mode, the title row is skipped because it is empty. |
+
 ## 1.3. List
 
 - List 1.1
