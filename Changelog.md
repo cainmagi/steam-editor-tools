@@ -17,6 +17,7 @@
 1. Modify the rendering of table rows and remove the `newline_closes` for them.
 2. Blackify the codes with the newest standard.
 3. Format some comments.
+4. Adjust the behavior of the table rendering. Now, (1) empty rows will be skipped, and (2) a cell only containing a bold element will be converted to header cell.
 
 ### 0.5.1 @ 06/18/2026
 

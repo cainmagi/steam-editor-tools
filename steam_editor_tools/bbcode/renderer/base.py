@@ -333,7 +333,7 @@ class BBCodeRenderer:
         [/table]
         ```
         """
-        rows = "".join(self.render(row) for row in node.rows)
+        rows = "".join(self.render(row) for row in node.rows if row.size > 0)
         tag = self.configs.table
         return "[{tag}]\n{rows}[/{tag}]\n\n".format(tag=tag, rows=rows)
 
@@ -345,11 +345,13 @@ class BBCodeRenderer:
 
     def render_table_cell(self, node: TableCellNode) -> str:
         """Specific renderring. Render the table cell (head or data cells)."""
-        content = self.render_children(node.children)
-        if node.header:
+        if len(node.children) == 1 and node.children[0].type == "bold":
+            _children = node.children[0].children
             tag = self.configs.table_head
         else:
-            tag = self.configs.table_data
+            _children = node.children
+            tag = self.configs.table_head if node.header else self.configs.table_data
+        content = self.render_children(_children)
         return "[{tag}]{content}[/{tag}]".format(tag=tag, content=content)
 
     def render_document(self, doc: Document) -> str:
