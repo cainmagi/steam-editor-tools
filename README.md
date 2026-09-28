@@ -60,11 +60,12 @@ Currently, we support the following features:
 
 ### 2.1. Steam information query
 
-| Functionality         | Description                                                                                                                     |
-| :-------------------- | :------------------------------------------------------------------------------------------------------------------------------ |
-| Search app by name    | Given the partial name of an app (game), search for its information, including the ID. Support fuzzy searching.                 |
-| Get app details by ID | Given the app ID, fetch the full details, including the name, description, price, about page, and other information.            |
-| Download images       | Use methods such as `get_header_image()` to get the header image, background image, and official screenshots on the store page. |
+| Functionality         | Description                                                                                                                              |
+| :-------------------- | :--------------------------------------------------------------------------------------------------------------------------------------- |
+| Search app by name    | Given the partial name of an app (game), search for its information, including the ID. Support fuzzy searching.                          |
+| Get app details by ID | Given the app ID, fetch the full details, including the name, description, price, about page, and other information.                     |
+| Download images       | Use methods such as `get_header_image()` to get the header image, background image, and official screenshots on the store page.          |
+| Download achievements | Download the achievements of a specific game. Then, dump the information as a BBCode file and save the icon images in a specific folder. |
 
 ### 2.2. Image editing tools
 

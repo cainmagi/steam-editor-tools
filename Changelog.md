@@ -22,6 +22,7 @@
 4. Adjust the behavior of the table rendering. Now, (1) empty rows will be skipped, and (2) a cell only containing a bold element will be converted to header cell.
 5. Improve the robustness of the test `test_info_get_achievement_list` by removing the comparison of the percentages.
 6. Improve the robustness of the test `test_info_get_achievement_list` by removing the domain name of the URLs in the fetched achievements.
+7. Update the GitHub configurations and the readme file.
 
 ### 0.5.1 @ 06/18/2026
 

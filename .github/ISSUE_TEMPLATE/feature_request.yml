@@ -44,7 +44,7 @@ body:
     attributes:
       label: Steam Editor Tools version
       description: >-
-        e.g. 0.1.x
+        e.g. 0.6.x
     validations:
       required: true
 
