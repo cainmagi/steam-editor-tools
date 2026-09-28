@@ -56,6 +56,7 @@ from .nodes import (
 
 from . import plugins
 from .renderer import BBCodeRenderer, AlertTitleConfigs
+from ..steaminfo.data.achievements import AchievementList, Achievement
 
 __all__ = ("HandleMemory", "DocumentParser")
 _Tag = TypeVar("_Tag", bound=Tag)
@@ -252,9 +253,10 @@ class DocumentParser:
             n_splits = len(str(value).splitlines())
             if n_splits < 2:
                 return "<mark>{0}</mark>".format(value)
-            return '<div class="md-alert"><strong class="md-alert-text">tag_spoiler</strong>{0}</div>'.format(
-                value
-            )
+            return (
+                '<div class="md-alert"><strong class="md-alert-text">'
+                "tag_spoiler</strong>{0}</div>"
+            ).format(value)
 
         parser.add_formatter(
             "spoiler", _render_spoiler, strip=True, swallow_trailing_newline=True
@@ -298,6 +300,57 @@ class DocumentParser:
         return self.parse_html(
             "<html><body>{0}</body></html>".format(parser.format(bbcode))
         )
+
+    def parse_achievements(
+        self,
+        ach_list: AchievementList,
+        ach_parser: collections.abc.Callable[[str, Achievement], Node] | None = None,
+    ) -> Document:
+        """Convert the list of achievements into a document.
+
+        Arguments
+        ---------
+        ach_list: `AchievementList`
+            The achievement list fetched from the online pages. This data collection
+            can be provided by `steaminfo.get_achievement_list`
+
+        ach_parser: `((str, Achievement) -> Node) | None`
+            An optional achievement data parser. It converts the data of a single
+            achievement to a document node. If not specified, will use the default
+            parser.
+
+            The first argument is the icon name. The second argument is the
+            achievement information.
+
+        Returns
+        -------
+        #1: `Document`
+            The converted structured data of the achievement list.
+        """
+
+        def default_parser(_icon: str, _ach: Achievement) -> QuoteNode:
+            """(Private) The default achievement parser."""
+            title = TextNode(text="{0}: {1}".format(template.format(idx), _ach.name))
+            descr = TextNode(text=_ach.description)
+            if _ach.is_hidden:
+                title = SpoilerNode(children=[title])
+                descr = SpoilerNode(children=[descr])
+            return QuoteNode(
+                children=[
+                    TextNode(text=_icon.strip() + "\n"),
+                    HeadingNode(level=1, children=[title]),
+                    ParagraphNode(children=[descr]),
+                ]
+            )
+
+        items: list[Node] = []
+        ach_names = ach_list.get_icon_names()
+        n_digits = len(str(len(ach_list.achievements)))
+        template = "{{0:0{0}d}}".format(n_digits)
+        _ach_parser = ach_parser if ach_parser is not None else default_parser
+        for idx, ach in enumerate(ach_list.achievements):
+            items.append(_ach_parser(ach_names[idx].name, ach))
+        return Document(children=items)
 
     @staticmethod
     def _parse_style(bs_node: Tag) -> dict[str, str]:

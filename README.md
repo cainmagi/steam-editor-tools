@@ -109,6 +109,7 @@ Currently, we offer the following examples in `./examples` folder:
 | :--------------------------- | :-------------------------------------------------------------------------------------- |
 | `markdown_to_bbcode`         | A minimal example converting Markdown to BBCode.                                        |
 | `bbcode_table_to_list`       | An example of loading a BBCode file, and convert the tables inside it to lists.         |
+| `bbcode_achievements`        | Download achievement information of a game and save it as a BBCode list.                |
 | `save_description_of_a_game` | Save the "about the game" section of a Steam app as an HTML file.                       |
 | `download_screenshots`       | Download all official screenshots of a game and create thumbnails of them.              |
 | `download_a_guide`           | Fetch a Steam guide and save it as a BBCode file.                                       |

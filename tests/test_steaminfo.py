@@ -179,3 +179,45 @@ class TestSteamInfo:
         score = self.ssim(stet.ImageSingle(img_eng), stet.ImageSingle(img_cn))
         log.info("SSIM between English and Chinese header images: {0}".format(score))
         assert score < 0.95 and score > 0.4
+
+    def test_info_get_achievement_list(self) -> None:
+        """Test
+
+        Get the list of achievements from an application (game) page.
+        """
+        log = logging.getLogger("steam_editor_tools.test")
+        log.info("Get the achievements of the game with the ID: {0}".format(510420))
+        info = stet.get_achievement_list(app=510420)
+        log.info("Get {0} achievements.".format(len(info.achievements)))
+
+        with open(
+            self.get_data_path("achievements.json"), "r", encoding="utf-8"
+        ) as fobj:
+            _info = stet.steaminfo.AchievementList.model_validate_json(fobj.read())
+
+        assert info == _info
+
+    def test_info_render_achievements(self) -> None:
+        """Test
+
+        Render the achievements as a bbcode file.
+        """
+        log = logging.getLogger("steam_editor_tools.test")
+        log.info("Load achievements list and test the rendering.")
+
+        with open(
+            self.get_data_path("achievements.json"), "r", encoding="utf-8"
+        ) as fobj:
+            info = stet.steaminfo.AchievementList.model_validate_json(fobj.read())
+
+        text = (
+            stet.BBCodeRenderer()
+            .render(stet.DocumentParser().parse_achievements(info))
+            .strip()
+        )
+        with open(
+            self.get_data_path("achievements.bbcode"), "r", encoding="utf-8"
+        ) as fobj:
+            _text = fobj.read().strip()
+
+        assert text == _text

@@ -31,8 +31,8 @@ from . import utils
 from . import data
 from . import query
 
-from .data import AppQuerySimple, AppInfo
-from .query import query_app_by_name_simple, get_app_details
+from .data import AppQuerySimple, AppInfo, AchievementList
+from .query import query_app_by_name_simple, get_app_details, get_achievement_list
 
 __all__ = (
     "utils",
@@ -40,8 +40,10 @@ __all__ = (
     "query",
     "AppQuerySimple",
     "AppInfo",
+    "AchievementList",
     "query_app_by_name_simple",
     "get_app_details",
+    "get_achievement_list",
 )
 
 # Set this local module as the prefered one

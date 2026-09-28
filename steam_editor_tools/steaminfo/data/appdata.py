@@ -1,8 +1,8 @@
 # -*- coding: UTF-8 -*-
 """
-Data
-=====
-@ Steam Editor Tools - Steam Information
+Application Data
+================
+@ Steam Editor Tools - Steam Information: Data
 
 Author
 ------
@@ -15,7 +15,7 @@ MIT License
 
 Description
 -----------
-The data structures for this package.
+The data structures related to the application (game).
 """
 
 from typing_extensions import Literal
@@ -24,7 +24,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from PIL import Image
 
-from .utils import get_image_by_url
+from ..utils import get_image_by_url
 
 __all__ = (
     "PlatformInfo",

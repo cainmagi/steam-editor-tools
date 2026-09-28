@@ -53,7 +53,7 @@ from .improc import (
     ImageTeX,
     ImageMultiLayer,
 )
-from .steaminfo import query_app_by_name_simple, get_app_details
+from .steaminfo import query_app_by_name_simple, get_app_details, get_achievement_list
 
 __all__ = (
     "version",
@@ -82,6 +82,7 @@ __all__ = (
     "ImageMultiLayer",
     "query_app_by_name_simple",
     "get_app_details",
+    "get_achievement_list",
 )
 
 # Set this local module as the prefered one

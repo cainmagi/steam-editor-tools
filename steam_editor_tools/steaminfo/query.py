@@ -23,9 +23,9 @@ import collections.abc
 import httpx
 from rapidfuzz import process, fuzz
 
-from .data import AppQuerySimple, AppInfo
+from .data import AppQuerySimple, AppInfo, AchievementList
 
-__all__ = ("query_app_by_name_simple", "get_app_details")
+__all__ = ("query_app_by_name_simple", "get_app_details", "get_achievement_list")
 
 
 def query_app_by_name_simple(
@@ -135,3 +135,36 @@ def get_app_details(
         return None
 
     return AppInfo.model_validate(data, strict=False)
+
+
+def get_achievement_list(
+    app: int | AppQuerySimple,
+    lang: str = "english",
+    extra_user_profiles: collections.abc.Sequence[str] | None = None,
+) -> AchievementList:
+    """Fetch the achievement list of a specific app (game). The information
+    is directly fetched from the game page.
+
+    Arguments
+    ---------
+    app: `int | AppQuerySimple`
+        The steam app ID or the query object. It is used for locating the game
+        achievement page.
+
+    lang: str
+        The language used for accessing the achievement profile.
+
+    extra_user_profiles: `Sequence[str] | None`
+        A list of extra Steam user profile names. If provided, will attempt to
+        parse more achievement information from the given profiles. Ideally,
+        a profile with all achievements unlocked and another profile with all
+        achievements locked will yield the full information.
+
+    Returns
+    -------
+    #1: `AchievementList`
+        The achievement list detected from the app.
+    """
+    return AchievementList.from_app(
+        app=app, lang=lang, extra_user_profiles=extra_user_profiles
+    )

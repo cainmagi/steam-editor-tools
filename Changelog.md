@@ -12,6 +12,7 @@
 2. Support `docker compose` (let us make the development simpler).
 3. Add the node pure text and size properties for profiling.
 4. Support a new bbcode renderer variant `BBCodeRendererForReview`.
+5. Add features for dumping achievements as BBCode files, see `DocumentParser.parse_achievements(...)` and `get_achievement_list(...)`.
 
 #### :floppy_disk: Change
 
