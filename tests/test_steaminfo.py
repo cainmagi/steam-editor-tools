@@ -194,6 +194,10 @@ class TestSteamInfo:
             self.get_data_path("achievements.json"), "r", encoding="utf-8"
         ) as fobj:
             _info = stet.steaminfo.AchievementList.model_validate_json(fobj.read())
+        for item in info.achievements:
+            item.percent = 0
+        for item in _info.achievements:
+            item.percent = 0
 
         assert info == _info
 

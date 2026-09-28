@@ -20,6 +20,7 @@
 2. Blackify the codes with the newest standard.
 3. Format some comments.
 4. Adjust the behavior of the table rendering. Now, (1) empty rows will be skipped, and (2) a cell only containing a bold element will be converted to header cell.
+5. Improve the robustness of the test `test_info_get_achievement_list` by removing the comparison of the percentages.
 
 ### 0.5.1 @ 06/18/2026
 
