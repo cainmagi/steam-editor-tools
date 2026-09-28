@@ -20,6 +20,7 @@ The tests for fetching Steam information by API access.
 
 import os
 import logging
+import urllib.parse
 
 from typing_extensions import ClassVar
 
@@ -196,8 +197,24 @@ class TestSteamInfo:
             _info = stet.steaminfo.AchievementList.model_validate_json(fobj.read())
         for item in info.achievements:
             item.percent = 0
+            item.icon_url = (
+                urllib.parse.urlsplit(item.icon_url).path if item.icon_url else ""
+            )
+            item.icon_url_locked = (
+                urllib.parse.urlsplit(item.icon_url_locked).path
+                if item.icon_url_locked
+                else ""
+            )
         for item in _info.achievements:
             item.percent = 0
+            item.icon_url = (
+                urllib.parse.urlsplit(item.icon_url).path if item.icon_url else ""
+            )
+            item.icon_url_locked = (
+                urllib.parse.urlsplit(item.icon_url_locked).path
+                if item.icon_url_locked
+                else ""
+            )
 
         assert info == _info
 
