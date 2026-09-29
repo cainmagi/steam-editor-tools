@@ -52,6 +52,8 @@ GFM_ALERT_CLOSE = f"{GFM_ALERTS_PREFIX}_close"
 
 DEFAULT_TITLES = ["TIP", "NOTE", "IMPORTANT", "WARNING", "CAUTION"]
 
+__all__ = ("AlertRuleFactory", "gfm_alerts_plugin")
+
 
 class AlertRuleFactory:
     """Identifies blockquote tokens and transforms them to alert tokens."""
@@ -65,6 +67,29 @@ class AlertRuleFactory:
         parse_nested: bool = True,
         match_case_sensitive: bool = False,
     ) -> None:
+        """Initialization.
+
+        Arguments
+        ---------
+        titles: `Sequence[str] | None`
+            The allowed titles that would be used to detect the alert box.
+
+            If not specified, will use the default list:
+            `("tip", "note", "important", "warning", "caution")`
+
+        icons: `Mapping[str, str] | None`
+            The icon storage. It is a mapping from the title to the icon SVG text.
+
+        class_prefix: `str`
+            The prefix of the class name when the alert box is produced.
+
+        parse_nested: `bool`
+            A flag. If specified, will render the nested alert boxes.
+
+        match_case_sensitive: `bool`
+            A flag. If specified, will match the case of the identifier (title) when
+            rendering the alert boxes.
+        """
         if titles is None:
             titles = DEFAULT_TITLES
         self.titles: set[str] = set(title.strip().casefold() for title in titles)
@@ -80,6 +105,7 @@ class AlertRuleFactory:
     def pattern(
         self,
     ) -> re.Pattern[str]:
+        """The pattern used for matching the alert boxes in the Markdown text."""
         marker_name_re = "\\w+"
         flags = 0 if self.match_case_sensitive else re.IGNORECASE
         return re.compile(
@@ -89,6 +115,7 @@ class AlertRuleFactory:
 
     @staticmethod
     def _get_first_inline(tokens: list[Token], start: int, end: int) -> Token | None:
+        """(Private) Get the first inline text from the candidate block."""
         return next(
             (t for t in tokens[start : end + 1] if t.type == "inline"),
             None,
@@ -100,6 +127,8 @@ class AlertRuleFactory:
         start_index: int,
         end_index: int,
     ) -> None:
+        """(Private) Match the alert pattern and convert the plain block to the
+        alert block in the Markdown text."""
         first_inline = self._get_first_inline(tokens, start_index, end_index)
         if not first_inline:
             return
@@ -137,6 +166,14 @@ class AlertRuleFactory:
         close_token.tag = "div"
 
     def get_rule(self) -> Callable[[StateCore], None]:
+        """Produce the rule plugin of the MarkdownIt.
+
+        Returns
+        -------
+        #1: `(StateCore) -> None`
+            The rule function that will be used as the plugin of the Markdown parser.
+        """
+
         def github_alerts_rule(state: StateCore) -> None:
             tokens = state.tokens
             i = 0
@@ -166,6 +203,32 @@ def gfm_alerts_plugin(
     parse_nested: bool = True,
     match_case_sensitive: bool = False,
 ) -> None:
+    """Add the GitHub-flavored Markdown style alert box plugin.
+
+    Arguments
+    ---------
+    md: `MarkdownIt`
+        The markdown-it handle where the plugin will be injected.
+
+    titles: `Sequence[str] | None`
+        The allowed titles that would be used to detect the alert box.
+
+        If not specified, will use the default list:
+        `("tip", "note", "important", "warning", "caution")`
+
+    icons: `Mapping[str, str] | None`
+        The icon storage. It is a mapping from the title to the icon SVG text.
+
+    class_prefix: `str`
+        The prefix of the class name when the alert box is produced.
+
+    parse_nested: `bool`
+        A flag. If specified, will render the nested alert boxes.
+
+    match_case_sensitive: `bool`
+        A flag. If specified, will match the case of the identifier (title) when
+        rendering the alert boxes.
+    """
     github_alerts_rule = AlertRuleFactory(
         titles=titles,
         icons=icons,

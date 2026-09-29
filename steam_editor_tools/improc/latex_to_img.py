@@ -32,6 +32,8 @@ from .data import TeXTemplate
 from .variables import steam_color, tex_templates as templates
 from ..utils import NamedTempFolder
 
+__all__ = ("TeXRenderer",)
+
 
 class TeXRenderer:
     """The LaTeX renderer.
@@ -62,7 +64,18 @@ class TeXRenderer:
 
     @staticmethod
     def get_template(template: str | TeXTemplate = "default") -> TeXTemplate:
-        """Get the LaTeX rendering template by specifying the template name."""
+        """Get the LaTeX rendering template by specifying the template name.
+
+        Arguments
+        ---------
+        template: `str | TeXTemplate`
+            The name of the template.
+
+        Returns
+        -------
+        #1: `TeXTemplate`
+            The fetched LaTeX template.
+        """
         if isinstance(template, TeXTemplate):
             return template
         if template in ("default", "chinese", "multilines", "multilines_chinese"):
@@ -89,6 +102,11 @@ class TeXRenderer:
 
             Check `improc.variables.tex_templates` to view the currently supported
             templates.
+
+        Returns
+        -------
+        #1: `Image.Image`
+            The image rendered from the LaTeX equation.
         """
         template = self.get_template(template)
         with NamedTempFolder(self.path_temp) as path:

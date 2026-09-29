@@ -68,7 +68,7 @@ class BBCodeRendererTablePreferred(BBCodeRenderer):
     def __list_item_to_table_row(
         self, node: ListItemNode, idx: int, parent_node: ListNode | None = None
     ):
-        """Render a list item as a table row."""
+        """(Private) Render a list item as a table row."""
         row: list[TableCellNode] = []
         if parent_node is None:
             row.append(TableCellNode(header=True, children=[]))
@@ -93,7 +93,18 @@ class BBCodeRendererTablePreferred(BBCodeRenderer):
 
     @override
     def render_list(self, node: ListNode) -> str:
-        """Specific renderring. Render the ordered or unordered list."""
+        """Specific rendering. Render the ordered or unordered list.
+
+        Arguments
+        ---------
+        node: `ListNode`
+            The list to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered list bbcode.
+        """
         rows: list[TableRowNode] = []
         idx = 0
         for item in node.items:
@@ -111,10 +122,22 @@ class BBCodeRendererTablePreferred(BBCodeRenderer):
     ) -> str:
         """Specific renderring. Render the list item.
 
-        The optional argument `idx` is the current index of the item in the list.
+        Arguments
+        ---------
+        node: `ListItemNode`
+            The list item to be rendered.
 
-        The optional `parent_node` is the nearest unordered/ordered list wrapper
-        of this item.
+        idx: `int`
+            The optional argument `idx` is the current index of the item in the list.
+
+        parent_node: `None`
+            The optional `parent_node` is the nearest unordered/ordered list wrapper
+            of this item.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered list item bbcode.
         """
         return BBCodeRenderer.render_table_row(
             self,
@@ -138,6 +161,7 @@ class BBCodeRendererListPreferred(BBCodeRenderer):
 
     @staticmethod
     def __pretret_code_leading_space(codes: str, char: str = "⠀", prev: str = ">⠀"):
+        """(Private) Pretret the leading space of code blocks."""
         codes = inspect.cleandoc("\n" + codes)
         lines = codes.splitlines(keepends=True)
         _lines: list[str] = []
@@ -150,7 +174,7 @@ class BBCodeRendererListPreferred(BBCodeRenderer):
         return "".join(_lines)
 
     def __flatten_table_row(self, row: TableRowNode) -> ListItemNode:
-        """Convert a table row to a list item."""
+        """(Private) Convert a table row to a list item."""
         if not isinstance(row, TableRowNode):
             return ListItemNode(children=[TextNode(text=self.render(row))])
         if not row.cells:
@@ -175,11 +199,22 @@ class BBCodeRendererListPreferred(BBCodeRenderer):
     @override
     def render_code_block(self, node: CodeBlockNode) -> str:
         """Specific renderring. Render the block code as
+
         ```
         > ...
         > ...
         > ...
         ```
+
+        Arguments
+        ---------
+        node: `CodeBlockNode`
+            The code block to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered code block.
         """
         return "[{tag}]\n{code}\n[/{tag}]\n\n".format(
             tag=self.configs.inline_code,
@@ -188,7 +223,18 @@ class BBCodeRendererListPreferred(BBCodeRenderer):
 
     @override
     def render_quote(self, node: QuoteNode) -> str:
-        """Specific renderring. Render the quote block."""
+        """Specific renderring. Render the quote block.
+
+        Arguments
+        ---------
+        node: `QuoteNode`
+            The quote block to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered quote block.
+        """
         hr = "[{0}][/{0}]".format(self.configs.hr)
         extra = "{0}".format(node.cite) if node.cite else ""
         if extra:
@@ -205,7 +251,7 @@ class BBCodeRendererListPreferred(BBCodeRenderer):
         """Specific renderring. Render the table.
 
         This overriden table rendering will convert a table to the following list:
-        ```
+        ``` bbcode
         [list]
         [*] [b]Header[/b] | [b]Header[/b]
         [*] Cell | Cell
@@ -216,6 +262,16 @@ class BBCodeRendererListPreferred(BBCodeRenderer):
         ``` python
         configs.table = "ordered"
         ```
+
+        Arguments
+        ---------
+        node: `TableNode`
+            The table to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered table bbcode.
         """
         rows = [self.__flatten_table_row(row) for row in node.rows if row.size > 0]
         return BBCodeRenderer.render_list(
@@ -224,13 +280,35 @@ class BBCodeRendererListPreferred(BBCodeRenderer):
 
     @override
     def render_table_row(self, node: TableRowNode) -> str:
-        """Specific renderring. Render the table row."""
+        """Specific renderring. Render the table row.
+
+        Arguments
+        ---------
+        node: `TableRowNode`
+            The table row to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered table row.
+        """
         cells = self.__flatten_table_row(node)
         return "⬊ {cells}\n".format(cells=cells)
 
     @override
     def render_table_cell(self, node: TableCellNode) -> str:
-        """Specific renderring. Render the table cell (head or data cells)."""
+        """Specific renderring. Render the table cell (head or data cells).
+
+        Arguments
+        ---------
+        node: `TableCellNode`
+            The table cell to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered table cell.
+        """
         content = self.render_children(node.children)
         if node.header:
             tag = self.configs.bold
@@ -381,12 +459,12 @@ class BBCodeRendererForReview(BBCodeRendererListPreferred):
         Arguments
         ---------
         node: `CodeBlockNode`
-            The data to be rendered.
+            The code block to be rendered.
 
         Returns
         -------
         #1: `str`
-            The formatted code block.
+            The rendered code block.
         """
         if not self.is_codeblock_converted:
             return BBCodeRenderer.render_code_block(self, node)
@@ -433,12 +511,12 @@ class BBCodeRendererForReview(BBCodeRendererListPreferred):
         Arguments
         ---------
         node: `TableNode`
-            The data to be rendered.
+            The table to be rendered.
 
         Returns
         -------
         #1: `str`
-            The formatted table block.
+            The rendered table bbcode.
         """
         if node.rows and node.rows[0].size == 0:
             rows = [self.__flatten_table_row(row) for row in node.rows if row.size > 0]
@@ -449,17 +527,17 @@ class BBCodeRendererForReview(BBCodeRendererListPreferred):
 
     @override
     def render_list(self, node: ListNode) -> str:
-        """Specific renderring. Render the ordered or unordered list.
+        """Specific rendering. Render the ordered or unordered list.
 
         Arguments
         ---------
         node: `ListNode`
-            The data to be rendered.
+            The list to be rendered.
 
         Returns
         -------
         #1: `str`
-            The formatted list block.
+            The rendered list bbcode.
         """
         if node.ordered:
             tag = self.configs.olist

@@ -45,26 +45,32 @@ class ImageLayerContentProtocol(Protocol):
 
     @property
     def width(self) -> int:
-        """Property: The width of the image."""
+        """The width of the image."""
         ...
 
     @property
     def height(self) -> int:
-        """Property: The width of the image."""
+        """The width of the image."""
         ...
 
     @property
     def size(self) -> tuple[int, int]:
-        """Property: The `(width, height)` tuple of the image."""
+        """The `(width, height)` tuple of the image."""
         ...
 
     @property
     def img(self) -> Image.Image:
-        """Property: The accessible pixel-based image maintained by this instance."""
+        """The accessible pixel-based image maintained by this instance."""
         ...
 
     def copy(self) -> Self:
-        """Create a copy of this instance."""
+        """Create a copy of this instance.
+
+        Returns
+        -------
+        #1: `Self`
+            The copy of this instance.
+        """
         ...
 
 
@@ -76,22 +82,22 @@ class ImageLayerContainerProtocol(Protocol):
 
     @property
     def width(self) -> int:
-        """Property: The width of the canvas."""
+        """The width of the canvas."""
         ...
 
     @property
     def height(self) -> int:
-        """Property: The width of the canvas."""
+        """The width of the canvas."""
         ...
 
     @property
     def size(self) -> tuple[int, int]:
-        """Property: The `(width, height)` tuple of the canvas."""
+        """The `(width, height)` tuple of the canvas."""
         ...
 
     @property
     def layers(self) -> "collections.OrderedDict[str, ImageLayer]":
-        """Property: The internal storage of the layers managed by this
+        """The internal storage of the layers managed by this
         container."""
         ...
 
@@ -248,22 +254,22 @@ class ImageLayer:
 
     @property
     def width(self) -> int:
-        """Property: The width of the image."""
+        """The width of the image."""
         return self.img.width
 
     @property
     def height(self) -> int:
-        """Property: The height of the image."""
+        """The height of the image."""
         return self.img.height
 
     @property
     def size(self) -> tuple[int, int]:
-        """Property: The `(width, height)` of the image."""
+        """The `(width, height)` of the image."""
         return self.img.size
 
     @property
     def fmt(self) -> ImageFormat:
-        """Property: Attempt to get the image format from the content. If failed,
+        """Attempt to get the image format from the content. If failed,
         return `ImageFormat.png`."""
         fmt = getattr(self.img, "fmt", None)
         if fmt is None or (not isinstance(fmt, ImageFormat)):
@@ -284,8 +290,8 @@ class ImageLayer:
 
     @property
     def alpha(self) -> Image.Image | None:
-        """Property: Get the alpha channel of this layer. It is equivalent to
-        ```
+        """Get the alpha channel of this layer. It is equivalent to
+        ```python
         self.img.img.getchannel("A")
         ```
         The returned image is in the L mode.
@@ -298,7 +304,13 @@ class ImageLayer:
         return img.getchannel("A")
 
     def copy(self) -> Self:
-        """Get a copy of this instance."""
+        """Get a copy of this instance.
+
+        Returns
+        -------
+        #1: `Self`
+            The copy of the layer.
+        """
         return self.__class__(
             parent=self.parent,
             img=self.img.copy(),
@@ -662,7 +674,7 @@ class ImageLayer:
 
         image_bg: `Image.Image`
             The background image where this layer will be rendered on.
-            This image should be `RGB` or `RGBA`.
+            This image should be in `RGB` or `RGBA`.
 
         cache: `dict[str, _LayerPos] | None`
             The cache used for accelerating the position locating. Typically, this

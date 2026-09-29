@@ -206,7 +206,21 @@ class AchievementList(BaseModel):
                 data.add_extra_info(profile)
         return data
 
-    def add_extra_info(self, user_profile: str) -> None:
+    def add_extra_info(self, user_profile: str) -> Self:
+        """Add extra information to this achievement list.
+
+        Arguments
+        ---------
+        user_profile: `str`
+            The profile name used to compensate the current list. This name needs
+            to be strictly configured as the name in the following link:
+            `https://steamcommunity.com/id/{name}/`
+
+        Returns
+        -------
+        #1: `Self`
+            The updated list. Note that the changes are inplace.
+        """
         with httpx.Client() as client:
             url = "https://steamcommunity.com/id/{0}/stats/{1}".format(
                 user_profile, self.steam_appid
@@ -242,6 +256,7 @@ class AchievementList(BaseModel):
             item = extractOne(name, choices=seen_names, scorer=ratio, score_cutoff=95)
             if item is None:
                 self.achievements[idx].is_hidden = True
+        return self
 
     @staticmethod
     def _download_icon(client: httpx.Client, url: str, out_path: str) -> None:

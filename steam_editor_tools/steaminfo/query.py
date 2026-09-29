@@ -101,8 +101,9 @@ def get_app_details(
 
     Arguments
     ---------
-    query: str
-        The search query. It is used for searching the app name.
+    app: `int | AppQuerySimple`
+        The steam app ID or the query object. It is used for locating the game
+        details.
 
     lang: str
         The language used for searching the app.

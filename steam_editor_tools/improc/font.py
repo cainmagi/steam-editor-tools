@@ -47,20 +47,47 @@ __all__ = ("FontLanguage", "FontNameInfo", "FontInfo", "FontIndexList", "FontLoc
 class FontLanguage(enum.IntEnum):
     """Support LCID mapping from language short name to lang_id of `fontTools`."""
 
-    en = 0x0409  # English
+    en = 0x0409
+    """English."""
+
     en_us = 0x0409
+    """English (United States)."""
+
     en_gb = 0x0809
-    zh = 0x0804  # Chinese
+    """English (United Kingdom)."""
+
+    zh = 0x0804
+    """Chinese."""
+
     zh_cn = 0x0804
+    """Chinese (Simplified, ZH_CN)."""
+
     zh_tw = 0x0404
+    """Chinese (Traditional, ZH_TW)."""
+
     zh_hk = 0x0C04
+    """Chinese (Traditional, ZH_HK)."""
+
     zh_mo = 0x1404
+    """Chinese (Traditional, ZH_Mo)."""
+
     zh_sg = 0x1004
-    ja = 0x0411  # Japanese
-    ko = 0x0412  # Korean
-    fr = 0x040C  # French
-    de = 0x0407  # German
-    es = 0x0C0A  # Spanish
+    """Chinese (Simplified, ZH_SG)."""
+
+    ja = 0x0411
+    """Japanese."""
+
+    ko = 0x0412
+    """Korean."""
+
+    fr = 0x040C
+    """French."""
+
+    de = 0x0407
+    """German."""
+
+    es = 0x0C0A
+    """Spanish."""
 
 
 class FontNameInfo(BaseModel):
@@ -206,6 +233,11 @@ class FontIndexList:
         fobj: `str | os.PathLike[str] | IO[str]`
             The path to the output file or a file-like object used for saving the
             file.
+
+        Returns
+        -------
+        #1: `Self`
+            The font index list loaded from the file.
         """
         with contextlib.ExitStack() as stk:
             if isinstance(fobj, (str, os.PathLike)):
@@ -223,7 +255,7 @@ class FontIndexList:
 
     @property
     def langs(self) -> list[FontLanguage]:
-        """Property: Get the supported languages."""
+        """Get the supported languages."""
         res = set(
             itertools.chain.from_iterable(
                 set(font.names.keys()) for font in self.__fonts
@@ -233,14 +265,14 @@ class FontIndexList:
 
     @property
     def fonts(self) -> list[FontInfo]:
-        """Property: List of all indexed fonts."""
+        """List of all indexed fonts."""
         fonts = []
         fonts.extend(self.__fonts)
         return fonts
 
     @property
     def lang_stats(self) -> dict[FontLanguage, int]:
-        """Property: Get the count of fonts for each language."""
+        """Get the count of fonts for each language."""
         res = collections.Counter(
             itertools.chain.from_iterable(
                 set(font.names.keys()) for font in self.__fonts
@@ -316,14 +348,14 @@ class FontIndexList:
 
     @staticmethod
     def _query_preproc(name: str) -> str:
-        """The pre-processor of the font name used for querying."""
+        """(Private) The pre-processor of the font name used for querying."""
         return name.strip().casefold()
 
     @staticmethod
     def _query_ratio(
         name_1: str, name_2: str, *, score_cutoff: float | None = 0.0
     ) -> float:
-        """A weighted ratio for searching the fonts.
+        """(Private) A weighted ratio for searching the fonts.
 
         If only using partial ratio, there may be many candidates with 100 score.
         This special ratio can distiguish the exact match from other matches.
@@ -484,19 +516,55 @@ class FontLocator:
     @overload
     def __init__(
         self, dirs: "str | os.PathLike[str]", include_system_dirs: bool = True
-    ): ...
+    ) -> None:
+        """Initialization.
+
+        Arguments
+        ---------
+        dirs: `str | PathLike[str]`
+            The path to the directory defining the scope of searching the fonts.
+
+        include_system_dirs: `bool`
+            A `Flag`. Whether to search the system font directories.
+        """
+        ...
 
     @overload
     def __init__(
         self,
         dirs: "collections.abc.Sequence[str | os.PathLike[str]]",
         include_system_dirs: bool = True,
-    ): ...
+    ) -> None:
+        """Initialization.
+
+        Arguments
+        ---------
+        dirs: `Sequence[str | PathLike[str]]`
+            Several paths to directories defining the scope of searching the
+            fonts. The order of the given path is the priority. The former path
+            will have higher priority than the next paths.
+
+        include_system_dirs: `bool`
+            A `Flag`. Whether to search the system font directories.
+        """
+        ...
 
     @overload
-    def __init__(self, dirs: None = None, include_system_dirs: bool = True): ...
+    def __init__(self, dirs: None = None, include_system_dirs: bool = True) -> None:
+        """Initialization.
 
-    def __init__(self, dirs: Any = None, include_system_dirs: bool = True):
+        Arguments
+        ---------
+        dirs: `None`
+            The scope used for searching fonts. When it is not provided, will not
+            search any user-specified folder.
+
+        include_system_dirs: `bool`
+            A `Flag`. Whether to search the system font directories.
+        """
+        ...
+
+    def __init__(self, dirs: Any = None, include_system_dirs: bool = True) -> None:
         """Initialization.
 
         Arguments
@@ -526,7 +594,7 @@ class FontLocator:
 
     @property
     def font_dirs(self) -> tuple[str, ...]:
-        """Property: The read-only searching scope of the font directories.
+        """The read-only searching scope of the font directories.
 
         All folders are guaranteed to exist.
 
@@ -542,17 +610,17 @@ class FontLocator:
 
     @functools.cached_property
     def langs(self) -> list[str]:
-        """Property: Get the supported language short names."""
+        """Get the supported language short names."""
         return list(val.name for val in self.font_index.langs)
 
     @property
     def fonts(self) -> list[FontInfo]:
-        """Property: List of all indexed fonts."""
+        """List of all indexed fonts."""
         return self.font_index.fonts
 
     @functools.cached_property
     def lang_stats(self) -> dict[str, int]:
-        """Property: Get the count of fonts for each language."""
+        """Get the count of fonts for each language."""
         return {key.name: val for key, val in self.font_index.lang_stats.items()}
 
     def to_file(self, fobj: str | os.PathLike[str] | IO[str]) -> None:
@@ -588,6 +656,11 @@ class FontLocator:
         fobj: `str | os.PathLike[str] | IO[str]`
             The path to the output file or a file-like object used for saving the
             file.
+
+        Returns
+        -------
+        #1: `Self`
+            The font locator initialized from the cached data.
         """
         with contextlib.ExitStack() as stk:
             if isinstance(fobj, (str, os.PathLike)):

@@ -64,6 +64,7 @@ class DeletedNode(BaseModel):
     """
 
     type: Literal["deleted"] = "deleted"
+    """The type identifer of this document node."""
 
     @property
     def size(self) -> int:
@@ -86,7 +87,10 @@ class TextNode(BaseModel):
     """
 
     type: Literal["text"] = "text"
+    """The type identifer of this document node."""
+
     text: str
+    """The pure text in the node."""
 
     @property
     def size(self) -> int:
@@ -106,6 +110,7 @@ class LineBreakNode(BaseModel):
     """
 
     type: Literal["br"] = "br"
+    """The type identifer of this document node."""
 
     @property
     def size(self) -> int:
@@ -125,6 +130,7 @@ class HorizontalRuleNode(BaseModel):
     """
 
     type: Literal["hr"] = "hr"
+    """The type identifer of this document node."""
 
     @property
     def size(self) -> int:
@@ -144,7 +150,10 @@ class InlineCodeNode(BaseModel):
     """
 
     type: Literal["inline_code"] = "inline_code"
+    """The type identifer of this document node."""
+
     code: str
+    """The code text in the node."""
 
     @property
     def size(self) -> int:
@@ -173,7 +182,10 @@ class CodeBlockNode(BaseModel):
     """
 
     type: Literal["code_block"] = "code_block"
+    """The type identifer of this document node."""
+
     code: str
+    """The multi-line code text in the node."""
 
     @property
     def size(self) -> int:
@@ -190,9 +202,10 @@ class CodeBlockNode(BaseModel):
 
 
 class NodePureText(BaseModel):
-    """The mixin used for fetching the"""
+    """The mixin used for fetching the pure-text APIs."""
 
     children: "list[Node]"
+    """The children of the node."""
 
     @property
     def size(self) -> int:
@@ -212,7 +225,10 @@ class BoldNode(NodePureText):
     """
 
     type: Literal["bold"] = "bold"
+    """The type identifer of this document node."""
+
     children: "list[Node]"
+    """The children of the node."""
 
 
 class ItalicNode(NodePureText):
@@ -222,7 +238,10 @@ class ItalicNode(NodePureText):
     """
 
     type: Literal["italic"] = "italic"
+    """The type identifer of this document node."""
+
     children: "list[Node]"
+    """The children of the node."""
 
 
 class UnderlineNode(NodePureText):
@@ -232,7 +251,10 @@ class UnderlineNode(NodePureText):
     """
 
     type: Literal["underline"] = "underline"
+    """The type identifer of this document node."""
+
     children: "list[Node]"
+    """The children of the node."""
 
 
 class StrikeNode(NodePureText):
@@ -242,7 +264,10 @@ class StrikeNode(NodePureText):
     """
 
     type: Literal["strike"] = "strike"
+    """The type identifer of this document node."""
+
     children: "list[Node]"
+    """The children of the node."""
 
 
 class SpoilerNode(NodePureText):
@@ -258,7 +283,10 @@ class SpoilerNode(NodePureText):
     """
 
     type: Literal["spoiler"] = "spoiler"
+    """The type identifer of this document node."""
+
     children: "list[Node]"
+    """The children of the node."""
 
 
 class LinkNode(NodePureText):
@@ -270,8 +298,13 @@ class LinkNode(NodePureText):
     """
 
     type: Literal["link"] = "link"
+    """The type identifer of this document node."""
+
     href: str
+    """The URL where the link refers."""
+
     children: "list[Node]"
+    """The children of the node."""
 
 
 # Block structure
@@ -285,8 +318,13 @@ class HeadingNode(NodePureText):
     """
 
     type: Literal["heading"] = "heading"
+    """The type identifer of this document node."""
+
     level: int = Field(ge=1, le=6)
+    """The level of the title"""
+
     children: "list[Node]"
+    """The children of the node."""
 
 
 class ParagraphNode(NodePureText):
@@ -296,7 +334,10 @@ class ParagraphNode(NodePureText):
     """
 
     type: Literal["paragraph"] = "paragraph"
+    """The type identifer of this document node."""
+
     children: "list[Node]"
+    """The children of the node."""
 
 
 class QuoteNode(NodePureText):
@@ -306,8 +347,13 @@ class QuoteNode(NodePureText):
     """
 
     type: Literal["quote"] = "quote"
+    """The type identifer of this document node."""
+
     cite: str = ""
+    """The cited author of the node."""
+
     children: "list[Node]"
+    """The children of the node."""
 
 
 class AlertNode(NodePureText):
@@ -339,8 +385,13 @@ class AlertNode(NodePureText):
     """
 
     type: Literal["alert"] = "alert"
+    """The type identifer of this document node."""
+
     title: str = "Caution"
+    """The title of the alert block."""
+
     children: "list[Node]"
+    """The children of the node."""
 
 
 class ListItemNode(NodePureText):
@@ -350,7 +401,10 @@ class ListItemNode(NodePureText):
     """
 
     type: Literal["list_item"] = "list_item"
+    """The type identifer of this document node."""
+
     children: "list[Node]"
+    """The children of the node."""
 
 
 class ListNode(BaseModel):
@@ -362,8 +416,13 @@ class ListNode(BaseModel):
     """
 
     type: Literal["list"] = "list"
+    """The type identifer of this document node."""
+
     ordered: bool
+    """A flag. If specified, the list will be recognized as an ordered list."""
+
     items: list[ListItemNode]
+    """The list items in this list."""
 
     @property
     def size(self) -> int:
@@ -388,8 +447,13 @@ class TableCellNode(NodePureText):
     """
 
     type: Literal["table_cell"] = "table_cell"
+    """The type identifer of this document node."""
+
     header: bool
+    """A flag. If specified, this cell will be treated as a header cell."""
+
     children: "list[Node]"
+    """The children of the node."""
 
 
 class TableRowNode(BaseModel):
@@ -399,7 +463,10 @@ class TableRowNode(BaseModel):
     """
 
     type: Literal["table_row"] = "table_row"
+    """The type identifer of this document node."""
+
     cells: list[TableCellNode]
+    """The cells in the row."""
 
     @property
     def size(self) -> int:
@@ -419,7 +486,10 @@ class TableNode(BaseModel):
     """
 
     type: Literal["table"] = "table"
+    """The type identifer of this document node."""
+
     rows: list[TableRowNode]
+    """The rows in the table."""
 
     @property
     def size(self) -> int:
@@ -447,7 +517,10 @@ class Document(BaseModel):
     """
 
     type: Literal["document"] = "document"
+    """The type identifer of this document node."""
+
     children: "list[Node]"
+    """The children of the document."""
 
     @property
     def size(self) -> int:

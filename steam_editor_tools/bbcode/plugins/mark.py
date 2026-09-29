@@ -32,7 +32,13 @@ MARK_RE = re.compile(r"==(.+?)==")
 
 
 def mark_plugin(md: MarkdownIt) -> None:
-    """Simple plugin: replace `==text==` with `<mark>text</mark>` using regex."""
+    """Simple plugin: replace `==text==` with `<mark>text</mark>` using regex.
+
+    Arguments
+    ---------
+    md: `MarkdownIt`
+        The markdown-it handle where the plugin will be injected.
+    """
 
     def render_text(
         self: RendererHTML,

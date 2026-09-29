@@ -39,6 +39,7 @@ from .composer import ImageComposer, ImageComposerMode
 __all__ = (
     "ImageEffectAbstract",
     "ImageEffectGlow",
+    "ImageEffectShadow",
     "ImageEffectStroke",
     "ImageEffectBevel",
 )
@@ -287,6 +288,23 @@ class ImageEffectGlow(ImageEffectAbstract):
     """The RGB/RGBA color of the glowing light."""
 
     def effect(self, image_fg: Image.Image) -> Image.Image | None:
+        """Generate the effect image from the given image.
+
+        Arguments
+        ---------
+        image_fg: `Image.Image`
+            The image used for genereating this effect.
+
+        Returns
+        -------
+        #1: `Image.Image | None`
+            The generated effect image. This image should be `RGBA`, and the size
+            can be different from the input image.
+
+            This image should be center-aligned with the input `image_fg`.
+
+            Will return `None` if the effect should be skipped.
+        """
         if self.size <= 0:
             return None
         color = ImageColor.getcolor(self.color, "RGBA")
@@ -334,6 +352,23 @@ class ImageEffectShadow(ImageEffectAbstract):
     """The RGB/RGBA color of the shadow."""
 
     def effect(self, image_fg: Image.Image) -> Image.Image | None:
+        """Generate the effect image from the given image.
+
+        Arguments
+        ---------
+        image_fg: `Image.Image`
+            The image used for genereating this effect.
+
+        Returns
+        -------
+        #1: `Image.Image | None`
+            The generated effect image. This image should be `RGBA`, and the size
+            can be different from the input image.
+
+            This image should be center-aligned with the input `image_fg`.
+
+            Will return `None` if the effect should be skipped.
+        """
         if self.size <= 0:
             return None
         color = ImageColor.getcolor(self.color, "RGBA")
@@ -379,6 +414,23 @@ class ImageEffectStroke(ImageEffectAbstract):
     """The RGB/RGBA color of the stroke."""
 
     def effect(self, image_fg: Image.Image) -> Image.Image | None:
+        """Generate the effect image from the given image.
+
+        Arguments
+        ---------
+        image_fg: `Image.Image`
+            The image used for genereating this effect.
+
+        Returns
+        -------
+        #1: `Image.Image | None`
+            The generated effect image. This image should be `RGBA`, and the size
+            can be different from the input image.
+
+            This image should be center-aligned with the input `image_fg`.
+
+            Will return `None` if the effect should be skipped.
+        """
         if self.size <= 0:
             return None
         color = ImageColor.getcolor(self.color, "RGBA")
@@ -521,7 +573,7 @@ class ImageEffectBevel(ImageEffectAbstract):
 
         Arguments
         ---------
-        f: `Sequence[Sequence[float]]`
+        f2d: `Sequence[Sequence[float]]`
             The edge mask list (2D list of floats (h x w), 0 for edge pixels,
             +inf for others).
 
@@ -748,6 +800,23 @@ class ImageEffectBevel(ImageEffectAbstract):
         return _gradient
 
     def effect(self, image_fg: Image.Image) -> Image.Image | None:
+        """Generate the effect image from the given image.
+
+        Arguments
+        ---------
+        image_fg: `Image.Image`
+            The image used for genereating this effect.
+
+        Returns
+        -------
+        #1: `Image.Image | None`
+            The generated effect image. This image should be `RGBA`, and the size
+            can be different from the input image.
+
+            This image should be center-aligned with the input `image_fg`.
+
+            Will return `None` if the effect should be skipped.
+        """
         if self.max_distance <= 0 or self.opacity <= 0:
             return None
         if self.threshold == 0 or self.threshold == 255:
@@ -764,6 +833,28 @@ class ImageEffectBevel(ImageEffectAbstract):
     def compose(
         self, comp: ImageComposer, image_bg: Image.Image, image_fg: Image.Image
     ) -> Image.Image:
+        """Compose the background and foreground images.
+
+        This method do not need to be overriden unless the subclass needs to change
+        the behavior of image blending.
+
+        Arguments
+        ---------
+        comp: `ImageComposer`
+            The composer that is used for merging images.
+
+        image_bg: `Image.Image`
+            The background image where the effect will be rendered. This image should
+            be `RGB` or `RGBA`.
+
+        image_fg: `Image.Image`
+            The image used for genereating this effect.
+
+        Returns
+        -------
+        #1: `Image.Image`
+            The composed image.
+        """
         mode = self.mode
 
         mode_bg = image_bg.mode

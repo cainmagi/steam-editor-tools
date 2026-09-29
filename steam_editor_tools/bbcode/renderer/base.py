@@ -53,30 +53,51 @@ class CurrentListNode(BaseModel):
     """The currently maintained list node in the context."""
 
     node: ListNode
+    """The current list node."""
+
     idx: int = 0
+    """The index of the list node in the cache."""
 
 
 class StackContext(Generic[T]):
     """A context used for preserving a stack of variables."""
 
     def __init__(self, dtype: type[T]) -> None:
+        """Initialization.
+
+        Arguments
+        ---------
+        dtype: `type[T]`
+            The data type of the context.
+        """
         self.__dtype: type[T] = dtype
         self.__data: list[T] = []
 
     @property
     def dtype(self) -> type[T]:
-        """Property: The type of the context item."""
+        """The type of the context item."""
         return self.__dtype
 
     @property
     def latest(self) -> T | None:
-        """Property: The most recent context value. If nothing is in the context,
+        """The most recent context value. If nothing is in the context,
         will be `None`."""
         return self.__data[-1] if self.__data else None
 
     @contextlib.contextmanager
     def stack(self, val: T) -> collections.abc.Generator[Self, None, None]:
-        """Add a value to the stack."""
+        """Add a value to the stack.
+
+        Arguments
+        ---------
+        val: `T`
+            The value to be added to the stack.
+
+        Returns
+        -------
+        #1: `Self`
+            The context returns itself.
+        """
         if not isinstance(val, self.__dtype):
             raise TypeError(
                 'The value "{0}" is not typed by {1}.'.format(val, self.__dtype)
@@ -218,37 +239,97 @@ class BBCodeRenderer:
 
     # Helpers
     def render_children(self, children: list[Node]) -> str:
-        """Helper method. Render a list of children nodes into BBCode."""
+        """Helper method. Render a list of children nodes into BBCode.
+
+        Arguments
+        ---------
+        children: `list[Node]`
+            The children to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered children bbcode.
+        """
         return "".join(self.render(child) for child in children).strip("\r\n")
 
     def wrap_children(
         self, children: list[Node], start: str, end: str | None = None
     ) -> str:
-        """Helper method. Render `children` and surrount the results by:
-        ```
+        """Helper method. Render `children` and surround the results by:
+
+        ``` bbcode
         [start]children[/end]
         ```
+
+        Arguments
+        ---------
+        children: `list[Node]`
+            The children to be rendered with the wrapper.
+
+        start: `str`
+            The "start" tag prepended to the children.
+
+        end: `str`
+            The "end" tag appended to the children.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered and wrapped children bbcode.
         """
         if end is None:
             end = start
         return "[{0}]{1}[/{2}]".format(start, self.render_children(children), end)
 
     def render_text(self, node: TextNode) -> str:
-        """Specific renderring. Render the plain text into BBCode."""
+        """Specific renderring. Render the plain text into BBCode.
+
+        Arguments
+        ---------
+        node: `TextNode`
+            The pure text to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered text bbcode.
+        """
         return node.text
 
     def render_inline_code(self, node: InlineCodeNode) -> str:
-        """Specific renderring. Render the inline code."""
+        """Specific renderring. Render the inline code.
+
+        Arguments
+        ---------
+        node: `InlineCodeNode`
+            The inline code to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered inline code bbcode.
+        """
         tag = self.configs.inline_code
         return "[{tag}]{code}[/{tag}]".format(tag=tag, code=node.code)
 
     def render_code_block(self, node: CodeBlockNode) -> str:
         """Specific renderring. Render the block code as
-        ```
+        ``` bbcode
         [code]
         ...
         [/code]
         ```
+
+        Arguments
+        ---------
+        node: `CodeBlockNode`
+            The code block to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered code block.
         """
         tag = self.configs.code_block
 
@@ -259,8 +340,18 @@ class BBCodeRenderer:
     def render_link(self, node: LinkNode) -> str:
         """Specific renderring. Render the url (link).
 
-        Note that there is an exception. If href is the same as text, will render the
+        Note that there is an exception. If `href` is the same as text, will render the
         plain text directly.
+
+        Arguments
+        ---------
+        node: `LinkNode`
+            The link/url to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered url bbcode.
         """
         text = self.render_children(node.children)
         if node.href == text:
@@ -269,17 +360,50 @@ class BBCodeRenderer:
         return "[{tag}={href}]{text}[/{tag}]".format(tag=tag, href=node.href, text=text)
 
     def render_heading(self, node: HeadingNode) -> str:
-        """Specific renderring. Render the heading (title)."""
+        """Specific renderring. Render the heading (title).
+
+        Arguments
+        ---------
+        node: `HeadingNode`
+            The heading/title to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered title bbcode.
+        """
         content = self.render_children(node.children)
         tag = self.configs.get_h_tag_by_level(node.level)
         return "[{tag}]{content}[/{tag}]\n".format(tag=tag, content=content)
 
     def render_paragraph(self, node: ParagraphNode) -> str:
-        """Specific renderring. Render the paragraph."""
+        """Specific renderring. Render the paragraph.
+
+        Arguments
+        ---------
+        node: `ParagraphNode`
+            The paragraph to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered paragraph bbcode.
+        """
         return self.render_children(node.children) + "\n\n"
 
     def render_quote(self, node: QuoteNode) -> str:
-        """Specific renderring. Render the quote block."""
+        """Specific renderring. Render the quote block.
+
+        Arguments
+        ---------
+        node: `QuoteNode`
+            The quote block to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered quote block.
+        """
         tag = self.configs.quote
         extra = "={0}".format(node.cite) if node.cite else ""
         return "[{tag}{extra}]\n{children}\n[/{tag}]\n\n".format(
@@ -287,7 +411,18 @@ class BBCodeRenderer:
         )
 
     def render_alert(self, node: AlertNode) -> str:
-        """Specific renderring. Render the alert block."""
+        """Specific renderring. Render the alert block.
+
+        Arguments
+        ---------
+        node: `AlertNode`
+            The alert block to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered alert block bbcode.
+        """
         title = node.title.strip().casefold()
         tag = self.configs.alert.render_title_as_tag(title)
         if (not tag) or tag == self.configs.quote:
@@ -298,7 +433,18 @@ class BBCodeRenderer:
         )
 
     def render_list(self, node: ListNode) -> str:
-        """Specific renderring. Render the ordered or unordered list."""
+        """Specific rendering. Render the ordered or unordered list.
+
+        Arguments
+        ---------
+        node: `ListNode`
+            The list to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered list bbcode.
+        """
         if node.ordered:
             tag = self.configs.olist
         else:
@@ -312,10 +458,22 @@ class BBCodeRenderer:
     ) -> str:
         """Specific renderring. Render the list item.
 
-        The optional argument `idx` is the current index of the item in the list.
+        Arguments
+        ---------
+        node: `ListItemNode`
+            The list item to be rendered.
 
-        The optional `parent_node` is the nearest unordered/ordered list wrapper
-        of this item.
+        idx: `int`
+            The optional argument `idx` is the current index of the item in the list.
+
+        parent_node: `None`
+            The optional `parent_node` is the nearest unordered/ordered list wrapper
+            of this item.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered list item bbcode.
         """
         tag = self.configs.list_item
         return "[{tag}]{content}\n".format(
@@ -326,25 +484,57 @@ class BBCodeRenderer:
         """Specific renderring. Render the table.
 
         BBCode table syntax varies by forum. We adopt the Steam's format.
-        ```
+        ``` bbcode
         [table]
         [tr][th]Header[/th][th]Header[/th][/tr]
         [tr][td]Cell[/td][td]Cell[/td][/tr]
         [/table]
         ```
+
+        Arguments
+        ---------
+        node: `TableNode`
+            The table to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered table bbcode.
         """
         rows = "".join(self.render(row) for row in node.rows if row.size > 0)
         tag = self.configs.table
         return "[{tag}]\n{rows}[/{tag}]\n\n".format(tag=tag, rows=rows)
 
     def render_table_row(self, node: TableRowNode) -> str:
-        """Specific renderring. Render the table row."""
+        """Specific renderring. Render the table row.
+
+        Arguments
+        ---------
+        node: `TableRowNode`
+            The table row to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered table row.
+        """
         cells = "".join(self.render(cell) for cell in node.cells)
         tag = self.configs.table_row
         return "[{tag}]{cells}[/{tag}]\n".format(tag=tag, cells=cells)
 
     def render_table_cell(self, node: TableCellNode) -> str:
-        """Specific renderring. Render the table cell (head or data cells)."""
+        """Specific renderring. Render the table cell (head or data cells).
+
+        Arguments
+        ---------
+        node: `TableCellNode`
+            The table cell to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered table cell.
+        """
         if len(node.children) == 1 and node.children[0].type == "bold":
             _children = node.children[0].children
             tag = self.configs.table_head
@@ -355,5 +545,16 @@ class BBCodeRenderer:
         return "[{tag}]{content}[/{tag}]".format(tag=tag, content=content)
 
     def render_document(self, doc: Document) -> str:
-        """Specific renderring. Render the whole document."""
+        """Specific renderring. Render the whole document.
+
+        Arguments
+        ---------
+        doc: `Document`
+            The document to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The rendered document.
+        """
         return self.render_children(doc.children).rstrip() + "\n"

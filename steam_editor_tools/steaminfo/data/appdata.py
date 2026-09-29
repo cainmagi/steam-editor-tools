@@ -46,8 +46,13 @@ class PlatformInfo(BaseModel):
     model_config = ConfigDict(extra="ignore")
 
     windows: bool
+    """A flag specifying whether Windows is supported."""
+
     mac: bool
+    """A flag specifying whether Mac is supported."""
+
     linux: bool
+    """A flag specifying whether Linux is supported."""
 
 
 class MetacriticInfo(BaseModel):
@@ -56,7 +61,10 @@ class MetacriticInfo(BaseModel):
     model_config = ConfigDict(extra="ignore")
 
     score: int
+    """The metacritic score of the game."""
+
     url: str
+    """The link to the metacritic page."""
 
 
 class AppCategory(BaseModel):
@@ -65,7 +73,10 @@ class AppCategory(BaseModel):
     model_config = ConfigDict(extra="ignore")
 
     id: int
+    """The identifier (code) of the game category."""
+
     description: str
+    """The description of the category."""
 
 
 class AppDate(BaseModel):
@@ -74,7 +85,10 @@ class AppDate(BaseModel):
     model_config = ConfigDict(extra="ignore")
 
     coming_soon: bool = False
+    """A flag specifying whether the game is marked as "comming soon"."""
+
     date: str
+    """The release date of the first edition."""
 
 
 class AppSupportInfo(BaseModel):
@@ -83,7 +97,10 @@ class AppSupportInfo(BaseModel):
     model_config = ConfigDict(extra="ignore")
 
     url: str = ""
+    """The supporter URL."""
+
     email: str = ""
+    """The supporter Email."""
 
 
 class AppScreenShot(BaseModel):
@@ -143,7 +160,13 @@ class AppMovie(BaseModel):
     """Whether the movie will be displayed in highlights."""
 
     def get_thumbnail(self) -> Image.Image | None:
-        """Download the thumbnail image by its url."""
+        """Download the thumbnail image by its url.
+
+        Returns
+        -------
+        #1: `Image.Image | None`
+            Get the thumbnail image object if it exists.
+        """
         return get_image_by_url(self.thumbnail)
 
 
@@ -195,7 +218,13 @@ class AppQuerySimple(BaseModel):
     """The supported platform."""
 
     def get_tiny_image(self) -> Image.Image | None:
-        """Download the tiny image by its url."""
+        """Download the tiny image by its url.
+
+        Returns
+        -------
+        #1: `Image.Image | None`
+            Get the tiny image object if it exists.
+        """
         return get_image_by_url(self.tiny_image)
 
 

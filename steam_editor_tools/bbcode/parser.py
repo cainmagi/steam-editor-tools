@@ -189,7 +189,7 @@ class DocumentParser:
 
         Arguments
         ---------
-        md: `str | IO[str]`
+        html: `str | IO[str]`
             The HTML text or HTML file-like object.
 
         Returns

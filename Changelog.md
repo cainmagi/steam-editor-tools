@@ -4,6 +4,12 @@
 
 ## CHANGELOG
 
+### 0.6.1 @ 09/29/2026
+
+#### :wrench: Fix
+
+1. Fix: Correct the wrong and missing docstrings.
+
 ### 0.6.0 @ 09/21/2026
 
 #### :mega: New

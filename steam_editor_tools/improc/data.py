@@ -49,7 +49,15 @@ class TeXTemplate(BaseModel):
     def render(self, text: str) -> str:
         """Render the content of the full `.tex` file.
 
-        Here `text` should be an equation.
+        Arguments
+        ---------
+        text: `str`
+            An equation to be rendered.
+
+        Returns
+        -------
+        #1: `str`
+            The LaTeX equation rendered as the `.tex` file content.
         """
         return "{0}{1}{2}".format(self.prep, text.strip(), self.end)
 
@@ -89,15 +97,30 @@ class ImageFontSize(enum.Enum):
     """
 
     h1 = "h1"
+    """The font size designed with heading level 1 (main title)."""
+
     h2 = "h2"
+    """The font size designed with heading level 2 (section title)."""
+
     h3 = "h3"
+    """The font size designed with heading level 3 (subsection title)."""
+
     h4 = "h4"
+    """The font size designed with heading level 4 (small title)."""
 
     @classmethod
     def from_str(cls: type[Self], val: str | Self) -> Self:
         """Use a `str` to define this size.
 
-        The argument `val` should be `h1`-`h4`.
+        Arguments
+        ---------
+        val: `str | Self`:
+            Should be `h1`-`h4`.
+
+        Returns
+        -------
+        #1: `Self`
+            The size defined from `val`.
         """
         if isinstance(val, cls):
             return val
@@ -200,17 +223,32 @@ class ImageFormat(enum.Enum):
     """
 
     png = "png"
+    """The PNG format (lossless, allowing transparent background)."""
+
     jpeg = "jpeg"
+    """The JPEG format (lossy, no transparent background)."""
+
     webp = "webp"
+    """The PNG format (lossy, allowing transparent background)."""
+
     webp_lossless = "webp_lossless"
+    """The PNG format (lossless, allowing transparent background)."""
 
     @classmethod
     def from_str(cls: type[Self], val: str | Self) -> Self:
         """Use a `str` to define this size.
 
-        The argument `val` should be a file name extension without the staring dot.
+        Arguments
+        ---------
+        val: `str | Self`
+            Should be a file name extension without the staring dot.
 
-        For example `jpg` or `jpeg` will be converted to `ImageFormat.jpeg`.
+            For example `jpg` or `jpeg` will be converted to `ImageFormat.jpeg`.
+
+        Returns
+        -------
+        #1: `Self`
+            The converted format enum object.
         """
         if isinstance(val, cls):
             return val
@@ -223,7 +261,18 @@ class ImageFormat(enum.Enum):
 
     @classmethod
     def from_img(cls: type[Self], img: Image.Image) -> Self:
-        """Get the appropriate image format by inferring from the image object."""
+        """Get the appropriate image format by inferring from the image object.
+
+        Arguments
+        ---------
+        img: `Image.Image`
+            The PIL image object used to infer the format.
+
+        Returns
+        -------
+        #1: `Self`
+            The converted format enum object.
+        """
         if img.format is not None:
             return cls.from_str(img.format)
         img_mode = img.mode
@@ -235,7 +284,13 @@ class ImageFormat(enum.Enum):
             return cls(value="webp")
 
     def as_fmt_str(self) -> str:
-        """Convert this value as the format name that can be used in pillow."""
+        """Convert this value as the format name that can be used in pillow.
+
+        Returns
+        -------
+        #1: `str`
+            The format name converted from this enum object.
+        """
         if self.value == "webp_lossless":
             return "webp"
         else:
@@ -249,8 +304,13 @@ class ImageQuality(enum.Enum):
     """
 
     low = "low"
+    """The low quality, usually implemented as 60."""
+
     medium = "medium"
+    """The medium quality, usually implemented as 75."""
+
     high = "high"
+    """The high quality, usually implemented as 85."""
 
 
 class ImageAnchor(enum.Enum):
@@ -265,22 +325,47 @@ class ImageAnchor(enum.Enum):
     """
 
     top_left = "top left"
+    """The top left corner of the image/layer."""
+
     top_center = "top center"
+    """The centered top position of the image/layer."""
+
     top_right = "top right"
+    """The top right corner of the image/layer."""
+
     left = "left"
+    """The vertically centered left position of the image/layer."""
+
     center = "center"
+    """The center of the image/layer."""
+
     right = "right"
+    """The vertically centered right position of the image/layer."""
+
     bottom_left = "bottom left"
+    """The bottom left corner of the image/layer."""
+
     bottom_center = "bottom center"
+    """The centered bottom position of the image/layer."""
+
     bottom_right = "bottom right"
+    """The bottom right corner of the image/layer."""
 
     @classmethod
     def from_str(cls: type[Self], val: str | Self) -> Self:
         """Use a `str` to define this size.
 
-        The text used for conversion is flexible. For example, both
-        "bottom-left" and "bottom left" will be converted to
-        `ImageAnchor.bottom_left`.
+        Arguments
+        ---------
+        val: `str`
+            The text used for conversion is flexible. For example, both
+            "bottom-left" and "bottom left" will be converted to
+            `ImageAnchor.bottom_left`.
+
+        Returns
+        -------
+        #1: `Self`
+            The converted anchor enum object.
         """
         if isinstance(val, cls):
             return val

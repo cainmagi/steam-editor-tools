@@ -26,7 +26,7 @@ import collections.abc
 import textwrap
 
 from typing import Any, IO
-from typing_extensions import Self, TypedDict, overload
+from typing_extensions import Self, overload
 
 from PIL import Image
 from PIL import ImageColor
@@ -49,13 +49,6 @@ from .layer import ImageLayer
 from .variables import steam_color
 
 __all__ = ("ImageSingle", "ImageText", "ImageTeX", "ImageMultiLayer")
-
-
-class _LayerPos(TypedDict):
-    """(Private) Real position of an image layer."""
-
-    pos: tuple[int, int]
-    size: tuple[int, int]
 
 
 class ImageSingle:
@@ -99,17 +92,17 @@ class ImageSingle:
 
     @property
     def width(self) -> int:
-        """Property: The image width."""
+        """The image width."""
         return self.img.width
 
     @property
     def height(self) -> int:
-        """Property: The image height."""
+        """The image height."""
         return self.img.height
 
     @property
     def size(self) -> tuple[int, int]:
-        """Property: The image `(width, height)`."""
+        """The image `(width, height)`."""
         return self.img.size
 
     def copy(self: Self) -> Self:
@@ -430,19 +423,93 @@ class ImageSingle:
         return self.__class__(img=img, fmt=self.fmt)
 
     @overload
-    def resize(
-        self: Self, size: tuple[None, int], resample: int | None = None
-    ) -> Self: ...
+    def resize(self: Self, size: tuple[None, int], resample: int | None = None) -> Self:
+        """Resize this image.
+
+        This operation is non-inplace.
+
+        Arguments
+        ---------
+        size: `(None, int)`
+            The size of the resized image. Only the target `height` is provided.
+            Will resize the image while preserving the w/h ratio.
+
+        resample: `int | None`
+            The resample method specified by `Image.Resampling`.
+
+            If not specified, will select the resample method automatically:
+
+            1. If `size` is smaller than the current image size (for either width or
+                height), will use `Image.Resampling.LANCZOS`.
+
+            2. Otherwise (usually used for enlarging the image), use
+                `Image.Resampling.BICUBIC`.
+
+        Returns
+        -------
+        #1: `Self`
+            The resized image.
+        """
+        ...
 
     @overload
-    def resize(
-        self: Self, size: tuple[int, None], resample: int | None = None
-    ) -> Self: ...
+    def resize(self: Self, size: tuple[int, None], resample: int | None = None) -> Self:
+        """Resize this image.
+
+        This operation is non-inplace.
+
+        Arguments
+        ---------
+        size: `(int, None)`
+            The size of the resized image. Only the target `width` is provided.
+            Will resize the image while preserving the w/h ratio.
+
+        resample: `int | None`
+            The resample method specified by `Image.Resampling`.
+
+            If not specified, will select the resample method automatically:
+
+            1. If `size` is smaller than the current image size (for either width or
+                height), will use `Image.Resampling.LANCZOS`.
+
+            2. Otherwise (usually used for enlarging the image), use
+                `Image.Resampling.BICUBIC`.
+
+        Returns
+        -------
+        #1: `Self`
+            The resized image.
+        """
+        ...
 
     @overload
-    def resize(
-        self: Self, size: tuple[int, int], resample: int | None = None
-    ) -> Self: ...
+    def resize(self: Self, size: tuple[int, int], resample: int | None = None) -> Self:
+        """Resize this image.
+
+        This operation is non-inplace.
+
+        Arguments
+        ---------
+        size: `(int, int)`
+            The size of the resized image.
+
+        resample: `int | None`
+            The resample method specified by `Image.Resampling`.
+
+            If not specified, will select the resample method automatically:
+
+            1. If `size` is smaller than the current image size (for either width or
+                height), will use `Image.Resampling.LANCZOS`.
+
+            2. Otherwise (usually used for enlarging the image), use
+                `Image.Resampling.BICUBIC`.
+
+        Returns
+        -------
+        #1: `Self`
+            The resized image.
+        """
+        ...
 
     def resize(
         self: Self, size: tuple[int | None, int | None], resample: int | None = None
@@ -453,21 +520,7 @@ class ImageSingle:
 
         Arguments
         ---------
-        size: `(int | None, int | None)`
-            The size of the resized image.
-
-            One of the size can be `None`, which means preserving the w-h ratio.
-
-        resample: `int | None`
-            The resample method specified by `Image.Resampling`.
-
-            If not specified, will select the resample method automatically:
-
-            1. If `size` is smaller than the current image size (for either width or
-               height), will use `Image.Resampling.LANCZOS`.
-
-            2. Otherwise (usually used for enlarging the image), use
-               `Image.Resampling.BICUBIC`.
+        See overloads.
 
         Returns
         -------
@@ -660,24 +713,24 @@ class ImageText:
 
     @property
     def text(self) -> str:
-        """Property: The text to be rendered."""
+        """The text to be rendered."""
         return self.__text
 
     @text.setter
     def text(self, val: str) -> None:
-        """Property: The text to be rendered."""
+        """The text to be rendered."""
         self.__text = "\n".join((line.strip() for line in val.strip().splitlines()))
         self.__temp_vars.clear()
         self.__temp_img = None
 
     @property
     def font_size(self) -> ImageFontAbsSize | ImageFontSize:
-        """Property: The font size (dynamic or absolute size)."""
+        """The font size (dynamic or absolute size)."""
         return self.__font_size
 
     @font_size.setter
     def font_size(self, val: int | str | ImageFontSize | ImageFontAbsSize) -> None:
-        """Property: The font size (dynamic or absolute size)."""
+        """The font size (dynamic or absolute size)."""
         self.__font_size = (
             ImageFontAbsSize(font_size=val)
             if isinstance(val, int)
@@ -692,18 +745,21 @@ class ImageText:
 
     @property
     def width(self) -> int:
+        """The width of the text image."""
         if "im_width" not in self.__temp_vars:
             self._renew_size_info()
         return self.__temp_vars["im_width"] + 2 * self.pad_size
 
     @property
     def height(self) -> int:
+        """The height of the text image."""
         if "im_height" not in self.__temp_vars:
             self._renew_size_info()
         return self.__temp_vars["im_height"] + 2 * self.pad_size
 
     @property
     def size(self) -> tuple[int, int]:
+        """The `(width, height)` shape of the text image."""
         if ("im_width" not in self.__temp_vars) or (
             "im_height" not in self.__temp_vars
         ):
@@ -715,7 +771,13 @@ class ImageText:
         )
 
     def copy(self) -> Self:
-        """Get a copy of this instance."""
+        """Get a copy of this instance.
+
+        Returns
+        -------
+        #1: `Self`
+            The copied text image.
+        """
         return self.__class__(
             text=self.__text,
             font=self.font,
@@ -807,7 +869,7 @@ class ImageText:
 
     @property
     def img(self) -> Image.Image:
-        """Property: Render the text as an image, and get the pixel-based image."""
+        """Render the text as an image, and get the pixel-based image."""
         if self.__temp_img is not None:
             return self.__temp_img
         if ("size_font" not in self.__temp_vars) or ("n_width" not in self.__temp_vars):
@@ -898,23 +960,26 @@ class ImageTeX(ImageText):
 
     @property
     def equation(self) -> str:
-        """Property: The LaTeX equation. Equivalent to `self.text`."""
+        """The LaTeX equation. Equivalent to `self.text`."""
         return self.text
 
     @property
     def width(self) -> int:
+        """The width of the text image."""
         if "img_equation" not in self.__temp_vars:
             self._renew_size_info()
         return self.__temp_vars["img_equation"].width + 2 * self.pad_size
 
     @property
     def height(self) -> int:
+        """The height of the text image."""
         if "img_equation" not in self.__temp_vars:
             self._renew_size_info()
         return self.__temp_vars["img_equation"].height + 2 * self.pad_size
 
     @property
     def size(self) -> tuple[int, int]:
+        """The `(width, height)` shape of the text image."""
         if "img_equation" not in self.__temp_vars:
             self._renew_size_info()
         pad_size = 2 * self.pad_size
@@ -922,7 +987,13 @@ class ImageTeX(ImageText):
         return (mask.width + pad_size, mask.height + pad_size)
 
     def copy(self) -> Self:
-        """Get a copy of this instance."""
+        """Get a copy of this instance.
+
+        Returns
+        -------
+        #1: `Self`
+            The copied text image.
+        """
         return self.__class__(
             equation=self.equation,
             template=self.template,
@@ -959,7 +1030,7 @@ class ImageTeX(ImageText):
 
     @property
     def img(self) -> Image.Image:
-        """Property: Render the text as an image, and get the pixel-based image."""
+        """Render the text as an image, and get the pixel-based image."""
         if self.__temp_img is not None:
             return self.__temp_img
         if ("resize_factor" not in self.__temp_vars) or (
@@ -1005,30 +1076,11 @@ class ImageMultiLayer:
     __slots__ = ("layers", "mode", "width", "height", "fmt")
 
     @overload
-    def __init__(
-        self, width: int, height: int, fmt: str | ImageFormat = "png"
-    ) -> None: ...
-
-    @overload
-    def __init__(
-        self, size: tuple[int, int], fmt: str | ImageFormat = "png"
-    ) -> None: ...
-
-    @overload
-    def __init__(
-        self, img: ImageSingle, name: str, fmt: str | ImageFormat | None = None
-    ) -> None: ...
-
-    @overload
-    def __init__(
-        self, img: "ImageLayer | ImageMultiLayer", fmt: str | ImageFormat | None = None
-    ) -> None: ...
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
+    def __init__(self, width: int, height: int, fmt: str | ImageFormat = "png") -> None:
         """Initialization.
 
-        Arguments (version 1)
-        =====================
+        Arguments
+        =========
         width: `int`
             The width of the canvas (this multi-layered image).
 
@@ -1037,17 +1089,31 @@ class ImageMultiLayer:
 
         fmt: `str | ImageFormat | None`
             The format of the image. It is used only when saving this image.
+        """
+        ...
 
-        Arguments (version 2)
-        =====================
+    @overload
+    def __init__(self, size: tuple[int, int], fmt: str | ImageFormat = "png") -> None:
+        """Initialization.
+
+        Arguments
+        =========
         size: `tuple[int, int]`
             The `(width, height)` of the canvas (this multi-layered image).
 
         fmt: `str | ImageFormat | None`
             The format of the image. It is used only when saving this image.
+        """
+        ...
 
-        Arguments (version 3)
-        =====================
+    @overload
+    def __init__(
+        self, img: ImageSingle, name: str, fmt: str | ImageFormat | None = None
+    ) -> None:
+        """Initialization.
+
+        Arguments
+        =========
         img: `ImageSingle`
             The image used as the first layer of this multi-layered image. The canvas
             size will be the same as this image size.
@@ -1057,9 +1123,17 @@ class ImageMultiLayer:
 
         fmt: `str | ImageFormat | None`
             The format of the image. It is used only when saving this image.
+        """
+        ...
 
-        Arguments (version 4)
-        =====================
+    @overload
+    def __init__(
+        self, img: "ImageLayer | ImageMultiLayer", fmt: str | ImageFormat | None = None
+    ) -> None:
+        """Initialization.
+
+        Arguments
+        =========
         img: `ImageLayer | ImageMultiLayer`
             The image used for initializing this image. If it is `ImageLayer`, will
             use this layer as the first layer. If it is `ImageMultiLayer`, will
@@ -1067,6 +1141,15 @@ class ImageMultiLayer:
 
         fmt: `str | ImageFormat | None`
             The format of the image. It is used only when saving this image.
+        """
+        ...
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """Initialization.
+
+        Arguments
+        =========
+        See overloads.
         """
 
         def from_config(
@@ -1157,7 +1240,7 @@ class ImageMultiLayer:
 
     @property
     def size(self) -> tuple[int, int]:
-        """Property: The `(width, height)` of this image."""
+        """The `(width, height)` shape of this image."""
         return (self.width, self.height)
 
     def add_background(

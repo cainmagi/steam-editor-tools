@@ -120,16 +120,24 @@ class ImageGrids:
         """The protocol of insertable images."""
 
         @property
-        def width(self) -> int: ...
+        def width(self) -> int:
+            """The width of the image."""
+            ...
 
         @property
-        def height(self) -> int: ...
+        def height(self) -> int:
+            """The height of the image."""
+            ...
 
         @property
-        def size(self) -> tuple[int, int]: ...
+        def size(self) -> tuple[int, int]:
+            """The `(width, height)` shape of the image."""
+            ...
 
         @property
-        def img(self) -> Image.Image: ...
+        def img(self) -> Image.Image:
+            """The image to be placed in the grid."""
+            ...
 
     @overload
     def __init__(
@@ -141,48 +149,11 @@ class ImageGrids:
         gaps: tuple[int, int] = (0, 0),
         bg_color: str | tuple[float, ...] | None = None,
         fmt: str | ImageFormat = "png",
-    ) -> None: ...
-
-    @overload
-    def __init__(
-        self,
-        n_rows: int,
-        *,
-        height: int = 1024,
-        margins: tuple[int, int] = (0, 0),
-        gaps: tuple[int, int] = (0, 0),
-        bg_color: str | tuple[float, ...] | None = None,
-        fmt: str | ImageFormat = "png",
-    ) -> None: ...
-
-    @overload
-    def __init__(
-        self,
-        n_rows: int,
-        n_cols: int,
-        *,
-        width: int = 1024,
-        height: int = 1024,
-        margins: tuple[int, int] = (0, 0),
-        gaps: tuple[int, int] = (0, 0),
-        bg_color: str | tuple[float, ...] | None = None,
-        fmt: str | ImageFormat = "png",
-    ) -> None: ...
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
+    ) -> None:
         """Initialization.
 
-        Arguments (version 1)
-        =====================
-        n_rows: `int`
-            The number of rows in the grid.
-
-        height: `int`
-            The height of the image. This height will be uniformly divided according
-            to `n_rows`.
-
-        Arguments (version 2)
-        =====================
+        Arguments
+        =========
         n_cols: `int`
             The number of rows in the grid.
 
@@ -190,19 +161,6 @@ class ImageGrids:
             The width of the image. This width will be uniformly divided according
             to `n_cols`.
 
-        Arguments (version 3)
-        =====================
-        n_rows: `int`
-        n_cols: `int`
-            When both rows and cols are specified, this container will has a number
-            limit of specified figures.
-
-        width: `int`
-        height: `int`
-            The size of the image. The width and height will be uniformly divided.
-
-        Arguments shared (kwargs only)
-        ==============================
         margins: `tuple[int, int]`
             The `(horizontal_margin, vertical_margin)` padded to the image.
 
@@ -215,6 +173,97 @@ class ImageGrids:
 
         fmt: `str | ImageFormat | None`
             The format of the image. It is used only when saving this image.
+        """
+        ...
+
+    @overload
+    def __init__(
+        self,
+        n_rows: int,
+        *,
+        height: int = 1024,
+        margins: tuple[int, int] = (0, 0),
+        gaps: tuple[int, int] = (0, 0),
+        bg_color: str | tuple[float, ...] | None = None,
+        fmt: str | ImageFormat = "png",
+    ) -> None:
+        """Initialization.
+
+        Arguments
+        =========
+        n_rows: `int`
+            The number of rows in the grid.
+
+        height: `int`
+            The height of the image. This height will be uniformly divided according
+            to `n_rows`.
+
+        margins: `tuple[int, int]`
+            The `(horizontal_margin, vertical_margin)` padded to the image.
+
+        gaps: `tuple[int, int]`
+            The `(x_gap, y_gap)` defining the separations among images.
+
+        bg_color: `str | tuple[float, ...] | None`
+            The background color of the whole image. If this value is `None`,
+            will use transparent background.
+
+        fmt: `str | ImageFormat | None`
+            The format of the image. It is used only when saving this image.
+        """
+        ...
+
+    @overload
+    def __init__(
+        self,
+        n_rows: int,
+        n_cols: int,
+        *,
+        width: int = 1024,
+        height: int = 1024,
+        margins: tuple[int, int] = (0, 0),
+        gaps: tuple[int, int] = (0, 0),
+        bg_color: str | tuple[float, ...] | None = None,
+        fmt: str | ImageFormat = "png",
+    ) -> None:
+        """Initialization.
+
+        Arguments
+        =========
+        n_rows: `int`
+            When both rows and cols are specified, this container will has a number
+            limit of specified figures.
+
+        n_cols: `int`
+            When both rows and cols are specified, this container will has a number
+            limit of specified figures.
+
+        width: `int`
+            The size of the image. The width and height will be uniformly divided.
+
+        height: `int`
+            The size of the image. The width and height will be uniformly divided.
+
+        margins: `tuple[int, int]`
+            The `(horizontal_margin, vertical_margin)` padded to the image.
+
+        gaps: `tuple[int, int]`
+            The `(x_gap, y_gap)` defining the separations among images.
+
+        bg_color: `str | tuple[float, ...] | None`
+            The background color of the whole image. If this value is `None`,
+            will use transparent background.
+
+        fmt: `str | ImageFormat | None`
+            The format of the image. It is used only when saving this image.
+        """
+
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """Initialization.
+
+        Arguments
+        =========
+        See overloads.
         """
 
         self.__row_lim: int = 0
@@ -327,7 +376,7 @@ class ImageGrids:
 
     @property
     def n_rows(self) -> int:
-        """Property: Get the number of rows based on the currently registered images."""
+        """Get the number of rows based on the currently registered images."""
         indicies: set[int] = set()
         if self.__col_lim > 0:
             for idx in self.__store.keys():
@@ -343,7 +392,7 @@ class ImageGrids:
 
     @property
     def n_cols(self) -> int:
-        """Property: Get the number of columns based on the currently registered
+        """Get the number of columns based on the currently registered
         images."""
         indicies: set[int] = set()
         if self.__col_lim > 0:
@@ -409,6 +458,11 @@ class ImageGrids:
         ---------
         idx: `tuple[int, int]`
             The `(row, col)` index.
+
+        Returns
+        -------
+        #1: `bool`
+            Whether the given index is in the grid.
         """
         return self._solve_idx(idx[0], idx[1]) in self.__store
 
@@ -440,13 +494,11 @@ class ImageGrids:
         idx: `tuple[int, int]`
             The `(row, col)` index.
 
-        Returns
-        -------
-        #1: `ImageProtocol`
-            The image in the storage.
+        val: `ImageProtocol`
+            The image in the to be configured in the storage.
 
-            Will raise `KeyError` if the given index does not refer to an registered
-            image.
+            Will raise `IndexError` if the the given index cannot be placed in the
+            grid.
         """
         if isinstance(val, Image.Image):
             val = ImageSingle(val, fmt=self.__fmt)
@@ -466,7 +518,16 @@ class ImageGrids:
         del self.__store[self._solve_idx(idx[0], idx[1])]
 
     def __iter__(self) -> collections.abc.Iterator[tuple[int, int]]:
-        """Iterate all `(row, col)` indicies in the order of row-col."""
+        """Iterate all `(row, col)` indicies in the order of row-col.
+
+        Yields
+        ------
+        #1: `int`
+            The `row` index.
+
+        #2: `int`
+            The `col` index.
+        """
         indicies = self._rev_solve_idx()
         for row in sorted(indicies.keys()):
             cols = indicies[row]
@@ -476,8 +537,8 @@ class ImageGrids:
     def items(self) -> collections.abc.Iterator[tuple[tuple[int, int], ImageProtocol]]:
         """Iterate all indicies and corresponding images.
 
-        Returns
-        -------
+        Yields
+        ------
         #1: `tuple[int, int]`
             The `(row, col)` index.
 
@@ -711,7 +772,7 @@ class ImageGrids:
 
     @property
     def img(self) -> ImageMultiLayer:
-        """Property: Render the multi-layer image."""
+        """Render the multi-layer image."""
         if self.__col_lim <= 0 and self.__row_lim <= 0:
             raise ValueError(
                 "The image grid cannot be rendered because it does not specify the "

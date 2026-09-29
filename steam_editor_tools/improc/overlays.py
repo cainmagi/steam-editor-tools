@@ -77,7 +77,7 @@ def _get_color(
 
 
 def _feather_mask_rect(size: tuple[int, int], depth: int) -> Image.Image:
-    """Create an L-mode alpha mask for a rectangular feather mask image.
+    """(Private) Create an L-mode alpha mask for a rectangular feather mask image.
 
     The feather effect is calculated by L-inf norm.
 
@@ -150,7 +150,7 @@ class ImageOverlayAbstract(abc.ABC):
 
     @property
     def intermediate_bg_color(self) -> str | tuple[float, ...]:
-        """Property: The intermediate background color. This value may be used
+        """The intermediate background color. This value may be used
         when the layer content needs to be rescale."""
         return "#00000000"
 
@@ -196,7 +196,11 @@ class ImageOverlayAbstract(abc.ABC):
 
         image_bg: `Image.Image`
             The background image where the effect will be rendered. This image should
-            be `RGB` or `RGBA`.
+            be in `RGB` or `RGBA`.
+
+        image_fg: `Image.Image`
+            The foreground image that will be used as the overlaid layer. This image
+            should be in `RGBA`.
 
         Returns
         -------
@@ -221,7 +225,7 @@ class ImageOverlayAbstract(abc.ABC):
 
         image_bg: `Image.Image`
             The background image where the overlay image will be rendered. This image
-            should be `RGB` or `RGBA`.
+            should be in `RGB` or `RGBA`.
 
         shape: `Image.Image`
             An `L` type image defining the shape of the overlay. This value can be
@@ -296,9 +300,31 @@ class ImageOverlayColor(ImageOverlayAbstract):
 
     @property
     def intermediate_bg_color(self) -> str | tuple[float, ...]:
+        """The intermediate background color. This value may be used
+        when the layer content needs to be rescale."""
         return self.color
 
     def overlay(self, shape: Image.Image) -> Image.Image | None:
+        """Generate the overlay image from the given image.
+
+        Arguments
+        ---------
+        shape: `Image.Image`
+            An `L` type image defining the shape of the overlay. This value is
+            provided when rendering the overlaying effect.
+
+        Returns
+        -------
+        #1: `Image.Image | None`
+            The generated overlay image. This image can be not `RGBA`, but will
+            be automatically converted to `RGBA` by applying the `self.shape` as
+            the alpha channel. The size can be different from the input image.
+            However, in most cases, this size should be the same as `self.shape`.
+
+            This image should be center-aligned with the input `self.shape`.
+
+            Will return `None` if the effect should be skipped.
+        """
         return Image.new(mode="RGBA", size=shape.size, color=_get_color(self.color))
 
 
@@ -334,9 +360,31 @@ class ImageOverlayGradient(ImageOverlayAbstract):
 
     @property
     def intermediate_bg_color(self) -> str | tuple[float, ...]:
+        """The intermediate background color. This value may be used
+        when the layer content needs to be rescale."""
         return self.color_b
 
     def overlay(self, shape: Image.Image) -> Image.Image | None:
+        """Generate the overlay image from the given image.
+
+        Arguments
+        ---------
+        shape: `Image.Image`
+            An `L` type image defining the shape of the overlay. This value is
+            provided when rendering the overlaying effect.
+
+        Returns
+        -------
+        #1: `Image.Image | None`
+            The generated overlay image. This image can be not `RGBA`, but will
+            be automatically converted to `RGBA` by applying the `self.shape` as
+            the alpha channel. The size can be different from the input image.
+            However, in most cases, this size should be the same as `self.shape`.
+
+            This image should be center-aligned with the input `self.shape`.
+
+            Will return `None` if the effect should be skipped.
+        """
         color_a = _get_color(self.color_a)
         color_b = _get_color(self.color_b)
         if self.direction == "left_to_right":
@@ -407,6 +455,26 @@ class ImageOverlayImage(ImageOverlayAbstract):
     """The blender mode of the overlaying effect."""
 
     def overlay(self, shape: Image.Image) -> Image.Image | None:
+        """Generate the overlay image from the given image.
+
+        Arguments
+        ---------
+        shape: `Image.Image`
+            An `L` type image defining the shape of the overlay. This value is
+            provided when rendering the overlaying effect.
+
+        Returns
+        -------
+        #1: `Image.Image | None`
+            The generated overlay image. This image can be not `RGBA`, but will
+            be automatically converted to `RGBA` by applying the `self.shape` as
+            the alpha channel. The size can be different from the input image.
+            However, in most cases, this size should be the same as `self.shape`.
+
+            This image should be center-aligned with the input `self.shape`.
+
+            Will return `None` if the effect should be skipped.
+        """
         img_width, img_height = self.image.size
         ratio = img_height / img_width
         width, height = (None, None) if self.size is None else self.size

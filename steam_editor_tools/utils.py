@@ -67,7 +67,7 @@ class NamedTempFolder(contextlib.AbstractContextManager):
 
     @property
     def current_path(self) -> str | None:
-        """Property: Get the current temporary folder path. If not in the context,
+        """Get the current temporary folder path. If not in the context,
         this value will be `None`."""
         return self.__current_path
 
@@ -82,7 +82,13 @@ class NamedTempFolder(contextlib.AbstractContextManager):
         self.__current_path = None
 
     def __enter__(self) -> str:
-        """Enter the context."""
+        """Enter the context.
+
+        Returns
+        -------
+        #1: `str`
+            The current path of the temporary folder.
+        """
         self.close()
         if self.folder_path is None:
             current_path = tempfile.mkdtemp(suffix=None, prefix=None, dir=None)
@@ -98,6 +104,24 @@ class NamedTempFolder(contextlib.AbstractContextManager):
         exc_value: _BaseException | None,
         traceback: types.TracebackType | None,
     ) -> bool | None:
-        """Raise any exception triggered within the runtime context."""
+        """Raise any exception triggered within the runtime context.
+
+        Arguments
+        ---------
+        exc_type: `type[BaseException] | None`
+            The type of the exception (if existing).
+
+        exc_value: `BaseException | None`
+            The instance of the exception (if existing).
+
+        traceback: `TracebackType | None`
+            The traceback stack of the exception (if existing).
+
+        Returns
+        -------
+        #1: `bool | None`
+            Whether to catch the exception. For this context, it will be always
+            `None`.
+        """
         self.close()
         return None
