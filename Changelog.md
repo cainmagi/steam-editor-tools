@@ -10,6 +10,10 @@
 
 1. Fix: Correct the wrong and missing docstrings.
 
+#### :floppy_disk: Change
+
+1. Add details to the `python-publish` workflow.
+
 ### 0.6.0 @ 09/21/2026
 
 #### :mega: New
