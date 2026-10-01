@@ -8,6 +8,8 @@ import Translate, {translate} from "@docusaurus/Translate";
 
 import styles from "./styles.module.scss";
 
+import SvgLatexLogo from "@site/static/img/logo-latex.svg";
+
 type FeatureItem = {
   title: string;
   Svg: React.ComponentType<React.ComponentProps<"svg">>;
@@ -33,7 +35,8 @@ const FeatureList: FeatureItem[] = [
                 href={translate({
                   id: "index.feat.bbcode.bbcode.link",
                   description: "The link to the BBCode.",
-                  message: "https://steamcommunity.com/comment/Recommendation/formattinghelp",
+                  message:
+                    "https://steamcommunity.com/comment/Recommendation/formattinghelp",
                 })}
                 aria-label="BBCode Formats"
               >
@@ -76,10 +79,11 @@ const FeatureList: FeatureItem[] = [
                 <IconExternalLink />
               </Link>
             ),
+            latex: <SvgLatexLogo title="LaTeX" className="themed-diagram"/>,
           }}
         >
           {
-            "Inspired by {tikz}, we offer image editing tools with an anchor-based alignment system. These features allow users to compose multi-layer images with blending options, layer effects, customized fonts, and even $\LaTeX$ equations."
+            "Inspired by {tikz}, we offer image editing tools with an anchor-based alignment system. These features allow users to compose multi-layer images with blending options, layer effects, customized fonts, and even {latex} equations."
           }
         </Translate>
       </>

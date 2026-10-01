@@ -9,3 +9,7 @@
 #### :mega: New
 
 1. Create the first version of the documentation.
+
+#### :floppy_disk: Change
+
+1. Adjust equations on the home page.
