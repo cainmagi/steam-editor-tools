@@ -4,6 +4,12 @@
 
 ## CHANGELOG
 
+### 0.6.3 @ 10/01/2026
+
+#### :wrench: Fix
+
+1. Fix: Correct test files.
+
 ### 0.6.2 @ 10/01/2026
 
 #### :wrench: Fix

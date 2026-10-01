@@ -330,7 +330,9 @@ class DocumentParser:
 
         def default_parser(_icon: str, _ach: Achievement) -> QuoteNode:
             """(Private) The default achievement parser."""
-            title = TextNode(text="{0}: {1}".format(template.format(idx + 1), _ach.name))
+            title = TextNode(
+                text="{0}: {1}".format(template.format(idx + 1), _ach.name)
+            )
             descr = TextNode(text=_ach.description)
             if _ach.is_hidden:
                 title = SpoilerNode(children=[title])
