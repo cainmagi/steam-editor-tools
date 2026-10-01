@@ -4,6 +4,12 @@
 
 ## CHANGELOG
 
+### 0.6.2 @ 10/01/2026
+
+#### :wrench: Fix
+
+1. Fix: The `metascore` in the queried information has a incorrect type. Add a field validator to handle its content.
+
 ### 0.6.1 @ 09/29/2026
 
 #### :wrench: Fix

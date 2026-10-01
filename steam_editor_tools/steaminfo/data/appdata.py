@@ -18,9 +18,10 @@ Description
 The data structures related to the application (game).
 """
 
+from typing import Any
 from typing_extensions import Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from PIL import Image
 
@@ -65,6 +66,11 @@ class MetacriticInfo(BaseModel):
 
     url: str
     """The link to the metacritic page."""
+
+    @field_validator("score", mode="before")
+    @classmethod
+    def _empty_as_none(cls, v: Any) -> Any:
+        return v if v else 0
 
 
 class AppCategory(BaseModel):
@@ -211,11 +217,16 @@ class AppQuerySimple(BaseModel):
     tiny_image: str
     """The URL to the tiny image of the queried app."""
 
-    metascore: str | None = None
+    metascore: int | None = None
     """The metascore."""
 
     platforms: PlatformInfo | None = None
     """The supported platform."""
+
+    @field_validator("metascore", mode="before")
+    @classmethod
+    def _empty_as_none(cls, v: Any) -> Any:
+        return v if v else None
 
     def get_tiny_image(self) -> Image.Image | None:
         """Download the tiny image by its url.
