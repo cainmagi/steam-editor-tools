@@ -266,23 +266,29 @@ const config: Config = {
           name: "Python",
           url: "https://python.org",
         },
-        runtimePlatform: "Python 3.10+",
+        runtimePlatform: {
+          "@type": "RuntimePlatform",
+          runtimePlatform: "Python 3.10+",
+          applicationCategory: "Text Processing",
+          downloadUrl: "https://pypi.org/project/steam-editor-tools/",
+        },
         codeRepository: "https://github.com/cainmagi/steam-editor-tools",
-        downloadUrl: "https://pypi.org/project/steam-editor-tools/",
         license:
           "https://github.com/cainmagi/steam-editor-tools/blob/main/LICENSE",
-        version: "1.2.4",
+        version: "0.6.3",
         keywords:
           "bbcode, html-to-bbcode, image-processing, markdown-to-bbcode, python, python3, steam, steam-api, steam-bbcode, steam-bbcode-converter, steam-guide",
         author: {
-          "@type": "Organization",
+          "@type": "Person",
           name: "Yuchen Jin (cainmagi)",
+          email: "cainmagi@gmail.com",
           url: "https://cainmagi.github.io/",
         },
         maintainer: {
           "@type": "Person",
           name: "Yuchen Jin (cainmagi)",
           email: "cainmagi@gmail.com",
+          url: "https://cainmagi.github.io/",
         },
       }),
     },

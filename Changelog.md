@@ -18,3 +18,4 @@
 #### :floppy_disk: Change
 
 1. Adjust equations on the home page.
+2. Fine-tune the json-ld information.
