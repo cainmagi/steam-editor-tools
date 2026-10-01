@@ -4,7 +4,7 @@
     "name": "东方幕华祭 永夜篇",
     "id": 2877170,
     "tiny_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2877170/28a7d22dfa630f157084262b8ff0b1da3feee77e/capsule_231x87_schinese.jpg?t=1781445133",
-    "metascore": "",
+    "metascore": null,
     "platforms": {
       "windows": true,
       "mac": false,
@@ -16,7 +16,7 @@
     "name": "东方幕华祭 春雪篇",
     "id": 1031480,
     "tiny_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1031480/capsule_231x87_schinese.jpg?t=1782539002",
-    "metascore": "",
+    "metascore": null,
     "platforms": {
       "windows": true,
       "mac": false,
@@ -28,7 +28,7 @@
     "name": "东方幕华祭 红月篇",
     "id": 882710,
     "tiny_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/882710/capsule_231x87_schinese.jpg?t=1781101496",
-    "metascore": "",
+    "metascore": null,
     "platforms": {
       "windows": true,
       "mac": false,
@@ -40,7 +40,7 @@
     "name": "东方幕华祭 春雪篇 OST",
     "id": 1056360,
     "tiny_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1056360/capsule_231x87_schinese.jpg?t=1618291993",
-    "metascore": "",
+    "metascore": null,
     "platforms": {
       "windows": true,
       "mac": false,
@@ -52,7 +52,7 @@
     "name": "东方幕华祭 永夜篇 OST",
     "id": 4062010,
     "tiny_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4062010/15148c8cdf9246a79b3b06be50be326fd310eb65/capsule_231x87.jpg?t=1759652472",
-    "metascore": "",
+    "metascore": null,
     "platforms": {
       "windows": true,
       "mac": true,

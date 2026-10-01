@@ -13,6 +13,7 @@
 #### :wrench: Fix
 
 1. Fix: Correct the storage of the missing `game-descr.html` asset.
+2. Fix: Correct the query contents and sync them with the newest version.
 
 #### :floppy_disk: Change
 
