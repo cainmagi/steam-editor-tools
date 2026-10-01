@@ -1,0 +1,55 @@
+---
+id: index
+title: improc
+sidebar_label: improc
+slug: /apis/improc
+description: The image processing package for preparing the figures when writing the
+  Steam guides.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+
+<APITopBar type="package" source="improc" />
+
+The image processing package for preparing the figures when writing the Steam guides.
+
+This package supports image editing by codes, especially for creating an image based on stacking multiple layers of images, texts and equations.
+
+This package is implemented solely using the lightweight Pillow package.
+
+## Modules
+
+| Member | <center>Description</center> |
+| :-----: | :------ |
+| [<IconObjType type="module" hasText={true} text="data"/>](./data/index.mdx) | The data structures for configuring this package. |
+| [<IconObjType type="module" hasText={true} text="variables"/>](./variables/index.mdx) | The global variables of this package. |
+| [<IconObjType type="module" hasText={true} text="latex_to_img"/>](./latex_to_img/index.mdx) | The extension supporting the conversion from LaTeX equations to pixel-based images. |
+| [<IconObjType type="module" hasText={true} text="font"/>](./font/index.mdx) | The implementation of `FontLocator`. |
+| [<IconObjType type="module" hasText={true} text="composer"/>](./composer/index.mdx) | Extensive `ImageChops` of `pillow`. |
+| [<IconObjType type="module" hasText={true} text="effects"/>](./effects/index.mdx) | The effect handles. |
+| [<IconObjType type="module" hasText={true} text="overlays"/>](./overlays/index.mdx) | The overlay effect handles. |
+| [<IconObjType type="module" hasText={true} text="layer"/>](./layer/index.mdx) | Definition of the wrapped image layer. |
+| [<IconObjType type="module" hasText={true} text="renderer"/>](./renderer/index.mdx) | The single-layer and multi-layer image renderers. |
+| [<IconObjType type="module" hasText={true} text="tools"/>](./tools/index.mdx) | Extra tools for processing images. |
+
+## Aliases
+
+| Member | <center>Description</center> |
+| :-----: | :------ |
+| [<IconObjType type="class" hasText={true} text="TeXTemplate"/>](./data/TeXTemplate.mdx) | The template used for rendering LaTeX. |
+| [<IconObjType type="class" hasText={true} text="ImageFontAbsSize"/>](./data/ImageFontAbsSize.mdx) | Absolute image text size. |
+| [<IconObjType type="class" hasText={true} text="ImageFontSize"/>](./data/ImageFontSize.mdx) | Size of the text in the image. |
+| [<IconObjType type="class" hasText={true} text="ImageFormat"/>](./data/ImageFormat.mdx) | The image file format. |
+| [<IconObjType type="class" hasText={true} text="ImageQuality"/>](./data/ImageQuality.mdx) | The image quality. |
+| [<IconObjType type="class" hasText={true} text="ImageAnchor"/>](./data/ImageAnchor.mdx) | The image anchor. |
+| [<IconObjType type="class" hasText={true} text="TeXRenderer"/>](./latex_to_img/TeXRenderer.mdx) | The LaTeX renderer. |
+| [<IconObjType type="class" hasText={true} text="FontLanguage"/>](./font/FontLanguage.mdx) | Support LCID mapping from language short name to lang_id of `fontTools`. |
+| [<IconObjType type="class" hasText={true} text="FontInfo"/>](./font/FontInfo.mdx) | The basic font information. |
+| [<IconObjType type="class" hasText={true} text="FontLocator"/>](./font/FontLocator.mdx) | Cross-platform font locator with fuzzy name search. |
+| [<IconObjType type="class" hasText={true} text="ImageComposer"/>](./composer/ImageComposer.mdx) | The image mixing operators extended to the alpha-channel (RGBA) domain. |
+| [<IconObjType type="class" hasText={true} text="ImageEffects"/>](./layer/ImageEffects.mdx) | The image effects of a layer. |
+| [<IconObjType type="class" hasText={true} text="ImageLayer"/>](./layer/ImageLayer.mdx) | A layer of image. |
+| [<IconObjType type="class" hasText={true} text="ImageSingle"/>](./renderer/ImageSingle.mdx) | The basic one-layer style of image. |
+| [<IconObjType type="class" hasText={true} text="ImageText"/>](./renderer/ImageText.mdx) | A layer of text that can be rendered as an image. |
+| [<IconObjType type="class" hasText={true} text="ImageTeX"/>](./renderer/ImageTeX.mdx) | A layer of TeX equation that can be rendered as an image. |
+| [<IconObjType type="class" hasText={true} text="ImageMultiLayer"/>](./renderer/ImageMultiLayer.mdx) | The handle of a stack of layered images. |

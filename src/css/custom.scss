@@ -1,0 +1,154 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+@forward "utils";
+@forward "base";
+@forward "fixtures";
+@forward "space";
+@forward "elements";
+@forward "icons";
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #1b2838;
+  --ifm-color-primary-dark: #182432;
+  --ifm-color-primary-darker: #172230;
+  --ifm-color-primary-darkest: #131c27;
+  --ifm-color-primary-light: #1e2c3e;
+  --ifm-color-primary-lighter: #1f2e40;
+  --ifm-color-primary-lightest: #233449;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  /* For readability concerns, you should choose a lighter palette in dark mode. */
+  &[data-theme="dark"] {
+    --ifm-background-color: #1b2838;
+    --ifm-color-primary: #66c0f4;
+    --ifm-color-primary-dark: #46b3f2;
+    --ifm-color-primary-darker: #36acf1;
+    --ifm-color-primary-darkest: #1095e2;
+    --ifm-color-primary-light: #86cdf6;
+    --ifm-color-primary-lighter: #96d4f7;
+    --ifm-color-primary-lightest: #c7e8fb;
+    --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.05);
+  }
+
+  --ifm-footer-link-hover-color: #96d4f7;
+  .footer--dark {
+    --ifm-footer-background-color: #172230;
+  }
+
+  .navbar--dark {
+    --ifm-navbar-background-color: #131c27;
+    --ifm-navbar-link-hover-color: #c7e8fb;
+  }
+}
+
+.code-block-error-line {
+  background-color: #ff000020;
+  display: table-row;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+  border-left: 3px solid #ff000080;
+}
+
+.code-block-diff-add-line {
+  background-color: #00ff3c20;
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding) 0 calc(1.5 * var(--ifm-pre-padding));
+
+  &::before {
+    position: absolute;
+    left: 8px;
+    padding-right: 8px;
+    content: "+";
+  }
+}
+
+.code-block-diff-remove-line {
+  background-color: #ff150020;
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding) 0 calc(1.5 * var(--ifm-pre-padding));
+
+  &::before {
+    position: absolute;
+    left: 8px;
+    padding-right: 8px;
+    content: "-";
+  }
+}
+
+/**
+ * use magic comments to mark diff blocks
+ */
+.code-diff-move {
+  --ifm-pre-padding: 1.5rem;
+  pre code {
+    padding-left: var(--ifm-pre-padding) !important;
+  }
+}
+
+/**
+ * SVG styles
+ */
+.themed-mermaid-svg {
+  .node {
+    stroke: black;
+    fill: white;
+    & text {
+      stroke: none;
+      fill: black;
+    }
+  }
+  .edge {
+    & path {
+      stroke: black;
+      :root[data-theme="dark"] & {
+        stroke: white !important;
+      }
+    }
+    & .arrow {
+      fill: black;
+      stroke: black;
+      :root[data-theme="dark"] & {
+        fill: white !important;
+        stroke: white !important;
+      }
+    }
+  }
+  :root[data-theme="dark"] & .treeView-node-label {
+    fill: white !important;
+  }
+  :root[data-theme="dark"] & .treeView-node-line {
+    stroke: white !important;
+  }
+}
+
+.themed-diagram {
+  .text,
+  .arrowhead {
+    fill: black;
+    :root[data-theme="dark"] & {
+      fill: white !important;
+    }
+  }
+  .box {
+    fill: white;
+    stroke: black;
+    :root[data-theme="dark"] & {
+      fill: #131c27 !important;
+      stroke: white !important;
+    }
+  }
+  .arrow {
+    stroke: black;
+    :root[data-theme="dark"] & {
+      stroke: white !important;
+    }
+  }
+}

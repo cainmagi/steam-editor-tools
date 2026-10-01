@@ -1,0 +1,39 @@
+---
+id: query_app_by_name_simple
+title: query_app_by_name_simple
+sidebar_label: query_app_by_name_simple
+slug: /apis/steaminfo/query/query_app_by_name_simple
+description: Query the app information by name.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="func" source="steaminfo.query.query_app_by_name_simple" />
+
+```python
+v_1: list[AppQuerySimple] = query_app_by_name_simple(query: str, lang: str = "english", cc: str = "US")
+```
+
+Query the app information by name.
+
+This is a simple query. It accesses the following API: https://store.steampowered.com/api/storesearch
+
+which is undocumented.
+
+## Arguments
+
+### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `query` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The search query. It is used for searching the app name. |
+| `lang` | `str` | | The language used for searching the app. |
+| `cc` | `str` | | The region used for searching the app. |
+
+### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `list[AppQuerySimple]` | A list of queried results sorted by the matching of the name. It should return no more than 10 apps even if there are more candidates. |

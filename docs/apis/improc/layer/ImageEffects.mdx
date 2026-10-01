@@ -1,0 +1,46 @@
+---
+id: ImageEffects
+title: ImageEffects
+sidebar_label: ImageEffects
+slug: /apis/improc/layer/ImageEffects
+description: The image effects of a layer.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+
+<APITopBar type="class" isDataClass={true} source="improc.layer.ImageEffects" />
+
+```python
+ImageEffects(
+    alpha: int = 100,
+    alpha_content: int = 100,
+    blend: Literal["default", "add", "add_modulo", "screen", "lighter", "subtract", "subtract_modulo", "multiply", "darker", "difference", "soft_light", "hard_light"] = "default",
+    stroke: ImageEffectStroke | None = None,
+    glow: ImageEffectGlow | None = None,
+    shadow: ImageEffectShadow | None = None,
+    bevel: ImageEffectBevel | None = None,
+    overlays: list[ImageOverlayAbstract] = []
+)
+```
+
+The image effects of a layer.
+
+The stack of the effects are ordered as:
+
+```
+(bottom) -> (top)
+shadow -> glow -> stroke -> (bg replica) -> self -> overlays -> bevel
+```
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `alpha` | `int` | | The alpha value of the whole layer. This value will take effect for all applied effects. |
+| `alpha_content` | `int` | | The alpha value of the image. This value will only take effects on the image but will not take effects on the applied effects. |
+| `blend` | `Literal["default", "add", "add_modulo", "screen", "lighter", "subtract", "subtract_modulo", "multiply", "darker", "difference", "soft_light", "hard_light"]` | | The mode used for blending this image into the canvas. |
+| `stroke` | `ImageEffectStroke \| None` | | The "stroke" effect of the layer. It works only when the image is RGBA. |
+| `glow` | `ImageEffectGlow \| None` | | The "glowing" effect of the layer. It works only when the image is RGBA. |
+| `shadow` | `ImageEffectShadow \| None` | | The "shadow/shade" effect of the layer. It works only when the image is RGBA. |
+| `bevel` | `ImageEffectBevel \| None` | | The "bevel" effect of the layer. It works only when the image is RGBA. |
+| `overlays` | `list[ImageOverlayAbstract]` | | The "overlaying" effect of the layer. It contains a series of overlaying operations. The top layers will be ordered later in this list. |

@@ -1,0 +1,345 @@
+---
+id: get-started
+sidebar_label: Get Started
+title: "Get started: Markdown/HTML to BBCode"
+description: An introduction to the functionalities of BBCode conversion.
+slug: /bbcode/get-started
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+Tired of writing a lot of BBCode texts, and surprised by the fact that there is no perfect Markdown-to-BBCode converter, I finally made this Python package. The main motivation of this package is to provide a convenient way to write Steam guides or reviews, especially when we need to write a long and finely decorated guide. Using Markdown to write these texts is much more cozy than struggling with the old-school BBCode formats. However, the problem is that different forums may have different BBCode standards. For example, `[thead]...[/thead]` may be used in some forums, but Steam does not provide such features. Overall, the conversion has the following main functionalities:
+
+- Strictly support all Steam BBCode formats. Any format that is not supported by Steam will be rendered as plain text.
+
+- No image in the converted file. That's because Steam BBCode does not support `[img]` tag. All figures in the guide need to be inserted by selecting the pre-uploaded images.
+
+- Support nested conversion. For example, we may have a complicated block like this:
+
+  <Tabs
+    defaultValue="md"
+    values={[
+      { label: 'Markdown', value: 'md', },
+      { label: 'BBCode', value: 'bbcode', },
+    ]
+  }>
+
+  <TabItem value="md">
+
+  ```markdown showLineNumbers
+  > This is a quote
+  >
+  > > This is a quote in a quote.
+  ```
+  
+  </TabItem>
+
+  <TabItem value="bbcode">
+
+  ```bbcode showLineNumbers
+  [quote]
+  This is a quote
+  
+  [quote]
+  This is a quote in a quote.
+  [/quote]
+  [/quote]
+  ```
+
+  </TabItem>
+
+  </Tabs>
+
+  Our package can correctly handle such cases.
+
+Essentially, the file conversion can be divided into two steps:
+
+1. Use [`DocumentParser`](../../apis/bbcode/parser/DocumentParser.mdx) to convert an existing file to the file structure [`Document`](../../apis/bbcode/nodes/Document.mdx).
+2. Use [`BBCodeRenderer`](../../apis/bbcode/renderer/base/BBCodeRenderer.mdx) to dump [`Document`](../../apis/bbcode/nodes/Document.mdx) as the BBCode file.
+
+## 1. Convert Markdown to BBCode
+
+Either one of the following two APIs allow users to convert a Markdown file to Steam BBCode:
+
+<Tabs
+  defaultValue="pfile"
+  values={[
+    { label: 'Parse file', value: 'pfile', },
+    { label: 'Parse Markdown', value: 'pmd', },
+  ]
+}>
+
+<TabItem value="pfile">
+
+```python showLineNumbers
+# highlight-start
+# The input argument needs to be the input file path.
+doc = stet.DocumentParser().parse_file(file_path)
+# highlight-end
+with open(out_file_path, "w", encoding="utf-8") as fobj:
+    fobj.write(stet.BBCodeRenderer().render(doc))
+```
+
+</TabItem>
+
+<TabItem value="pmd">
+
+```python showLineNumbers
+with open(file_path, "r", encoding="utf-8") as fobj:
+    # highlight-start
+    # The input argument needs to be a text string or a file-like object.
+    doc = stet.DocumentParser().parse_markdown(fobj)
+    # highlight-end
+with open(out_file_path, "w", encoding="utf-8") as fobj:
+    fobj.write(stet.BBCodeRenderer().render(doc))
+```
+
+</TabItem>
+
+</Tabs>
+
+An example of the conversion is:
+
+<Tabs
+  defaultValue="md"
+  values={[
+    { label: 'Markdown', value: 'md', },
+    { label: 'BBCode', value: 'bbcode', },
+  ]
+}>
+
+<TabItem value="md">
+
+```markdown showLineNumbers title="example.md"
+## An example file
+
+> <cite>Author</cite>
+>
+> - Example **bold** text
+> - Example _italic_ text
+
+| Example       |        Table         |
+| :------------ | :------------------: |
+| Something new | `some [code][/code]` |
+```
+
+</TabItem>
+
+<TabItem value="bbcode">
+
+```bbcode showLineNumbers title="example.bbcode"
+[h2]An example file[/h2]
+[quote=Author]
+[list]
+[*]Example [b]bold[/b] text
+[*]Example [i]italic[/i] text
+[/list]
+[/quote]
+
+[table]
+[tr][th]Example[/th][th]Table[/th][/tr]
+[tr][td]Something new[/td][td][noparse]some [code][/code][/noparse][/td][/tr]
+[/table]
+```
+
+</TabItem>
+
+</Tabs>
+
+## 2. Convert HTML to BBCode
+
+Either one of the following two APIs allow users to convert an HTML file to Steam BBCode:
+
+<Tabs
+  defaultValue="pfile"
+  values={[
+    { label: 'Parse file', value: 'pfile', },
+    { label: 'Parse HTML', value: 'phtml', },
+  ]
+}>
+
+<TabItem value="pfile">
+
+```python showLineNumbers
+# highlight-start
+# The input argument needs to be the input file path.
+doc = stet.DocumentParser().parse_file(file_path)
+# highlight-end
+with open(out_file_path, "w", encoding="utf-8") as fobj:
+    fobj.write(stet.BBCodeRenderer().render(doc))
+```
+
+</TabItem>
+
+<TabItem value="phtml">
+
+```python showLineNumbers
+with open(file_path, "r", encoding="utf-8") as fobj:
+    # highlight-start
+    # The input argument needs to be a text string or a file-like object.
+    doc = stet.DocumentParser().parse_html(fobj)
+    # highlight-end
+with open(out_file_path, "w", encoding="utf-8") as fobj:
+    fobj.write(stet.BBCodeRenderer().render(doc))
+```
+
+</TabItem>
+
+</Tabs>
+
+An example of the conversion is:
+
+<Tabs
+  defaultValue="html"
+  values={[
+    { label: 'HTML', value: 'html', },
+    { label: 'BBCode', value: 'bbcode', },
+  ]
+}>
+
+<TabItem value="html">
+
+```html showLineNumbers title="example.html"
+<h2>An example file</h2>
+<blockquote>
+  <ul>
+    <li>Example <strong>bold</strong> text</li>
+    <li>Example <em>italic</em> text</li>
+  </ul>
+  <cite>Author</cite>
+</blockquote>
+
+<table>
+  <thead>
+    <tr><th>Example</th><th>Table</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Something new</td><td><code>some [code][/code]</code></td></tr>
+  </tbody>
+</table>
+```
+
+</TabItem>
+
+<TabItem value="bbcode">
+
+```bbcode showLineNumbers title="example.bbcode"
+[h2]An example file[/h2]
+[quote=Author]
+[list]
+[*]Example [b]bold[/b] text
+[*]Example [i]italic[/i] text
+[/list]
+[/quote]
+
+[table]
+[tr][th]Example[/th][th]Table[/th][/tr]
+[tr][td]Something new[/td][td][noparse]some [code][/code][/noparse][/td][/tr]
+[/table]
+```
+
+</TabItem>
+
+</Tabs>
+
+## 3. Reload BBCode file
+
+A BBCode file can be loaded as [`Document`](../../apis/bbcode/nodes/Document.mdx) and saved as BBCode again. This feature needs to be used when users need to change the rendering of an existing BBCode file to a different style:
+
+<Tabs
+  defaultValue="pfile"
+  values={[
+    { label: 'Parse file', value: 'pfile', },
+    { label: 'Parse BBCode', value: 'pbbcode', },
+  ]
+}>
+
+<TabItem value="pfile">
+
+```python showLineNumbers
+# highlight-start
+# The input argument needs to be the input file path.
+doc = stet.DocumentParser().parse_file(file_path)
+# highlight-end
+with open(out_file_path, "w", encoding="utf-8") as fobj:
+    fobj.write(stet.BBCodeRenderer().render(doc))
+```
+
+</TabItem>
+
+<TabItem value="pbbcode">
+
+```python showLineNumbers
+with open(file_path, "r", encoding="utf-8") as fobj:
+    # highlight-start
+    # The input argument needs to be a text string or a file-like object.
+    doc = stet.DocumentParser().parse_bbcode(fobj)
+    # highlight-end
+with open(out_file_path, "w", encoding="utf-8") as fobj:
+    fobj.write(stet.BBCodeRenderer().render(doc))
+```
+
+</TabItem>
+
+</Tabs>
+
+:::warning
+
+Because of parser limitations, the rendered BBCode may have different line spacing than the input file. In this case, users may need to fine-tune the output format manually.
+
+:::
+
+An example of the conversion is:
+
+<Tabs
+  defaultValue="bbcodein"
+  values={[
+    { label: 'BBCode (input)', value: 'bbcodein', },
+    { label: 'BBCode (output)', value: 'bbcodeout', },
+  ]
+}>
+
+<TabItem value="bbcodein">
+
+```bbcode showLineNumbers title="example_in.bbcode"
+[h2]An example file[/h2]
+[quote=Author]
+[list]
+[*]Example [b]bold[/b] text
+[*]Example [i]italic[/i] text
+[/list]
+[/quote]
+
+[table]
+[tr][th]Example[/th][th]Table[/th][/tr]
+[tr][td]Something new[/td][td][noparse]some [code][/code][/noparse][/td][/tr]
+[/table]
+```
+
+</TabItem>
+
+<TabItem value="bbcodeout">
+
+```bbcode showLineNumbers title="example.bbcode"
+[h2]An example file[/h2]
+
+
+[quote]
+[list]
+[*]Example [b]bold[/b] text
+[*]Example [i]italic[/i] text
+[/list]
+[/quote]
+
+
+
+[table]
+[tr][th]Example[/th][th]Table[/th][/tr]
+[tr][td]Something new[/td][td][noparse]some [/noparse][/td][/tr]
+[/table]
+```
+
+</TabItem>
+
+</Tabs>

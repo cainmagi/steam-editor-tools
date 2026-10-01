@@ -1,0 +1,47 @@
+---
+id: DeletedNode
+title: DeletedNode
+sidebar_label: DeletedNode
+slug: /apis/bbcode/nodes/DeletedNode
+description: 'Node: Deleted.'
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+
+<APITopBar type="class" isDataClass={true} source="bbcode.nodes.DeletedNode" />
+
+```python
+DeletedNode(type: Literal["deleted"] = "deleted")
+```
+
+Node: Deleted
+
+A node used for tagging a deleted node.
+
+It may be created during the parsing, but will be cleared in the final results.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `type` | `Literal["deleted"]` | | The type identifer of this document node. |
+
+## Properties
+
+### <IconObjType type="param"/> `pure_text`
+
+```python
+pure_text: str = self.pure_text
+```
+
+The pure text of the current node.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `size`
+
+```python
+size: int = self.size
+```
+
+The estimated text length of the current node.

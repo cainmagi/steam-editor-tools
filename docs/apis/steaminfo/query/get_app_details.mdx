@@ -1,0 +1,41 @@
+---
+id: get_app_details
+title: get_app_details
+sidebar_label: get_app_details
+slug: /apis/steaminfo/query/get_app_details
+description: Fetch the app detailed information by its ID.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="func" source="steaminfo.query.get_app_details" />
+
+```python
+v_1: AppInfo | None = get_app_details(
+    app: int | AppQuerySimple, lang: str = "english", cc: str = "US"
+)
+```
+
+Fetch the app detailed information by its ID.
+
+The information is provided by: https://store.steampowered.com/api/appdetails
+
+which is undocumented.
+
+## Arguments
+
+### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `app` | `int \| AppQuerySimple` | <InlineIcon icon={vsiCheckIcon}/> | The steam app ID or the query object. It is used for locating the game details. |
+| `lang` | `str` | | The language used for searching the app. |
+| `cc` | `str` | | The region used for searching the app. |
+
+### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `AppInfo \| None` | Return the app information if the app ID is valid (i.e. the app is found). Otherwise, return `None`. |

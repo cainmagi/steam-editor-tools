@@ -1,0 +1,23 @@
+---
+id: index
+title: font
+sidebar_label: font
+slug: /apis/improc/font
+description: The implementation of `FontLocator`.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+
+<APITopBar type="module" source="improc.font" />
+
+The implementation of `FontLocator`. Allow users to search font efficiently and flexibly.
+
+## Classes
+
+| Member | <center>Description</center> |
+| :-----: | :------ |
+| [<IconObjType type="class" hasText={true} text="FontLanguage"/>](./FontLanguage.mdx) | Support LCID mapping from language short name to lang_id of `fontTools`. |
+| [<IconObjType type="class" hasText={true} text="FontNameInfo"/>](./FontNameInfo.mdx) | The information of a font name. |
+| [<IconObjType type="class" hasText={true} text="FontInfo"/>](./FontInfo.mdx) | The basic font information. |
+| [<IconObjType type="class" hasText={true} text="FontIndexList"/>](./FontIndexList.mdx) | The internal font list maintained by the `FontLocator`. |
+| [<IconObjType type="class" hasText={true} text="FontLocator"/>](./FontLocator.mdx) | Cross-platform font locator with fuzzy name search. |

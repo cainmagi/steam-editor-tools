@@ -1,0 +1,101 @@
+{
+  "type": "dlc",
+  "name": "Sora no Kiseki the 1st Season Pass",
+  "steam_appid": 3965850,
+  "required_age": 0,
+  "is_free": false,
+  "controller_support": "full",
+  "dlc": [],
+  "detailed_description": "<p class=\"bb_paragraph\" >Value pack containing Sora no Kiseki the 1st bonus content (26 items total).<br><br>[Content to be released on Friday, 9/19]<br>Matching Diner Costume Set: Fine Red Diner Vol.1<br>Unique Diner Costume Set Vol.1<br>Glasses Set A<br>Head-Pom Set A<br>Archangel Costume Set<br>Lively Effect Set<br>Banner Set A<br>Two-Tone Hair Color Set<br>Orbment Cover Set<br><br>[Content to be released on Thursday, 9/25]<br>Jenis Royal Academy Uniform Set<br>Matching Diner Costume Set: Fine Red Diner Vol.2<br>Unique Diner Costume Set Vol.2<br>Glasses Set B<br>Head-Pom Set B<br>Pretty Backpack Set<br>Fallen Angel Costume Set<br>Banner Set B<br>Unique Hair Color Set<br>Chibi Character Cover Set<br><br>[Content to be released on Thursday, 10/2]<br>Estelle &amp; Joshua Swimwear: Pure Resort<br>Matching Diner Costume Set: Fine Red Diner Vol.3<br>Unique Diner Costume Set Vol.3<br>Go for it! Headgear Set<br>Chocosta Set<br>Demon King Costume Set<br>Banner Set C<br><br>*Distribution for Season Pass bonus content will begin in October 2025.<br>*Season Pass contents and description of each item are subject to change without notice.<br>*Season Pass does not include consumable items.<br>*Each item included in the Season Pass will also be available for individual purchase. Beware of duplicate purchases.</p>",
+  "about_the_game": "<p class=\"bb_paragraph\" >Value pack containing Sora no Kiseki the 1st bonus content (26 items total).<br><br>[Content to be released on Friday, 9/19]<br>Matching Diner Costume Set: Fine Red Diner Vol.1<br>Unique Diner Costume Set Vol.1<br>Glasses Set A<br>Head-Pom Set A<br>Archangel Costume Set<br>Lively Effect Set<br>Banner Set A<br>Two-Tone Hair Color Set<br>Orbment Cover Set<br><br>[Content to be released on Thursday, 9/25]<br>Jenis Royal Academy Uniform Set<br>Matching Diner Costume Set: Fine Red Diner Vol.2<br>Unique Diner Costume Set Vol.2<br>Glasses Set B<br>Head-Pom Set B<br>Pretty Backpack Set<br>Fallen Angel Costume Set<br>Banner Set B<br>Unique Hair Color Set<br>Chibi Character Cover Set<br><br>[Content to be released on Thursday, 10/2]<br>Estelle &amp; Joshua Swimwear: Pure Resort<br>Matching Diner Costume Set: Fine Red Diner Vol.3<br>Unique Diner Costume Set Vol.3<br>Go for it! Headgear Set<br>Chocosta Set<br>Demon King Costume Set<br>Banner Set C<br><br>*Distribution for Season Pass bonus content will begin in October 2025.<br>*Season Pass contents and description of each item are subject to change without notice.<br>*Season Pass does not include consumable items.<br>*Each item included in the Season Pass will also be available for individual purchase. Beware of duplicate purchases.</p>",
+  "short_description": "Value pack containing Sora no Kiseki the 1st bonus content (26 items total).",
+  "supported_languages": "Traditional Chinese, Korean, Simplified Chinese",
+  "reviews": "",
+  "header_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3965850/96abbf5dc9d15f31589bba81aa42041bd5893fbd/header.jpg?t=1758265293",
+  "capsule_image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3965850/8c8b6ef8cef48449614dc9f8f7ba72028c9efe9c/capsule_231x87.jpg?t=1758265293",
+  "capsule_imagev5": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3965850/8c8b6ef8cef48449614dc9f8f7ba72028c9efe9c/capsule_184x69.jpg?t=1758265293",
+  "website": null,
+  "legal_notice": "©2025 Nihon Falcom Corporation. All rights reserved.<br />\r\nLicensed to and published by Clouded Leopard Entertainment Inc.",
+  "developers": [
+    "Nihon Falcom"
+  ],
+  "publishers": [
+    "Clouded Leopard Entertainment"
+  ],
+  "price_overview": {
+    "currency": "USD",
+    "initial": 2499,
+    "final": 2499,
+    "discount_percent": 0,
+    "initial_formatted": "",
+    "final_formatted": "$24.99"
+  },
+  "platforms": {
+    "windows": true,
+    "mac": false,
+    "linux": false
+  },
+  "metacritic": null,
+  "categories": [
+    {
+      "id": 2,
+      "description": "Single-player"
+    },
+    {
+      "id": 21,
+      "description": "Downloadable Content"
+    },
+    {
+      "id": 22,
+      "description": "Steam Achievements"
+    },
+    {
+      "id": 28,
+      "description": "Full controller support"
+    },
+    {
+      "id": 60,
+      "description": "Gamepad Recommended"
+    },
+    {
+      "id": 55,
+      "description": "DualShock Controller Support"
+    },
+    {
+      "id": 57,
+      "description": "DualSense Controller Support"
+    },
+    {
+      "id": 23,
+      "description": "Steam Cloud"
+    },
+    {
+      "id": 62,
+      "description": "Family Sharing"
+    }
+  ],
+  "genres": [
+    {
+      "id": 3,
+      "description": "RPG"
+    }
+  ],
+  "screenshots": [
+    {
+      "id": 0,
+      "path_thumbnail": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3965850/4042f9ef8146ac48e83af5aaa0dd0e57cde16c05/ss_4042f9ef8146ac48e83af5aaa0dd0e57cde16c05.600x338.jpg?t=1758265293",
+      "path_full": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3965850/4042f9ef8146ac48e83af5aaa0dd0e57cde16c05/ss_4042f9ef8146ac48e83af5aaa0dd0e57cde16c05.1920x1080.jpg?t=1758265293"
+    }
+  ],
+  "movies": [],
+  "release_date": {
+    "coming_soon": false,
+    "date": "Sep 19, 2025"
+  },
+  "support_info": {
+    "url": "",
+    "email": "support@cloudedleopardent.com"
+  },
+  "background": "https://store.akamai.steamstatic.com/images/storepagebackground/app/3965850?t=1758265293",
+  "background_raw": "https://store.akamai.steamstatic.com/images/storepagebackground/app/3965850?t=1758265293"
+}

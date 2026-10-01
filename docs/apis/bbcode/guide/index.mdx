@@ -1,0 +1,21 @@
+---
+id: index
+title: guide
+sidebar_label: guide
+slug: /apis/bbcode/guide
+description: This module provides the utilities for parsing a Steam guide as `Document`.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+
+<APITopBar type="module" source="bbcode.guide" />
+
+This module provides the utilities for parsing a Steam guide as `Document`.
+
+Note that the implementation of this module is based on customized parsing of the fetched HTML text. Steam itself does not offer a BBCode access API.
+
+## Classes
+
+| Member | <center>Description</center> |
+| :-----: | :------ |
+| [<IconObjType type="class" hasText={true} text="GuideParser"/>](./GuideParser.mdx) | Parser for Steam Guide. |

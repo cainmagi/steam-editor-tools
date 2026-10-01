@@ -1,0 +1,31 @@
+---
+id: ItalicNode
+title: ItalicNode
+sidebar_label: ItalicNode
+slug: /apis/bbcode/nodes/ItalicNode
+description: 'Node: Italic.'
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="bbcode.nodes.ItalicNode" />
+
+```python
+ItalicNode(
+    children: list[DeletedNode | TextNode | LineBreakNode | HorizontalRuleNode | InlineCodeNode | CodeBlockNode | BoldNode | ItalicNode | UnderlineNode | StrikeNode | SpoilerNode | LinkNode | HeadingNode | ParagraphNode | QuoteNode | AlertNode | ListItemNode | ListNode | TableCellNode | TableRowNode | TableNode],
+    type: Literal["italic"] = "italic"
+)
+```
+
+Node: Italic
+
+Provide the italic inline format.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `children` | `list[DeletedNode \| TextNode \| LineBreakNode \| HorizontalRuleNode \| InlineCodeNode \| CodeBlockNode \| BoldNode \| ItalicNode \| UnderlineNode \| StrikeNode \| SpoilerNode \| LinkNode \| HeadingNode \| ParagraphNode \| QuoteNode \| AlertNode \| ListItemNode \| ListNode \| TableCellNode \| TableRowNode \| TableNode]` | <InlineIcon icon={vsiCheckIcon}/> | The children of the node. |
+| `type` | `Literal["italic"]` | | The type identifer of this document node. |

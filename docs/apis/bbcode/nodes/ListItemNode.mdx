@@ -1,0 +1,31 @@
+---
+id: ListItemNode
+title: ListItemNode
+sidebar_label: ListItemNode
+slug: /apis/bbcode/nodes/ListItemNode
+description: 'Node: List Item.'
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="bbcode.nodes.ListItemNode" />
+
+```python
+ListItemNode(
+    children: list[DeletedNode | TextNode | LineBreakNode | HorizontalRuleNode | InlineCodeNode | CodeBlockNode | BoldNode | ItalicNode | UnderlineNode | StrikeNode | SpoilerNode | LinkNode | HeadingNode | ParagraphNode | QuoteNode | AlertNode | ListItemNode | ListNode | TableCellNode | TableRowNode | TableNode],
+    type: Literal["list_item"] = "list_item"
+)
+```
+
+Node: List Item
+
+Provide the item of a list. This node needs to be a member of `ListNode`.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `children` | `list[DeletedNode \| TextNode \| LineBreakNode \| HorizontalRuleNode \| InlineCodeNode \| CodeBlockNode \| BoldNode \| ItalicNode \| UnderlineNode \| StrikeNode \| SpoilerNode \| LinkNode \| HeadingNode \| ParagraphNode \| QuoteNode \| AlertNode \| ListItemNode \| ListNode \| TableCellNode \| TableRowNode \| TableNode]` | <InlineIcon icon={vsiCheckIcon}/> | The children of the node. |
+| `type` | `Literal["list_item"]` | | The type identifer of this document node. |

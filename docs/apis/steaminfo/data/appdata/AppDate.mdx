@@ -1,0 +1,26 @@
+---
+id: AppDate
+title: AppDate
+sidebar_label: AppDate
+slug: /apis/steaminfo/data/appdata/AppDate
+description: The release date of a game app.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="steaminfo.data.appdata.AppDate" />
+
+```python
+AppDate(coming_soon: bool = False, date: str)
+```
+
+The release date of a game app.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `coming_soon` | `bool` | | A flag specifying whether the game is marked as "comming soon". |
+| `date` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The release date of the first edition. |

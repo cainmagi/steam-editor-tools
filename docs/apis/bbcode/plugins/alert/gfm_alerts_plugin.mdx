@@ -1,0 +1,40 @@
+---
+id: gfm_alerts_plugin
+title: gfm_alerts_plugin
+sidebar_label: gfm_alerts_plugin
+slug: /apis/bbcode/plugins/alert/gfm_alerts_plugin
+description: Add the GitHub-flavored Markdown style alert box plugin.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="func" source="bbcode.plugins.alert.gfm_alerts_plugin" />
+
+```python
+gfm_alerts_plugin(
+    md: MarkdownIt,
+    titles: Sequence[str] | None = None,
+    icons: Mapping[str, str] | None = None,
+    class_prefix: str = "markdown-alert",
+    *,
+    parse_nested: bool = True,
+    match_case_sensitive: bool = False
+)
+```
+
+Add the GitHub-flavored Markdown style alert box plugin.
+
+## Arguments
+
+### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `md` | `MarkdownIt` | <InlineIcon icon={vsiCheckIcon}/> | The markdown-it handle where the plugin will be injected. |
+| `titles` | `Sequence[str] \| None` | | <p>The allowed titles that would be used to detect the alert box.</p><p>If not specified, will use the default list: <code>("tip", "note", "important", "warning", "caution")</code></p> |
+| `icons` | `Mapping[str, str] \| None` | | The icon storage. It is a mapping from the title to the icon SVG text. |
+| `class_prefix` | `str` | | The prefix of the class name when the alert box is produced. |
+| `parse_nested` | `bool` | | A flag. If specified, will render the nested alert boxes. |
+| `match_case_sensitive` | `bool` | | A flag. If specified, will match the case of the identifier (title) when rendering the alert boxes. |

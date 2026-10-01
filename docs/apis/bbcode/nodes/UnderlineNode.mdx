@@ -1,0 +1,31 @@
+---
+id: UnderlineNode
+title: UnderlineNode
+sidebar_label: UnderlineNode
+slug: /apis/bbcode/nodes/UnderlineNode
+description: 'Node: Underline.'
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="bbcode.nodes.UnderlineNode" />
+
+```python
+UnderlineNode(
+    children: list[DeletedNode | TextNode | LineBreakNode | HorizontalRuleNode | InlineCodeNode | CodeBlockNode | BoldNode | ItalicNode | UnderlineNode | StrikeNode | SpoilerNode | LinkNode | HeadingNode | ParagraphNode | QuoteNode | AlertNode | ListItemNode | ListNode | TableCellNode | TableRowNode | TableNode],
+    type: Literal["underline"] = "underline"
+)
+```
+
+Node: Underline
+
+Provide the underline inline format.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `children` | `list[DeletedNode \| TextNode \| LineBreakNode \| HorizontalRuleNode \| InlineCodeNode \| CodeBlockNode \| BoldNode \| ItalicNode \| UnderlineNode \| StrikeNode \| SpoilerNode \| LinkNode \| HeadingNode \| ParagraphNode \| QuoteNode \| AlertNode \| ListItemNode \| ListNode \| TableCellNode \| TableRowNode \| TableNode]` | <InlineIcon icon={vsiCheckIcon}/> | The children of the node. |
+| `type` | `Literal["underline"]` | | The type identifer of this document node. |

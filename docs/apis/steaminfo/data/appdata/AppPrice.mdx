@@ -1,0 +1,37 @@
+---
+id: AppPrice
+title: AppPrice
+sidebar_label: AppPrice
+slug: /apis/steaminfo/data/appdata/AppPrice
+description: The price information of an app.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="steaminfo.data.appdata.AppPrice" />
+
+```python
+AppPrice(
+    currency: str,
+    initial: int,
+    final: int,
+    discount_percent: int,
+    initial_formatted: str,
+    final_formatted: str
+)
+```
+
+The price information of an app.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `currency` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The name of the currency. |
+| `initial` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The original price number (specified as cents.) |
+| `final` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The current price number (specified as cents.) |
+| `discount_percent` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The discount percent. It is in 0~100. |
+| `initial_formatted` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The original price formatted by the currency. |
+| `final_formatted` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The current price formatted by the currency. |

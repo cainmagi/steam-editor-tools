@@ -1,0 +1,33 @@
+---
+id: QuoteNode
+title: QuoteNode
+sidebar_label: QuoteNode
+slug: /apis/bbcode/nodes/QuoteNode
+description: 'Node: Quote.'
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="bbcode.nodes.QuoteNode" />
+
+```python
+QuoteNode(
+    children: list[DeletedNode | TextNode | LineBreakNode | HorizontalRuleNode | InlineCodeNode | CodeBlockNode | BoldNode | ItalicNode | UnderlineNode | StrikeNode | SpoilerNode | LinkNode | HeadingNode | ParagraphNode | QuoteNode | AlertNode | ListItemNode | ListNode | TableCellNode | TableRowNode | TableNode],
+    type: Literal["quote"] = "quote",
+    cite: str = ""
+)
+```
+
+Node: Quote
+
+Provide the quote block, representing `<blockquote>` in HTML.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `children` | `list[DeletedNode \| TextNode \| LineBreakNode \| HorizontalRuleNode \| InlineCodeNode \| CodeBlockNode \| BoldNode \| ItalicNode \| UnderlineNode \| StrikeNode \| SpoilerNode \| LinkNode \| HeadingNode \| ParagraphNode \| QuoteNode \| AlertNode \| ListItemNode \| ListNode \| TableCellNode \| TableRowNode \| TableNode]` | <InlineIcon icon={vsiCheckIcon}/> | The children of the node. |
+| `type` | `Literal["quote"]` | | The type identifer of this document node. |
+| `cite` | `str` | | The cited author of the node. |

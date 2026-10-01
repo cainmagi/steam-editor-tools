@@ -1,0 +1,211 @@
+---
+id: search-fonts
+sidebar_label: Search Fonts
+title: "Search fonts"
+description: An introduction to font-searching features that let users configure queries with fallbacks and specify custom font paths.
+slug: /improc/search-fonts
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import Admonition from "@theme/Admonition";
+import DarkButton from "@site/src/components/DarkButton";
+
+import mdiImage from "@iconify-icons/mdi/image";
+import mdiLanguagePython from "@iconify-icons/mdi/language-python";
+import InlineIcon from "@site/src/components/InlineIcon";
+import IconExternalLink from "@theme/Icon/ExternalLink";
+
+import {demoURL} from "@site/src/envs/variables";
+
+The backend of the image processing features is [`pillow`<IconExternalLink/>][link-pillow]. By default, pillow is blind to the installed font list. We offer a feature allowing users to search fonts that are available to render texts with pillow. The font searcher will maintain a cache of available fonts. Therefore, a global font cache should be maintained to reduce the searching consumption.
+
+## 1. Search available fonts
+
+The example in [the previous section](./get-started.mdx#2-render-a-simple-title) already showed how to use the [`FontLocator`](../../apis/improc/font/FontLocator.mdx). This main cache automatically searches all available fonts when it initializes.
+
+```python showLineNumbers
+fontlist = stet.FontLocator()
+# The name can be inexact.
+font = fontlist.query_best("OpenSans-Bold")
+```
+
+Users can provide a list of font names. The priority will be ordered from the left to the right. When querying the font, the locator will attempt to find the first font. If it is not available, will attempt to search for the second candidate.
+
+```python showLineNumbers
+fontlist = stet.FontLocator()
+# Any name in the candidate list can be inexact.
+font = fontlist.query_best_with_fallbacks(
+    ["Linux Libertine", "Arial", "Times New Roman", "Roboto"]
+)
+```
+
+Using the searched font, the text can be rendered by
+
+```python showLineNumbers
+stet.ImageMultiLayer(width=2400, height=120).add_background().add_text(
+    font.get_name(),
+    name="text",
+    # highlight-next-line
+    font=font,
+    font_size="h2",
+    color="white",
+    shadow_color="black",
+    pos_shift=(0, 10),
+)
+```
+
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>example-text1.png</code>}>
+
+![example-text1.png](/img/tutorial/example-text1.png)
+
+</Admonition>
+
+## 2. Specify font files
+
+Suppose that we have a font at `./fonts/Roboto-Regular.ttf`. The file can be used directly to specify the font.
+
+```python showLineNumbers
+stet.ImageMultiLayer(width=2400, height=120).add_background().add_text(
+    "Roboto",
+    name="text",
+    # highlight-next-line
+    font="./fonts/Roboto-Regular.ttf",
+    font_size="h2",
+    color="white",
+    shadow_color="black",
+    pos_shift=(0, 15),
+)
+```
+
+It is also feasible to specify the `fonts` folder as a search path member of the [`FontLocator`](../../apis/improc/font/FontLocator.mdx).
+
+```python showLineNumbers
+fontlist = stet.FontLocator("fonts", include_system_dirs=False)
+stet.ImageMultiLayer(width=2400, height=120).add_background().add_text(
+    "Roboto",
+    name="text",
+    # highlight-next-line
+    font=fontlist.query_best("Roboto"),
+    font_size="h2",
+    color="white",
+    shadow_color="black",
+    pos_shift=(0, 15),
+)
+```
+
+These two usages produce the same image:
+
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>example-text2.png</code>}>
+
+![example-text2.png](/img/tutorial/example-text2.png)
+
+</Admonition>
+
+:::tip
+
+Users can specify multiple paths, i.e.,
+
+```python
+fontlist = stet.FontLocator(["path1", "path2", ...])
+```
+
+In this case, the paths are ordered from left to right by priority. The system font paths (if used) will have the lowest priority.
+
+:::
+
+## 3. Query fonts with different languages
+
+Some fonts have multiple names under different language environments. For example, the following two queries refer to the same font:
+
+<Tabs
+  defaultValue="query-eng"
+  values={[
+    { label: "Query (English)", value: "query-eng", },
+    { label: "Query (Chinese)", value: "query-zh", },
+  ]
+}>
+
+<TabItem value="query-eng">
+
+```python showLineNumbers
+fontlist = stet.FontLocator()
+font = fontlist.query_best("LXGW Wenkai GB")
+
+stet.ImageMultiLayer(width=2400, height=240).add_background().add_text(
+    font.get_name(),
+    name="title",
+    font=font,
+    font_size=80,
+    color="#ffffff",
+    stroke_color="black",
+    pos_shift=(0, -20),
+).add_text(
+    "一川烟草，满城风絮，梅子黄时雨。",
+    name="comment",
+    font=font,
+    font_size=40,
+    color="#ffffff",
+    stroke_color="black",
+    anchor="top",
+    related_to="title",
+    rel_anchor="bottom",
+    pos_shift=(0, -10),
+)
+```
+
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>example-text3eng.png</code>}>
+
+![example-text3eng.png](/img/tutorial/example-text3eng.png)
+
+</Admonition>
+
+</TabItem>
+
+<TabItem value="query-zh">
+
+```python showLineNumbers
+fontlist = stet.FontLocator()
+font = fontlist.query_best("霞鹜文楷 GB", lang=stet.FontLanguage.zh_cn)
+
+stet.ImageMultiLayer(width=2400, height=240).add_background().add_text(
+    font.get_name(stet.FontLanguage.zh_cn),
+    name="title",
+    font=font,
+    font_size=80,
+    color="#ffffff",
+    stroke_color="black",
+    pos_shift=(0, -20),
+).add_text(
+    "一川烟草，满城风絮，梅子黄时雨。",
+    name="comment",
+    font=font,
+    font_size=40,
+    color="#ffffff",
+    stroke_color="black",
+    anchor="top",
+    related_to="title",
+    rel_anchor="bottom",
+    pos_shift=(0, -10),
+)
+```
+
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>example-text3zh.png</code>}>
+
+![example-text3zh.png](/img/tutorial/example-text3zh.png)
+
+</Admonition>
+
+</TabItem>
+
+</Tabs>
+
+Check more details in the following example:
+
+<p>
+  <DarkButton to={demoURL("search_font.py")} icon={mdiLanguagePython}>
+    {"search_font.py"}
+  </DarkButton>
+</p>
+
+[link-pillow]: https://pillow.readthedocs.io/

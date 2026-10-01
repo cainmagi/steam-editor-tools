@@ -1,0 +1,194 @@
+---
+id: FontIndexList
+title: FontIndexList
+sidebar_label: FontIndexList
+slug: /apis/improc/font/FontIndexList
+description: The internal font list maintained by the `FontLocator`.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" source="improc.font.FontIndexList" />
+
+```python
+FontIndexList()
+```
+
+The internal font list maintained by the `FontLocator`.
+
+This list is designed for fast query.
+
+## Arguments
+
+No argument is needed.
+
+## Methods
+
+### <IconObjType type="method"/> `add_font`
+
+```python
+self.add_font(font: FontInfo, names_for_query: Mapping[FontLanguage, Sequence[str]])
+```
+
+Add a font to this index list.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `font` | `FontInfo` | <InlineIcon icon={vsiCheckIcon}/> | The font information that can be used for retrieving the font. |
+| `names_for_query` | `Mapping[FontLanguage, Sequence[str]]` | <InlineIcon icon={vsiCheckIcon}/> | <p>All names that can be used for querying this font.</p><p>Some fonts may have more than one name for a specific language, that's because such font may have a different name compared to the full name.</p> |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `from_file`
+
+```python
+v_1: Self = FontIndexList.from_file(fobj: str | PathLike[str] | IO[str])
+```
+
+Load the cached data as this font index list.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `fobj` | `str \| PathLike[str] \| IO[str]` | <InlineIcon icon={vsiCheckIcon}/> | The path to the output file or a file-like object used for saving the file. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The font index list loaded from the file. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `list_fonts_of_lang`
+
+```python
+v_1: list[FontInfo] = self.list_fonts_of_lang(lang: str | FontLanguage)
+```
+
+List all fonts supporting a specific language.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `lang` | `str \| FontLanguage` | <InlineIcon icon={vsiCheckIcon}/> | <p>The language used for searching the font name.</p><p>If this value is <code>str</code>, will be treated as the label of <code>FontLanguage</code>.</p> |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `list[FontInfo]` | A list of all fonts supporting this language. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `query`
+
+```python
+v_1: list[tuple[FontInfo, str, float]] = self.query(
+    name: str, lang: str | FontLanguage = FontLanguage.en, threshold: float = 70.0
+)
+```
+
+Query the font.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `name` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The name used for querying the font. Usually, the name is related to the language. |
+| `lang` | `str \| FontLanguage` | | <p>The language of the font name. It will limit the searching scope of the fonts. The <code>name</code> argument should be consistent with this specified language.</p><p>If this value is <code>str</code>, will be treated as the label of <code>FontLanguage</code>.</p> |
+| `threshold` | `float` | | The threshold for the matching rate. Any matched result with a score lower than this threshold will be filtered out. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `list[tuple[FontInfo, str, float]]` | <p>A list of queried results. The results will be sorted by the matching rate. If no font can be found, will return an empty list.</p><p>Each item include:</p><ol><li>The searched font.</li><li>The name that the font is used for searching.</li><li>The matching rate of the searched font.</li></ol><p>Will not return more than five candidates.</p> |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `query_best`
+
+```python
+v_1: tuple[FontInfo, str, float] | None = self.query_best(
+    name: str, lang: str | FontLanguage = FontLanguage.en, threshold: float = 70.0
+)
+```
+
+Query only one font.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `name` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The name used for querying the font. Usually, the name is related to the language. |
+| `lang` | `str \| FontLanguage` | | <p>The language of the font name. It will limit the searching scope of the fonts. The <code>name</code> argument should be consistent with this specified language.</p><p>If this value is <code>str</code>, will be treated as the label of <code>FontLanguage</code>.</p> |
+| `threshold` | `float` | | The threshold for the matching rate. If the best matched font has a score lower than this value, will return `None`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `tuple[FontInfo, str, float] \| None` | <p>The best matched font. If no font can be found, will return <code>None</code>.</p><p>The returned values are</p><ol><li>The searched font.</li><li>The name that the font is used for searching.</li><li>The matching rate of the searched font.</li></ol> |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `to_file`
+
+```python
+self.to_file(fobj: str | PathLike[str] | IO[str])
+```
+
+Serialize this index list as a file.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `fobj` | `str \| PathLike[str] \| IO[str]` | <InlineIcon icon={vsiCheckIcon}/> | The path to the output file or a file-like object used for saving the file. |
+
+## Properties
+
+### <IconObjType type="param"/> `fonts`
+
+```python
+fonts: list[FontInfo] = self.fonts
+```
+
+List of all indexed fonts.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `lang_stats`
+
+```python
+lang_stats: dict[FontLanguage, int] = self.lang_stats
+```
+
+Get the count of fonts for each language.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `langs`
+
+```python
+langs: list[FontLanguage] = self.langs
+```
+
+Get the supported languages.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `n_fonts`
+
+```python
+n_fonts: int = self.n_fonts
+```
+
+Number of fonts.

@@ -1,0 +1,118 @@
+---
+id: effects
+sidebar_label: Effects
+title: "Image effects"
+description: Add effects when blending multiple images into one image.
+slug: /improc/effects
+---
+
+import Admonition from "@theme/Admonition";
+import DarkButton from "@site/src/components/DarkButton";
+
+import mdiImage from "@iconify-icons/mdi/image";
+import mdiLanguagePython from "@iconify-icons/mdi/language-python";
+import mdiBookOpenVariant from "@iconify-icons/mdi/book-open-variant";
+import InlineIcon from "@site/src/components/InlineIcon";
+import IconExternalLink from "@theme/Icon/ExternalLink";
+
+import {demoURL} from "@site/src/envs/variables";
+
+Like many image editing tools, we also provide functionalities of "styling" a layer ([`ImageLayer`](../../apis/improc/layer/ImageLayer.mdx)) of a multi-layer image ([`ImageMultiLayer`](../../apis/improc/renderer/ImageMultiLayer.mdx)).
+
+## 1. Mix two images by effects
+
+We use image mixing as an example. Both images are sized to `(256, 256)`. The first image (A) has an alpha channel, and a red block is centered. The second image (B) is a JPEG file. During the mixing, the second image will "overlay" the first image, while the alpha channel of the "bottom" layer will be preserved.
+
+```python showLineNumbers
+img = stet.ImageMultiLayer((256, 256), "png").add_image(
+    stet.ImageSingle("example-mix-a.png"), "block"
+)
+img.layers["block"].add_overlay_image(
+    # highlight-next-line
+    stet.ImageSingle("example-mix-b.jpg").img, mode="add"
+)
+```
+
+Here, the `mode` is the blending mode of the effect layer. In this example, we use the two most representative modes, arithmetic addition and subtraction, as examples. The final results of `mode="add"` and `mode="subtract"` are displayed as follows:
+
+|                        Image A                        |                        Image B                        |                             A+B                             |                             A-B                             |
+| :---------------------------------------------------: | :---------------------------------------------------: | :---------------------------------------------------------: | :---------------------------------------------------------: |
+| ![example-mix-a.png](/img/tutorial/example-mix-a.png) | ![example-mix-b.png](/img/tutorial/example-mix-b.jpg) | ![example-mix-radd.png](/img/tutorial/example-mix-radd.png) | ![example-mix-rsub.png](/img/tutorial/example-mix-rsub.png) |
+
+## 2. Overview of different blending modes
+
+There are more blending modes when rendering effects. In the following examples, we mix the same images with different blending modes. To make a showcase of all results, we use the tool [`ImageGrids`](../../apis/improc/tools/ImageGrids.mdx).
+
+:::tip
+
+[`ImageGrids`](../../apis/improc/tools/ImageGrids.mdx) is used for stacking many images with the same space.
+
+```python showLineNumbers
+res = stet.improc.tools.ImageGrids(
+    n_cols,  # Number of images (columns) in a row.
+    width=n_cols * 256,  # The image width.
+    margins=(10, 10),  # The outer padding of all images.
+    gaps=(10, 10),  # The gap size between images.
+    bg_color="#888888",  # The background color. 
+)
+res.append(img)  # Add an image to the grid.
+...
+
+res.img  # Get the stacked image.
+```
+
+:::
+
+Most blending modes of effects can be viewed as functions requiring two images as arguments. In the following stack, the effects are grouped into three parts. The first part shows an image overlaid with a white light. The light has an "S" symbol at the center. In the second part, we use the same image (containing three blocks), but invert the light to "black". In the third part, we display only the effects, using one image as the argument.
+
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>example-composers.jpg</code>}>
+
+![example-composers.jpg](/img/tutorial/example-composers.jpg)
+
+</Admonition>
+
+More details can be found in the following script:
+
+<p>
+  <DarkButton to={demoURL("composer_list.py")} icon={mdiLanguagePython}>
+    {"composer_list.py"}
+  </DarkButton>
+</p>
+
+The list of available blending modes can be found in [`ImageComposer`](../../apis/improc/composer/ImageComposer.mdx). The details of these modes can also be found here:
+
+<p>
+  <DarkButton href={"https://pillow.readthedocs.io/en/stable/reference/ImageChops.html"} icon={mdiBookOpenVariant}>
+    {"ImageChops"}<IconExternalLink/>
+  </DarkButton>
+</p>
+
+## 3. Overview of different effects
+
+We can customize the effects of an image layer by calling its layer API:
+
+```python showLineNumbers
+img = stet.ImageMultiLayer((256, 256), "png").add_image(...)
+# highlight-start
+img.layers["block"].add_overlay_image(...)
+img.layers["block"].set_shadow(...)
+img.layers["block"].set_glow(...)
+...
+# highlight-end
+```
+
+The details of the usage can be found in [`ImageLayer`](../../apis/improc/layer/ImageLayer.mdx). The following example shows the stack of all representative effects. Note that multiple effects can be configured on the same image layer. These effects are inspired by the "layer style" of some image editing software.
+
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>example-effects.jpg</code>}>
+
+![example-effects.jpg](/img/tutorial/example-effects.jpg)
+
+</Admonition>
+
+More details can be found in the following script:
+
+<p>
+  <DarkButton to={demoURL("effect_list.py")} icon={mdiLanguagePython}>
+    {"effect_list.py"}
+  </DarkButton>
+</p>

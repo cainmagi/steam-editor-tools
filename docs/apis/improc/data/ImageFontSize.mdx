@@ -1,0 +1,78 @@
+---
+id: ImageFontSize
+title: ImageFontSize
+sidebar_label: ImageFontSize
+slug: /apis/improc/data/ImageFontSize
+description: Size of the text in the image.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isEnum={true} source="improc.data.ImageFontSize" />
+
+```python
+ImageFontSize.h1 = "h1"
+ImageFontSize.h2 = "h2"
+ImageFontSize.h3 = "h3"
+ImageFontSize.h4 = "h4"
+```
+
+Size of the text in the image.
+
+This font size is high-level. When renderin the text, the pixel size of the text will be determined by this size and the number of characters.
+
+## Enums
+
+| Name | Type | Value |
+| :-----: | :-----: | :-----: |
+| `h1` | `str` | `"h1"` |
+| `h2` | `str` | `"h2"` |
+| `h3` | `str` | `"h3"` |
+| `h4` | `str` | `"h4"` |
+
+## Methods
+
+### <IconObjType type="method"/> `from_str`
+
+```python
+v_1: Self = ImageFontSize.from_str(val: str | Self)
+```
+
+Use a `str` to define this size.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `val` | `str \| Self` | <InlineIcon icon={vsiCheckIcon}/> | Should be `h1`-`h4`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The size defined from `val`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `get_line_size`
+
+```python
+(v_1: int, v_2: int) = self.get_line_size(n_text: int)
+```
+
+Get the sizes of the text.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `n_text` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The length of the text to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `int` | The number of characters for each line. |
+| `v_2` | `int` | The pixel font size. |

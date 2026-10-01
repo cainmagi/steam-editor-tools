@@ -1,0 +1,50 @@
+---
+id: index
+title: Overview of APIs
+sidebar_label: Overview
+slug: /apis/
+description: This package offers editor tools helping users write Steam guides and
+  reviews.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+
+<APITopBar type="package" source="." />
+
+This package offers editor tools helping users write Steam guides and reviews.
+
+This package support Steam information queries, image editing tools, and BBCode text processing tools. Users can write their documents with Markdown, use this package to process the images in the document, and convert the document to the Steam BBCode format.
+
+## Modules
+
+| Member | <center>Description</center> |
+| :-----: | :------ |
+| [<IconObjType type="module" hasText={true} text="utils"/>](./utils/index.mdx) | The utilities of this package. |
+| [<IconObjType type="package" hasText={true} text="bbcode"/>](./bbcode/index.mdx) | The BBCode parsing package in Steam Editor Tools. |
+| [<IconObjType type="package" hasText={true} text="improc"/>](./improc/index.mdx) | The image processing package for preparing the figures when writing the Steam guides. |
+| [<IconObjType type="package" hasText={true} text="steaminfo"/>](./steaminfo/index.mdx) | The steam information parser. |
+
+## Aliases
+
+| Member | <center>Description</center> |
+| :-----: | :------ |
+| [<IconObjType type="class" hasText={true} text="DocumentParser"/>](./bbcode/parser/DocumentParser.mdx) | Document Parser. |
+| [<IconObjType type="class" hasText={true} text="GuideParser"/>](./bbcode/guide/GuideParser.mdx) | Parser for Steam Guide. |
+| [<IconObjType type="class" hasText={true} text="BBCodeRenderer"/>](./bbcode/renderer/base/BBCodeRenderer.mdx) | The BBCode renderer. |
+| [<IconObjType type="class" hasText={true} text="BBCodeConfig"/>](./bbcode/renderer/configs/BBCodeConfig.mdx) | Configurations of BBCode renderer. |
+| [<IconObjType type="class" hasText={true} text="AlertTitleConfigs"/>](./bbcode/renderer/configs/AlertTitleConfigs.mdx) | The translation list of alert box titles. |
+| [<IconObjType type="class" hasText={true} text="FontLanguage"/>](./improc/font/FontLanguage.mdx) | Support LCID mapping from language short name to lang_id of `fontTools`. |
+| [<IconObjType type="class" hasText={true} text="FontLocator"/>](./improc/font/FontLocator.mdx) | Cross-platform font locator with fuzzy name search. |
+| [<IconObjType type="class" hasText={true} text="ImageFontAbsSize"/>](./improc/data/ImageFontAbsSize.mdx) | Absolute image text size. |
+| [<IconObjType type="class" hasText={true} text="ImageFontSize"/>](./improc/data/ImageFontSize.mdx) | Size of the text in the image. |
+| [<IconObjType type="class" hasText={true} text="ImageFormat"/>](./improc/data/ImageFormat.mdx) | The image file format. |
+| [<IconObjType type="class" hasText={true} text="ImageQuality"/>](./improc/data/ImageQuality.mdx) | The image quality. |
+| [<IconObjType type="class" hasText={true} text="ImageAnchor"/>](./improc/data/ImageAnchor.mdx) | The image anchor. |
+| [<IconObjType type="class" hasText={true} text="ImageComposer"/>](./improc/composer/ImageComposer.mdx) | The image mixing operators extended to the alpha-channel (RGBA) domain. |
+| [<IconObjType type="class" hasText={true} text="ImageSingle"/>](./improc/renderer/ImageSingle.mdx) | The basic one-layer style of image. |
+| [<IconObjType type="class" hasText={true} text="ImageText"/>](./improc/renderer/ImageText.mdx) | A layer of text that can be rendered as an image. |
+| [<IconObjType type="class" hasText={true} text="ImageTeX"/>](./improc/renderer/ImageTeX.mdx) | A layer of TeX equation that can be rendered as an image. |
+| [<IconObjType type="class" hasText={true} text="ImageMultiLayer"/>](./improc/renderer/ImageMultiLayer.mdx) | The handle of a stack of layered images. |
+| [<IconObjType type="func" hasText={true} text="query_app_by_name_simple"/>](./steaminfo/query/query_app_by_name_simple.mdx) | Query the app information by name. |
+| [<IconObjType type="func" hasText={true} text="get_app_details"/>](./steaminfo/query/get_app_details.mdx) | Fetch the app detailed information by its ID. |
+| [<IconObjType type="func" hasText={true} text="get_achievement_list"/>](./steaminfo/query/get_achievement_list.mdx) | Fetch the achievement list of a specific app (game). |

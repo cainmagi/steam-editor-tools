@@ -1,0 +1,33 @@
+---
+id: get_image_by_url
+title: get_image_by_url
+sidebar_label: get_image_by_url
+slug: /apis/steaminfo/utils/get_image_by_url
+description: Download the image by its url.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="func" source="steaminfo.utils.get_image_by_url" />
+
+```python
+v_1: Image | None = get_image_by_url(url: str | None)
+```
+
+Download the image by its url.
+
+## Arguments
+
+### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `url` | `str \| None` | <InlineIcon icon={vsiCheckIcon}/> | The URL used for accessing the image. |
+
+### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image \| None` | The image object fetched by the url. It is `None` when no image can be fetched. |

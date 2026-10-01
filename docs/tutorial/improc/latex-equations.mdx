@@ -1,0 +1,155 @@
+---
+id: latex-equations
+sidebar_label: LaTeX Equations
+title: "Draw LaTeX equations"
+description: Draw LaTeX equations. This feature requires a built-in LaTeX run time.
+slug: /improc/latex-equations
+---
+
+import Admonition from "@theme/Admonition";
+import DarkButton from "@site/src/components/DarkButton";
+
+import mdiImage from "@iconify-icons/mdi/image";
+import mdiLanguagePython from "@iconify-icons/mdi/language-python";
+import InlineIcon from "@site/src/components/InlineIcon";
+import IconExternalLink from "@theme/Icon/ExternalLink";
+
+import {demoURL} from "@site/src/envs/variables";
+
+When a $\LaTeX$ distribution is installed, this package can render equations. We recommend [$\TeX\textrm{Live}$<IconExternalLink/>][link-texlive] as the runtime.
+
+## 1. Draw a simple equation
+
+In the first example, we show the rendering of the following simple equation:
+
+$$
+\begin{align}
+E = m c^2.
+\end{align}
+$$
+
+```python showLineNumbers
+stet.ImageMultiLayer((2700, 150), fmt="png").add_latex(
+    equation="E = m c^2.", name="eq1", font_size="h1", color="#ffffff"
+).add_background().convert("RGB")
+```
+
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>example-eq1.png</code>}>
+
+![example-eq1.png](/img/tutorial/example-eq1.png)
+
+</Admonition>
+
+## 2. Use Chinese characaters
+
+When writing Chinese articles, users may need to put CJK characters. For example,
+
+$$
+\begin{align}
+\left\{ \sigma \middle| \sigma \text{是} \mathbb{A} \rightarrow \mathbb{B} \text{的双射} \right\}.
+\end{align}
+$$
+
+We offer a template that can be used in this case:
+
+```python showLineNumbers
+stet.ImageMultiLayer((2700, 200), fmt="png").add_latex(
+    equation=(
+        R"\left\{ \sigma \middle| \sigma \textrm{是} \mathbb{A} "
+        R"\rightarrow \mathbb{B} \textrm{的双射} \right\}."
+    ),
+    name="eq1",
+    # highlight-next-line
+    template="chinese",
+    font_size="h1",
+    color="#ffffff",
+).add_background().convert("RGB")
+```
+
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>example-eq2.png</code>}>
+
+![example-eq2.png](/img/tutorial/example-eq2.png)
+
+</Admonition>
+
+## 3. Draw complicated equations
+
+The following example renders the Maxwell equations:
+
+```math
+\begin{equation}
+  \left\{\begin{aligned}
+    \nabla \times \mathbf{E} &= - \mu \frac{\partial \mathbf{H}}{\partial t}, \\
+    \nabla \times \mathbf{H} &= \varepsilon\frac{\partial \mathbf{E}}{\partial t} + \sigma \mathbf{E} + \mathbf{J}.
+  \end{aligned}\right.
+\end{equation}
+```
+
+In previous examples, we only rendered one-line equations. This complicated example contains multi-line equations, so we need to use a different template. We also add more styles that make the equations prettier:
+
+```python showLineNumbers
+equation = (
+    R"\left\{\begin{aligned}"
+    R"\nabla \times \mathbf{E} &= - \mu \frac{\partial \mathbf{H}}{\partial t}, \\"
+    R"\nabla \times \mathbf{H} &= \varepsilon "
+    R"\frac{\partial \mathbf{E}}{\partial t} + \sigma \mathbf{E} + \mathbf{J}."
+    R"\end{aligned}\right."
+)
+
+stet.ImageMultiLayer((2700, 500), fmt="png").add_latex(
+    equation=equation,
+    name="eq1",
+    # highlight-next-line
+    template="multilines",
+    font_size="h1",
+    color="#ffffff",
+    stroke_color="#000000",
+    shadow_color="#000000",
+).add_background().convert("RGB").save("alpha-latex.png", quality="medium")
+```
+
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>example-eq3.png</code>}>
+
+![example-eq3.png](/img/tutorial/example-eq3.png)
+
+</Admonition>
+
+This example can be found here:
+
+<p>
+  <DarkButton to={demoURL("render_latex_equations.py")} icon={mdiLanguagePython}>
+    {"render_latex_equations.py"}
+  </DarkButton>
+</p>
+
+## 4. Templates
+
+By default, we allow the following templates:
+
+* `"default"`: The default template used for rendering simple equations. It has enabled `equation` and `aligned` wrappers.
+* `"multilines"`: The template automatically add the `equation` environment allowing compliated line structures. 
+* `"chinese"`: The default template with CJK features enabled.
+* `"multilines_chinese"`: The `"multilines"` template with CJK features enabled.
+
+We allow users to create their own templates. For example, the `"default"` template can be implemented by:
+
+```python showLineNumbers
+from steam_editor_tools.improc import TeXTemplate
+
+TeXTemplate(
+    prep=R"""
+\documentclass[preview,border=5pt]{standalone}
+\usepackage{amsmath, amssymb}
+\begin{document}
+\begin{equation*}
+\begin{aligned}
+""",
+    end=R"""
+\end{aligned}
+\end{equation*}
+\end{document}
+""",
+)
+```
+
+[link-texlive]: https://www.tug.org/texlive/

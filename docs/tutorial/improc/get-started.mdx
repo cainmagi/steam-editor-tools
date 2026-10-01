@@ -1,0 +1,232 @@
+---
+id: get-started
+sidebar_label: Get Started
+title: "Get started: Create images by codes"
+description: An introduction to image rendering.
+slug: /improc/get-started
+---
+
+import Admonition from "@theme/Admonition";
+import DarkButton from "@site/src/components/DarkButton";
+
+import mdiImage from "@iconify-icons/mdi/image";
+import mdiLanguagePython from "@iconify-icons/mdi/language-python";
+import InlineIcon from "@site/src/components/InlineIcon";
+import IconExternalLink from "@theme/Icon/ExternalLink";
+
+import {demoURL} from "@site/src/envs/variables";
+
+import SvgAnchors from '@site/static/img/tutorial/anchors.svg';
+
+This package also offers a code-based image editing system, which is mainly inspired by the image editing software and the positioning system of [$\LaTeX\text{-TikZ}$<IconExternalLink/>][link-tikz]. These features allow us to organize an image by instructions. In the following sections, we will introduce several example use scenarios.
+
+## 1. Tikz-like anchor system
+
+The following figure shows the anchor system inspired by TikZ. In this example, we have already placed an image (Image 1) on the canvas, and we need to place another image (Image 2) relative to its position.
+
+<p><SvgAnchors className="themed-diagram" style={{"width": "540px", "maxWidth": "100%"}}/></p>
+
+Like TikZ, an image has nine anchors that mark its relative positions. In this example, the "left" anchor of Image 2 is aligned with the "bottom right" anchor of Image 1. The code can be written as
+
+```python showLineNumbers
+stet.ImageMultiLayer(width=540, height=400).add_image(
+    image1, name="Image 1"
+).add_image(
+    image2,
+    name="Image 2",
+    anchor="left",
+    related_to="Image 1",
+    rel_anchor="bottom right",
+    pos_shift=(0, 0)
+)
+```
+
+where `pos_shift` fine-tune the position of `Image 2` by `(x, y)` pixels. In this example, we do not fine-tune the position, so the values are `0`.
+
+## 2. Render a simple title
+
+In [the previous section](../bbcode/customization.mdx#2-customize-rendering-by-subclassing), we have already introduced the simplest way to render a title:
+
+```python showLineNumbers
+font = stet.FontLocator().query_best("OpenSans-Bold")
+stet.ImageMultiLayer(width=1680, height=240).add_background().add_text(
+    "Main title",
+    name="text",
+    # highlight-next-line
+    font=font,  # You can also pass a path to a font file here.
+    font_size="h1",
+    color="white",
+    stroke_color="cyan",
+    shadow_color="black",
+)
+```
+
+which yields
+
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>h1-001.png</code>}>
+
+![h1-001.png](/img/tutorial/h1-001.png)
+
+</Admonition>
+
+## 3. Render a styled title
+
+In the previous example, we do not control the fine-grained details of how to render the image. In the following example, we will add more details.
+
+First, we create a multi-layer image by [`ImageMultiLayer`](../../apis/improc/renderer/ImageMultiLayer.mdx).
+
+```python
+img = stet.ImageMultiLayer(width=1200, height=240, fmt="png")
+```
+
+Then, we put a rectangle block at the center of the canvas.
+
+```python
+img = img.add_image(
+    stet.ImageSingle(
+        Image.new(
+            "RGB", (900, 200), color=stet.improc.variables.steam_color_secondary
+        )
+    ),
+    name="bg",
+)
+```
+
+After that, we add the title text on it. The text should have white color, light blue stroke, and dimmed blue glowing light.
+
+```python
+img = img.add_text(
+    "1. Introduction",
+    name="title",
+    font="Roboto-Regular.ttf",
+    font_size="h1",
+    color="#ffffff",
+    stroke_color=stet.improc.variables.steam_color_light,
+    glow_color=stet.improc.variables.steam_color_dimmed,
+    pos_shift=(0, 10),  # x, y shifts
+)
+```
+
+Then, we add a background to the image and set the image format for removing the alpha channel (transparency).
+
+```python
+img = img.add_background().convert(
+    "RGB"
+)
+```
+
+Finally, we fine-tune the styles of previous layers:
+
+```python
+# Set rectangle block shadow.
+img.layers["bg"].set_shadow()
+# Add effects to the text.
+img.layers["title"].set_bevel()
+# Remove the text color and make it transparent.
+img.layers["title"].effects.alpha_content = 0
+```
+
+These changes are in-place. The final results are displayed as follows:
+
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>example-title.png</code>}>
+
+![example-title.png](/img/tutorial/example-title.png)
+
+</Admonition>
+
+[`ImageMultiLayer`](../../apis/improc/renderer/ImageMultiLayer.mdx) provides both the in-place and immutable APIs. Check its methods for more details.
+
+The full example script can be found in
+
+<p>
+  <DarkButton to={demoURL("create_a_title_figure.py")} icon={mdiLanguagePython}>
+    {"create_a_title_figure.py"}
+  </DarkButton>
+</p>
+
+## 4. Crop images
+
+Here is a simple example that crops an image. We place the cropping anchor at the `"right"` position, which will be the center of the lightbox in the image. In the cropped image, we preserve a border width of 4.
+
+```python
+stet.ImageSingle("example-crop-input.png").crop((184, 188), anchor="right")
+```
+
+<table style={{"width": "100%", "marginBottom": "0"}}><tbody><tr style={{"border": "none"}}>
+
+<td style={{"border": "none"}}>
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>example-crop-input.png</code>}>
+
+![example-crop-input.png](/img/tutorial/example-crop-input.png)
+
+</Admonition>
+</td>
+
+<td style={{"border": "none"}}>
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>example-cropped.png</code>}>
+
+![example-cropped.png](/img/tutorial/example-cropped.png)
+
+</Admonition>
+</td>
+
+</tr></tbody></table>
+
+## 5. Save images in the steam screenshots format
+
+Some Steam games do not support the Steam API, so users cannot take screenshots with <kbd>F12</kbd>. Now, Steam allows us to manually create screenshots by following these steps:
+
+1. Prepare the screenshot images. You may use your system screenshot tool to create such images.
+
+2. Find the game's app ID. We support this feature by:
+
+    ```python
+    stet.query_app_by_name_simple(query="Ys I & II")[0].id
+    ```
+
+3. Use the above ID to find the game folder at
+    
+    `C:\Program Files (x86)\Steam\userdata\[YourSteamID]\760\remote\[GameID]`
+
+4. Create the screenshot folder and put all screenshots in the folder, for example:
+    
+    `..\remote\[GameID]\screenshots\000.jpg`
+
+5. In the screenshot folder, create a thumbnail folder. Create a "small" version of each screenshot in this folder. The thumbnail width should be 200:
+
+    `..\remote\[GameID]\screenshots\thumbnails\000.jpg`
+
+6. Restart Steam. Now you can upload the newly created screenshots.
+
+Suppose that users have already put all screenshots in a specific folder. We offer a tool that scans the folder, automatically processes all images, and saves the images/thumbnails to a specified folder. For example:
+
+```python showLineNumbers
+import steam_editor_tools as stet
+
+
+def processor(img: stet.ImageSingle) -> stet.ImageSingle:
+    """Limit the size of the image to be `(1920, 1080)`."""
+    return img.crop((1920, 1080), anchor="bottom")
+
+
+stet.improc.tools.batch_process_images(
+    processor,
+    folder_path="folder-input",
+    out_folder_path=(
+        R"C:\Program Files (x86)\Steam\userdata\USER_ID\760\remote"
+        R"\GAME_ID\screenshots"
+    ),
+    out_file_name_prefix="scr",
+    verbose=True,
+)
+```
+
+An example script that download the official screenshots can be found here:
+
+<p>
+  <DarkButton to={demoURL("download_screenshots.py")} icon={mdiLanguagePython}>
+    {"download_screenshots.py"}
+  </DarkButton>
+</p>
+
+[link-tikz]: https://tikz.dev/

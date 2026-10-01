@@ -1,0 +1,102 @@
+---
+id: ImageEffectAbstract
+title: ImageEffectAbstract
+sidebar_label: ImageEffectAbstract
+slug: /apis/improc/effects/ImageEffectAbstract
+description: The abstract image effect.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="improc.effects.ImageEffectAbstract" />
+
+```python
+ImageEffectAbstract()
+```
+
+The abstract image effect.
+
+Most properties are not implemented here.
+
+It is only used for providing the common logics of different effects.
+
+## Fields
+
+No field is defined.
+
+## Abstract methods
+
+### <IconObjType type="method"/> `effect`
+
+```python
+v_1: Image | None = self.effect(image_fg: Image)
+```
+
+Generate the effect image from the given image.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The image used for genereating this effect. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image \| None` | <p>The generated effect image. This image should be <code>RGBA</code>, and the size can be different from the input image.</p><p>This image should be center-aligned with the input <code>image_fg</code>.</p><p>Will return <code>None</code> if the effect should be skipped.</p> |
+
+## Methods
+
+### <IconObjType type="method"/> `compose`
+
+```python
+v_1: Image = self.compose(comp: ImageComposer, image_bg: Image, image_fg: Image)
+```
+
+Compose the background and foreground images.
+
+This method do not need to be overriden unless the subclass needs to change the behavior of image blending.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `comp` | `ImageComposer` | <InlineIcon icon={vsiCheckIcon}/> | The composer that is used for merging images. |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image where the effect will be rendered. This image should be `RGB` or `RGBA`. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The image used for genereating this effect. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The composed image. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render`
+
+```python
+v_1: Image = self.render(
+    comp: ImageComposer, image_bg: Image, image_fg: Image, pos: tuple[int, int]
+)
+```
+
+Render this effect.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `comp` | `ImageComposer` | <InlineIcon icon={vsiCheckIcon}/> | The composer that is used for merging images. |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image where the effect will be rendered. This image should be `RGB` or `RGBA`. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The image used for genereating this effect. |
+| `pos` | `tuple[int, int]` | <InlineIcon icon={vsiCheckIcon}/> | The `(x, y)` position where the `image_fg` is placed on the `image_bg`. This position is the top-left corner of `image_fg`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The `image_bg` with this effect image rendered on it. |

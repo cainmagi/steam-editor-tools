@@ -1,0 +1,188 @@
+---
+id: customization
+sidebar_label: Customization
+title: Customize a new renderer
+description: Use configurations and subclass to control the detailed behavior of a renderer.
+slug: /bbcode/customization
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import Admonition from '@theme/Admonition';
+
+import mdiImage from '@iconify-icons/mdi/image';
+import InlineIcon from "@site/src/components/InlineIcon";
+
+This section introduces code-controlled customizations of the rendering.
+
+## 1. Customize tags by configurations
+
+[`BBCodeRenderer`](../../apis/bbcode/renderer/base/BBCodeRenderer.mdx) accepts an optional configuration object [`BBCodeConfig`](../../apis/bbcode/renderer/configs/BBCodeConfig.mdx). This configuration object allows users to override default tag names.
+
+```python showLineNumbers
+config = stet.BBCodeConfig(h1="h2", h2="h3", h3="b", h4="u", h5="i", h6="i")
+fobj.write(stet.BBCodeRenderer(config).render(doc))
+```
+
+This customization will lower down the level of titles.
+
+<Tabs
+  defaultValue="md"
+  groupId="results"
+  values={[
+    { label: 'Markdown', value: 'md', },
+    { label: 'BBCode', value: 'bbcode', },
+  ]
+}>
+
+<TabItem value="md">
+
+```markdown showLineNumbers title="example.md"
+# Main title
+
+## Secondary title
+
+### Subsection title
+
+#### Subsubsection title
+
+##### Paragraph title
+
+content.
+```
+
+</TabItem>
+
+<TabItem value="bbcode">
+
+```bbcode showLineNumbers title="example.bbcode"
+[h2]Main title[/h2]
+[h3]Secondary title[/h3]
+[b]Subsection title[/b]
+[u]Subsubsection title[/u]
+[i]Paragraph title[/i]
+content.
+```
+
+</TabItem>
+
+</Tabs>
+
+## 2. Customize rendering by subclassing
+
+By subclassing [`BBCodeRenderer`](../../apis/bbcode/renderer/base/BBCodeRenderer.mdx), users can control the rendering in the fine-grained level.
+
+The following example will override the default behavior when rendering `h1` titles. It will capture the title text and save it as a figure. In the rendered BBCode file, the title will be replaced with a "placeholder" specifying the figure name.
+
+```python showLineNumbers title="customization.py"
+import os
+import steam_editor_tools as stet
+
+
+class H1TitleRenderer(stet.BBCodeRenderer):
+    """Will Produce a figure of each H1 title during the rendering."""
+
+    def __init__(self, configs: stet.BBCodeConfig | None = None) -> None:
+        super().__init__(configs)
+        self._name_count = 0
+        self._h1_dir = os.path.join(".", "out-figs")
+        
+        # highlight-start
+        # Search the font to be used.
+        # May need to run `apt install fonts-open-sans`.
+        font = stet.FontLocator().query_best("OpenSans-Bold")
+        assert font is not None
+        self.font = font
+        # highlight-end
+        os.makedirs(self._h1_dir, exist_ok=True)
+
+    def draw_h1_title(self, text: str) -> int:
+        """Draw and save the H1 title image."""
+        count = self._name_count + 1
+        stet.ImageMultiLayer(width=1680, height=240).add_background().add_text(
+            text,
+            name="text",
+            font=self.font,
+            font_size="h1",
+            color="white",
+            stroke_color="cyan",
+            shadow_color="black",
+        ).save(
+            os.path.join(self._h1_dir, "h1-{0:03d}.png".format(count)), quality="medium"
+        )
+        self._name_count = count
+        return count
+
+    def render_heading(self, node: stet.bbcode.nodes.HeadingNode) -> str:
+        # highlight-start
+        # Catch the level 1 title.
+        if node.level == 1:
+            count = self.draw_h1_title(node.pure_text)
+            return "[FIGURE_h1_{0:03d}]\n\n".format(count)
+        # highlight-end
+
+        return super().render_heading(node)
+
+
+def convert(file_path: str) -> None:
+    out_file_path = os.path.splitext(file_path)[0].strip() + ".bbcode"
+    doc = stet.DocumentParser().parse_file(file_path)
+    with open(out_file_path, "w", encoding="utf-8") as fobj:
+        fobj.write(H1TitleRenderer().render(doc))
+
+
+convert("example.md")
+```
+
+<Tabs
+  defaultValue="md"
+  groupId="results"
+  values={[
+    { label: 'Markdown', value: 'md', },
+    { label: 'BBCode', value: 'bbcode', },
+  ]
+}>
+
+<TabItem value="md">
+
+```markdown showLineNumbers title="example.md"
+# Main title
+
+## Secondary title
+
+# Another H1 title
+
+## More secondary title
+
+...
+```
+
+</TabItem>
+
+<TabItem value="bbcode">
+
+```bbcode showLineNumbers title="example.bbcode"
+[FIGURE_h1_001]
+
+[h2]Secondary title[/h2]
+[FIGURE_h1_002]
+
+[h2]More secondary title[/h2]
+...
+```
+
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>h1-001.png</code>}>
+
+![h1-001.png](/img/tutorial/h1-001.png)
+
+</Admonition>
+
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>h1-002.png</code>}>
+
+![h1-002.png](/img/tutorial/h1-002.png)
+
+</Admonition>
+
+</TabItem>
+
+</Tabs>

@@ -1,0 +1,39 @@
+---
+id: get_achievement_list
+title: get_achievement_list
+sidebar_label: get_achievement_list
+slug: /apis/steaminfo/query/get_achievement_list
+description: Fetch the achievement list of a specific app (game).
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="func" source="steaminfo.query.get_achievement_list" />
+
+```python
+v_1: AchievementList = get_achievement_list(
+    app: int | AppQuerySimple,
+    lang: str = "english",
+    extra_user_profiles: Sequence[str] | None = None,
+)
+```
+
+Fetch the achievement list of a specific app (game). The information is directly fetched from the game page.
+
+## Arguments
+
+### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `app` | `int \| AppQuerySimple` | <InlineIcon icon={vsiCheckIcon}/> | The steam app ID or the query object. It is used for locating the game achievement page. |
+| `lang` | `str` | | The language used for accessing the achievement profile. |
+| `extra_user_profiles` | `Sequence[str] \| None` | | A list of extra Steam user profile names. If provided, will attempt to parse more achievement information from the given profiles. Ideally, a profile with all achievements unlocked and another profile with all achievements locked will yield the full information. |
+
+### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `AchievementList` | The achievement list detected from the app. |

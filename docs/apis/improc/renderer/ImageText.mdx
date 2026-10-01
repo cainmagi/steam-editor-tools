@@ -1,0 +1,115 @@
+---
+id: ImageText
+title: ImageText
+sidebar_label: ImageText
+slug: /apis/improc/renderer/ImageText
+description: A layer of text that can be rendered as an image.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" source="improc.renderer.ImageText" />
+
+```python
+ImageText(
+    text: str,
+    font: str | PathLike[str] | FontInfo | None = None,
+    font_size: int | str | ImageFontSize | ImageFontAbsSize = ImageFontSize.h2,
+    pad_size: int = 0,
+    color: str | tuple[float, ...] = "#FFFFFF",
+)
+```
+
+A layer of text that can be rendered as an image.
+
+The image will be rendered every time when it is accessed.
+
+## Arguments
+
+### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `text` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The text to be rendered. |
+| `font` | `str \| PathLike[str] \| FontInfo \| None` | | The path of the font, or the searched font used for rendering the text. If not specified, will use the default font. |
+| `font_size` | `int \| str \| ImageFontSize \| ImageFontAbsSize` | | The dynamic font size of the rendered text. If using `int`, this size will be absolute. |
+| `pad_size` | `int` | | The size used for padding on all sides of the text. |
+| `color` | `str \| tuple[float, ...]` | | The text color. |
+
+## Methods
+
+### <IconObjType type="method"/> `copy`
+
+```python
+v_1: Self = self.copy()
+```
+
+Get a copy of this instance.
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The copied text image. |
+
+## Properties
+
+### <IconObjType type="param"/> `font_size`
+
+```python
+font_size: ImageFontAbsSize | ImageFontSize = self.font_size
+```
+
+The font size (dynamic or absolute size).
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `height`
+
+```python
+height: int = self.height
+```
+
+The height of the text image.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `img`
+
+```python
+img: Image = self.img
+```
+
+Render the text as an image, and get the pixel-based image.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `size`
+
+```python
+size: tuple[int, int] = self.size
+```
+
+The `(width, height)` shape of the text image.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `text`
+
+```python
+text: str = self.text
+```
+
+The text to be rendered.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `width`
+
+```python
+width: int = self.width
+```
+
+The width of the text image.

@@ -1,0 +1,43 @@
+---
+id: Node
+title: Node
+sidebar_label: Node
+slug: /apis/bbcode/nodes/Node
+description: The union type of all nodes.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+
+<APITopBar type="type" source="bbcode.nodes.Node" />
+
+```python
+Node = Annotated[
+    DeletedNode
+    | TextNode
+    | LineBreakNode
+    | HorizontalRuleNode
+    | InlineCodeNode
+    | CodeBlockNode
+    | BoldNode
+    | ItalicNode
+    | UnderlineNode
+    | StrikeNode
+    | SpoilerNode
+    | LinkNode
+    | HeadingNode
+    | ParagraphNode
+    | QuoteNode
+    | AlertNode
+    | ListItemNode
+    | ListNode
+    | TableCellNode
+    | TableRowNode
+    | TableNode,
+    Field(discriminator="type"),
+]
+```
+
+The union type of all nodes.
+
+This type does not include `Document`, and can be used in pydantic model
+directly.

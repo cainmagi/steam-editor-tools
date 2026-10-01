@@ -1,0 +1,27 @@
+---
+id: PlatformInfo
+title: PlatformInfo
+sidebar_label: PlatformInfo
+slug: /apis/steaminfo/data/appdata/PlatformInfo
+description: Supported platform.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="steaminfo.data.appdata.PlatformInfo" />
+
+```python
+PlatformInfo(windows: bool, mac: bool, linux: bool)
+```
+
+Supported platform.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `windows` | `bool` | <InlineIcon icon={vsiCheckIcon}/> | A flag specifying whether Windows is supported. |
+| `mac` | `bool` | <InlineIcon icon={vsiCheckIcon}/> | A flag specifying whether Mac is supported. |
+| `linux` | `bool` | <InlineIcon icon={vsiCheckIcon}/> | A flag specifying whether Linux is supported. |

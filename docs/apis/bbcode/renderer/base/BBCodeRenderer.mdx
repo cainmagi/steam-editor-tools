@@ -1,0 +1,432 @@
+---
+id: BBCodeRenderer
+title: BBCodeRenderer
+sidebar_label: BBCodeRenderer
+slug: /apis/bbcode/renderer/base/BBCodeRenderer
+description: The BBCode renderer.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" source="bbcode.renderer.base.BBCodeRenderer" />
+
+```python
+BBCodeRenderer(configs: BBCodeConfig | None = None)
+```
+
+The BBCode renderer.
+
+Render the structured `Document` or an intemediate `Node` into the BBCode format.
+
+## Arguments
+
+### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `configs` | `BBCodeConfig \| None` | | <p>The configurations used for customizing the BBCode tags.</p><p>If not specified, will use <code>BBCodeConfig()</code> by default.</p> |
+
+## Methods
+
+### <IconObjType type="method"/> `render`
+
+```python
+v_1: str = self.render(node: Node | Document)
+```
+
+Render the BBCode.
+
+Main dispatcher. Uses `node.type` directly so type checkers can narrow the union correctly.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `Node \| Document` | <InlineIcon icon={vsiCheckIcon}/> | The node or the document that would be rendered as BBCode. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered BBCode text. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_alert`
+
+```python
+v_1: str = self.render_alert(node: AlertNode)
+```
+
+Specific renderring. Render the alert block.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `AlertNode` | <InlineIcon icon={vsiCheckIcon}/> | The alert block to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered alert block bbcode. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_children`
+
+```python
+v_1: str = self.render_children(children: list[Node])
+```
+
+Helper method. Render a list of children nodes into BBCode.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `children` | `list[Node]` | <InlineIcon icon={vsiCheckIcon}/> | The children to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered children bbcode. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_code_block`
+
+```python
+v_1: str = self.render_code_block(node: CodeBlockNode)
+```
+
+Specific renderring. Render the block code as
+
+```bbcode
+[code]
+...
+[/code]
+```
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `CodeBlockNode` | <InlineIcon icon={vsiCheckIcon}/> | The code block to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered code block. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_document`
+
+```python
+v_1: str = self.render_document(doc: Document)
+```
+
+Specific renderring. Render the whole document.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `doc` | `Document` | <InlineIcon icon={vsiCheckIcon}/> | The document to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered document. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_heading`
+
+```python
+v_1: str = self.render_heading(node: HeadingNode)
+```
+
+Specific renderring. Render the heading (title).
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `HeadingNode` | <InlineIcon icon={vsiCheckIcon}/> | The heading/title to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered title bbcode. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_inline_code`
+
+```python
+v_1: str = self.render_inline_code(node: InlineCodeNode)
+```
+
+Specific renderring. Render the inline code.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `InlineCodeNode` | <InlineIcon icon={vsiCheckIcon}/> | The inline code to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered inline code bbcode. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_link`
+
+```python
+v_1: str = self.render_link(node: LinkNode)
+```
+
+Specific renderring. Render the url (link).
+
+Note that there is an exception. If `href` is the same as text, will render the plain text directly.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `LinkNode` | <InlineIcon icon={vsiCheckIcon}/> | The link/url to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered url bbcode. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_list`
+
+```python
+v_1: str = self.render_list(node: ListNode)
+```
+
+Specific rendering. Render the ordered or unordered list.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `ListNode` | <InlineIcon icon={vsiCheckIcon}/> | The list to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered list bbcode. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_list_item`
+
+```python
+v_1: str = self.render_list_item(
+    node: ListItemNode, idx: int, parent_node: ListNode | None = None
+)
+```
+
+Specific renderring. Render the list item.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `ListItemNode` | <InlineIcon icon={vsiCheckIcon}/> | The list item to be rendered. |
+| `idx` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The optional argument `idx` is the current index of the item in the list. |
+| `parent_node` | `ListNode \| None` | | The optional `parent_node` is the nearest unordered/ordered list wrapper of this item. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered list item bbcode. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_paragraph`
+
+```python
+v_1: str = self.render_paragraph(node: ParagraphNode)
+```
+
+Specific renderring. Render the paragraph.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `ParagraphNode` | <InlineIcon icon={vsiCheckIcon}/> | The paragraph to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered paragraph bbcode. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_quote`
+
+```python
+v_1: str = self.render_quote(node: QuoteNode)
+```
+
+Specific renderring. Render the quote block.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `QuoteNode` | <InlineIcon icon={vsiCheckIcon}/> | The quote block to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered quote block. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_table`
+
+```python
+v_1: str = self.render_table(node: TableNode)
+```
+
+Specific renderring. Render the table.
+
+BBCode table syntax varies by forum. We adopt the Steam's format.
+
+```bbcode
+[table]
+[tr][th]Header[/th][th]Header[/th][/tr]
+[tr][td]Cell[/td][td]Cell[/td][/tr]
+[/table]
+```
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `TableNode` | <InlineIcon icon={vsiCheckIcon}/> | The table to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered table bbcode. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_table_cell`
+
+```python
+v_1: str = self.render_table_cell(node: TableCellNode)
+```
+
+Specific renderring. Render the table cell (head or data cells).
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `TableCellNode` | <InlineIcon icon={vsiCheckIcon}/> | The table cell to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered table cell. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_table_row`
+
+```python
+v_1: str = self.render_table_row(node: TableRowNode)
+```
+
+Specific renderring. Render the table row.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `TableRowNode` | <InlineIcon icon={vsiCheckIcon}/> | The table row to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered table row. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_text`
+
+```python
+v_1: str = self.render_text(node: TextNode)
+```
+
+Specific renderring. Render the plain text into BBCode.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `TextNode` | <InlineIcon icon={vsiCheckIcon}/> | The pure text to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered text bbcode. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `wrap_children`
+
+```python
+v_1: str = self.wrap_children(children: list[Node], start: str, end: str | None = None)
+```
+
+Helper method. Render `children` and surround the results by:
+
+```bbcode
+[start]children[/end]
+```
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `children` | `list[Node]` | <InlineIcon icon={vsiCheckIcon}/> | The children to be rendered with the wrapper. |
+| `start` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The "start" tag prepended to the children. |
+| `end` | `str \| None` | | The "end" tag appended to the children. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered and wrapped children bbcode. |

@@ -1,0 +1,48 @@
+---
+id: TextNode
+title: TextNode
+sidebar_label: TextNode
+slug: /apis/bbcode/nodes/TextNode
+description: 'Node: Text.'
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="bbcode.nodes.TextNode" />
+
+```python
+TextNode(type: Literal["text"] = "text", text: str)
+```
+
+Node: Text
+
+Provide the plain text.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `type` | `Literal["text"]` | | The type identifer of this document node. |
+| `text` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The pure text in the node. |
+
+## Properties
+
+### <IconObjType type="param"/> `pure_text`
+
+```python
+pure_text: str = self.pure_text
+```
+
+The pure text of the current node.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `size`
+
+```python
+size: int = self.size
+```
+
+The estimated text length of the current node.

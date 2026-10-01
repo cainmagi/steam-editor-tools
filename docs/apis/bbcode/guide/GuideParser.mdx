@@ -1,0 +1,71 @@
+---
+id: GuideParser
+title: GuideParser
+sidebar_label: GuideParser
+slug: /apis/bbcode/guide/GuideParser
+description: Parser for Steam Guide.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" source="bbcode.guide.GuideParser" />
+
+```python
+GuideParser()
+```
+
+Parser for Steam Guide.
+
+Pass the HTML file or URL of a Steam Guide. This parser will convert the guide to `Document`.
+
+Note that the Steam rendering for the guide is heavily dependent to `<div>` tag. The reconstructions for line breaks in this parse may not be perfect.
+
+## Arguments
+
+Initialization function is not specified.
+
+## Methods
+
+### <IconObjType type="method"/> `parse`
+
+```python
+v_1: Document = self.parse(url: str | int)
+```
+
+Parse a guide.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `url` | `str \| int` | <InlineIcon icon={vsiCheckIcon}/> | <p>The full Steam guide URL or its numeric ID. If an ID is given, the full URL will be</p><p>`https://steamcommunity.com/sharedfiles/filedetails/?id=<url>`</p> |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Document` | The structured data reconstructed from the given guide. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `parse_html`
+
+```python
+v_1: Document = self.parse_html(html: str)
+```
+
+Parse the HTML content. The HTML content should be fetched from a Steam guide.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `html` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The HTML content to be parsed. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Document` | The structured data reconstructed from the given guide. |

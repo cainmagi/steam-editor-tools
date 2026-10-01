@@ -1,0 +1,23 @@
+---
+id: index
+title: variants
+sidebar_label: variants
+slug: /apis/bbcode/renderer/variants
+description: The variants of the BBCode renderer.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+
+<APITopBar type="module" source="bbcode.renderer.variants" />
+
+The variants of the BBCode renderer.
+
+These variants are used to render BBCode documents in different ways. Mostly, they are provided because some Steam BBCode formats are not supported in store-page reviews. Users can implement their own variants by following the same example style in this module.
+
+## Classes
+
+| Member | <center>Description</center> |
+| :-----: | :------ |
+| [<IconObjType type="class" hasText={true} text="BBCodeRendererTablePreferred"/>](./BBCodeRendererTablePreferred.mdx) | The BBCode renderer with table format preferred. |
+| [<IconObjType type="class" hasText={true} text="BBCodeRendererListPreferred"/>](./BBCodeRendererListPreferred.mdx) | The BBCode renderer with list format preferred. |
+| [<IconObjType type="class" hasText={true} text="BBCodeRendererForReview"/>](./BBCodeRendererForReview.mdx) | The BBCode renderer specialized for rendering reviews. |

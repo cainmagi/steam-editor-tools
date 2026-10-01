@@ -1,0 +1,70 @@
+---
+id: ImageLayerContainerProtocol
+title: ImageLayerContainerProtocol
+sidebar_label: ImageLayerContainerProtocol
+slug: /apis/improc/layer/ImageLayerContainerProtocol
+description: The protocol of the container that manages several `ImageLayer`s.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+
+<APITopBar type="type" source="improc.layer.ImageLayerContainerProtocol" />
+
+```python
+ImageLayerContainerProtocol(*args: Any, **kwargs: Any)
+```
+
+:::warning
+
+This protocol class is only used as type hints and does not implements any instances in run time.
+
+:::
+
+The protocol of the container that manages several `ImageLayer`s.
+
+The implementationof this protocol should be `renderer.ImageMultiLayer`.
+
+## Arguments
+
+Initialization function is not specified.
+
+## Protocol properties
+
+### <IconObjType type="param"/> `height`
+
+```python
+height: int = self.height
+```
+
+The width of the canvas.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `layers`
+
+```python
+layers: OrderedDict[str, ImageLayer] = self.layers
+```
+
+The internal storage of the layers managed by this
+container.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `size`
+
+```python
+size: tuple[int, int] = self.size
+```
+
+The `(width, height)` tuple of the canvas.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `width`
+
+```python
+width: int = self.width
+```
+
+The width of the canvas.

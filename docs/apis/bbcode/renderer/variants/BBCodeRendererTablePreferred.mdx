@@ -1,0 +1,80 @@
+---
+id: BBCodeRendererTablePreferred
+title: BBCodeRendererTablePreferred
+sidebar_label: BBCodeRendererTablePreferred
+slug: /apis/bbcode/renderer/variants/BBCodeRendererTablePreferred
+description: The BBCode renderer with table format preferred.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" source="bbcode.renderer.variants.BBCodeRendererTablePreferred" />
+
+```python
+BBCodeRendererTablePreferred(configs: BBCodeConfig | None = None)
+```
+
+The BBCode renderer with table format preferred.
+
+This renderer variant will use the table format when rendering:
+
+- unordered lists
+- ordered lists
+
+Such rendering conversions were used when writing reviews previously because the lists were not correctly rendered before.
+
+However, since the Steam major update in 2026, the table is now rendered incorrectly. Therefore, currently, it is better to use `BBCodeRendererForReview` or `BBCodeRendererListPreferred`.
+
+## Arguments
+
+Initialization function is not specified.
+
+## Methods
+
+### <IconObjType type="method"/> `render_list`
+
+```python
+v_1: str = self.render_list(node: ListNode)
+```
+
+Specific rendering. Render the ordered or unordered list.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `ListNode` | <InlineIcon icon={vsiCheckIcon}/> | The list to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered list bbcode. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_list_item`
+
+```python
+v_1: str = self.render_list_item(
+    node: ListItemNode, idx: int, parent_node: ListNode | None = None
+)
+```
+
+Specific renderring. Render the list item.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `ListItemNode` | <InlineIcon icon={vsiCheckIcon}/> | The list item to be rendered. |
+| `idx` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The optional argument `idx` is the current index of the item in the list. |
+| `parent_node` | `ListNode \| None` | | The optional `parent_node` is the nearest unordered/ordered list wrapper of this item. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered list item bbcode. |

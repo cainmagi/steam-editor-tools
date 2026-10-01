@@ -1,0 +1,105 @@
+---
+id: BBCodeConfig
+title: BBCodeConfig
+sidebar_label: BBCodeConfig
+slug: /apis/bbcode/renderer/configs/BBCodeConfig
+description: Configurations of BBCode renderer.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="bbcode.renderer.configs.BBCodeConfig" />
+
+```python
+BBCodeConfig(
+    hr: str = "hr",
+    inline_code: str = "noparse",
+    code_block: str = "code",
+    bold: str = "b",
+    italic: str = "i",
+    underline: str = "u",
+    strike: str = "strike",
+    spoiler: str = "spoiler",
+    link: str = "url",
+    h1: str = "h1",
+    h2: str = "h2",
+    h3: str = "h3",
+    h4: str = "h3",
+    h5: str = "h3",
+    h6: str = "h3",
+    h_default: str = "h3",
+    paragraph: str = "p",
+    quote: str = "quote",
+    list: str = "list",
+    olist: str = "olist",
+    list_item: str = "*",
+    table: str = "table",
+    table_row: str = "tr",
+    table_head: str = "th",
+    table_data: str = "td",
+    alert: AlertTitleConfigs = AlertTitleConfigs(note="quote", tip="quote", important="b", warning="u", caution="spoiler", tag_b="b", tag_i="i", tag_u="u", tag_strike="strike", tag_spoiler="spoiler")
+)
+```
+
+Configurations of BBCode renderer.
+
+Different forums may have different BBCode formats. For example, in some cases, the deleted text may be formated as `[s]...[/s]`, not `[strike]...[/strike]`.
+
+This configuration type allows users to customize the BBCode tags for other usages.
+
+The default format (i.e. `BBCodeConfig()`) is consistent with Steam's BBCode rules.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `hr` | `str` | | The tag used to render: hr. |
+| `inline_code` | `str` | | The tag used to render: inline code. |
+| `code_block` | `str` | | The tag used to render: multi-line code. |
+| `bold` | `str` | | The tag used to render: bold text. |
+| `italic` | `str` | | The tag used to render: italic text. |
+| `underline` | `str` | | The tag used to render: underlined text. |
+| `strike` | `str` | | The tag used to render: deleted text. |
+| `spoiler` | `str` | | The tag used to render: spoiler text. |
+| `link` | `str` | | The tag used to render: url (link). |
+| `h1` | `str` | | The tag used to render: title with level 1. |
+| `h2` | `str` | | The tag used to render: title with level 2. |
+| `h3` | `str` | | The tag used to render: title with level 3. |
+| `h4` | `str` | | The tag used to render: title with level 4. |
+| `h5` | `str` | | The tag used to render: title with level 5. |
+| `h6` | `str` | | The tag used to render: title with level 6. |
+| `h_default` | `str` | | The tag used to render: title with the default level. |
+| `paragraph` | `str` | | The tag used to render: paragraph. |
+| `quote` | `str` | | The tag used to render: quote block. |
+| `list` | `str` | | The tag used to render: unordered list. |
+| `olist` | `str` | | The tag used to render: ordered list. |
+| `list_item` | `str` | | The tag used to render: list item. |
+| `table` | `str` | | The tag used to render: table. |
+| `table_row` | `str` | | The tag used to render: table row. |
+| `table_head` | `str` | | The tag used to render: table header cell. |
+| `table_data` | `str` | | The tag used to render: table plain cell. |
+| `alert` | `AlertTitleConfigs` | | The configurations of the tags related to the alert block. |
+
+## Methods
+
+### <IconObjType type="method"/> `get_h_tag_by_level`
+
+```python
+v_1: str = self.get_h_tag_by_level(level: int)
+```
+
+Get the heading tag by specifying the heading level.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `level` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The heading (title) level. Can be 1~6. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The heading tag. For example, `get_h_tag_by_level(2)` yields `self.h2`. |

@@ -1,0 +1,140 @@
+---
+id: DocumentParser
+title: DocumentParser
+sidebar_label: DocumentParser
+slug: /apis/bbcode/parser/DocumentParser
+description: Document Parser.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" source="bbcode.parser.DocumentParser" />
+
+```python
+DocumentParser()
+```
+
+Document Parser.
+
+This parser converts the other document formats (like BBCode, Markdown or HTML) to structured pydantic data.
+
+## Arguments
+
+No argument is needed.
+
+## Methods
+
+### <IconObjType type="method"/> `parse_achievements`
+
+```python
+v_1: Document = self.parse_achievements(
+    ach_list: AchievementList,
+    ach_parser: Callable[[str, Achievement], Node] | None = None,
+)
+```
+
+Convert the list of achievements into a document.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `ach_list` | `AchievementList` | <InlineIcon icon={vsiCheckIcon}/> | The achievement list fetched from the online pages. This data collection can be provided by `steaminfo.get_achievement_list` |
+| `ach_parser` | `Callable[[str, Achievement], Node] \| None` | | <p>An optional achievement data parser. It converts the data of a single achievement to a document node. If not specified, will use the default parser.</p><p>The first argument is the icon name. The second argument is the achievement information.</p> |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Document` | The converted structured data of the achievement list. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `parse_bbcode`
+
+```python
+v_1: Document = self.parse_bbcode(bbcode: str | IO[str])
+```
+
+Parse the BBCode data.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `bbcode` | `str \| IO[str]` | <InlineIcon icon={vsiCheckIcon}/> | The BBCode text or BBCode file-like object. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Document` | The parsed structured data. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `parse_file`
+
+```python
+v_1: Document = self.parse_file(file_path: str | PathLike[str], encoding: str = "utf-8")
+```
+
+Parse a file.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `file_path` | `str \| PathLike[str]` | <InlineIcon icon={vsiCheckIcon}/> | The path to the file to be read. |
+| `encoding` | `str` | | The encoding when opening the file. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Document` | The parsed structured data. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `parse_html`
+
+```python
+v_1: Document = self.parse_html(html: str | IO[str])
+```
+
+Parse the HTML data.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `html` | `str \| IO[str]` | <InlineIcon icon={vsiCheckIcon}/> | The HTML text or HTML file-like object. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Document` | The parsed structured data. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `parse_markdown`
+
+```python
+v_1: Document = self.parse_markdown(md: str | IO[str])
+```
+
+Parse the Markdown data.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `md` | `str \| IO[str]` | <InlineIcon icon={vsiCheckIcon}/> | The Markdown text or Markdown file-like object. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Document` | The parsed structured data. |

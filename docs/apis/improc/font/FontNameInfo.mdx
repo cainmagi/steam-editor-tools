@@ -1,0 +1,27 @@
+---
+id: FontNameInfo
+title: FontNameInfo
+sidebar_label: FontNameInfo
+slug: /apis/improc/font/FontNameInfo
+description: The information of a font name.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="improc.font.FontNameInfo" />
+
+```python
+FontNameInfo(name: str, name_id: Literal[1, 2, 4], lang_id: FontLanguage)
+```
+
+The information of a font name.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `name` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The name string. |
+| `name_id` | `Literal[1, 2, 4]` | <InlineIcon icon={vsiCheckIcon}/> | <p>This ID is used for tagging the font type.</p><ol><li>Font family name.</li><li>Font sub-family name.</li><li>Font full name.</li></ol> |
+| `lang_id` | `FontLanguage` | <InlineIcon icon={vsiCheckIcon}/> | The language code of this font name. |

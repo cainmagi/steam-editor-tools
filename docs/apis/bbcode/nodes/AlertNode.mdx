@@ -1,0 +1,57 @@
+---
+id: AlertNode
+title: AlertNode
+sidebar_label: AlertNode
+slug: /apis/bbcode/nodes/AlertNode
+description: 'Node: Alert.'
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="bbcode.nodes.AlertNode" />
+
+```python
+AlertNode(
+    children: list[DeletedNode | TextNode | LineBreakNode | HorizontalRuleNode | InlineCodeNode | CodeBlockNode | BoldNode | ItalicNode | UnderlineNode | StrikeNode | SpoilerNode | LinkNode | HeadingNode | ParagraphNode | QuoteNode | AlertNode | ListItemNode | ListNode | TableCellNode | TableRowNode | TableNode],
+    type: Literal["alert"] = "alert",
+    title: str = "Caution"
+)
+```
+
+Node: Alert
+
+Provide the alert block, representing the following pattern in HTML:
+
+```html
+<div class="markdown-alert markdown-alert-caution">
+    <p class="markdown-alert-title">Caution</p>
+    ...
+</div>
+```
+
+which is converted from
+
+```markdown
+> [!CAUTION]
+> ...
+```
+
+Sometimes, the class names may differ.
+
+We support this node because it is used for supporting block-style fences like
+
+```bbcode
+[spoiler]
+...
+[/spoiler]
+```
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `children` | `list[DeletedNode \| TextNode \| LineBreakNode \| HorizontalRuleNode \| InlineCodeNode \| CodeBlockNode \| BoldNode \| ItalicNode \| UnderlineNode \| StrikeNode \| SpoilerNode \| LinkNode \| HeadingNode \| ParagraphNode \| QuoteNode \| AlertNode \| ListItemNode \| ListNode \| TableCellNode \| TableRowNode \| TableNode]` | <InlineIcon icon={vsiCheckIcon}/> | The children of the node. |
+| `type` | `Literal["alert"]` | | The type identifer of this document node. |
+| `title` | `str` | | The title of the alert block. |

@@ -1,0 +1,109 @@
+---
+id: ImageEffectBevel
+title: ImageEffectBevel
+sidebar_label: ImageEffectBevel
+slug: /apis/improc/effects/ImageEffectBevel
+description: 'The image effect: Bevel.'
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="improc.effects.ImageEffectBevel" />
+
+```python
+ImageEffectBevel(
+    mode: Literal["default", "screen", "lighter", "add"] = "default",
+    type: Literal["bevel"] = "bevel",
+    algorithm: Literal["euclidean", "gaussian"] = "euclidean",
+    threshold: int = 128,
+    max_distance: int = 3,
+    smooth: float = 1.0,
+    opacity: int = 75
+)
+```
+
+The image effect: Bevel
+
+Add the bevel effect to the alpha channel of the given image.
+
+The "bevel" effect here is a replica of the "Chisel Hard" effect.
+
+The algorithm is inspired by the following C++ implementation: https://dsp.stackexchange.com/a/533
+
+Different from the above OpenCV version, this effect is purely implemented by Pillow. In other words, we implement the following algorithm from scratch:
+
+1. Determine the binarized version of the alpha channel.
+1. Given a specific `max_distance` value, for each pixel inside the alpha shape, calculate the Euclidean distance between the pixel and the nearest edge pixel. The "nearest" means that the distance is the minimal value.
+1. Run a 3x3 "bevel" filter on the solved distance map.
+1. Run any post-processing (such as smoothing) if necessary.
+1. Split the grayscale bevel layer into the highlight and shadow layers, merge them into the original image, respectively.
+
+In this class, the "mode" is only referring to the mode of the highlight. The mode of the shadow is automatically chosen with respect to the highlight mode.
+
+The default algorithm used for solving the distance is based on Squared Euclidean Distance Transform (Felzenszwalb & Huttenlocher Algorithm)
+
+See https://cs.brown.edu/people/pfelzens/papers/seg-ijcv.pdf
+
+The distance is strictly Euclidean. We provide an approximated version of this distance. Use "gaussian" algorithm to enable it. This approximation is faster but does not work well on sharp edges.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `mode` | `Literal["default", "screen", "lighter", "add"]` | | The blending mode of the bevel effect. This value is the blending mode of the highlight. The mode of the bevel shadow will be automatically chosen based on this value. |
+| `type` | `Literal["bevel"]` | | The type code of this effect. It should not be modified. |
+| `algorithm` | `Literal["euclidean", "gaussian"]` | | The algorithm used for solving the chisel distance. The "eudlidean" mode is strict, while the "gaussian" mode is a fast approximation. |
+| `threshold` | `int` | | A threshold in the range of 0~255. This value is used for determining the edge of the bevel effect. |
+| `max_distance` | `int` | | The maximal distance when solving the depth of the bevel effect. When using "euclidean" algorithm, this value is strictly the same as the bevel depth. |
+| `smooth` | `float` | | The size of the smoothing filter. The configuration `smooth=0` is equivalent to "Chisel Hard" effect. |
+| `opacity` | `int` | | The opacity of the effect. It is in the range of 0~100. |
+
+## Methods
+
+### <IconObjType type="method"/> `compose`
+
+```python
+v_1: Image = self.compose(comp: ImageComposer, image_bg: Image, image_fg: Image)
+```
+
+Compose the background and foreground images.
+
+This method do not need to be overriden unless the subclass needs to change the behavior of image blending.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `comp` | `ImageComposer` | <InlineIcon icon={vsiCheckIcon}/> | The composer that is used for merging images. |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image where the effect will be rendered. This image should be `RGB` or `RGBA`. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The image used for genereating this effect. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The composed image. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `effect`
+
+```python
+v_1: Image | None = self.effect(image_fg: Image)
+```
+
+Generate the effect image from the given image.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The image used for genereating this effect. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image \| None` | <p>The generated effect image. This image should be <code>RGBA</code>, and the size can be different from the input image.</p><p>This image should be center-aligned with the input <code>image_fg</code>.</p><p>Will return <code>None</code> if the effect should be skipped.</p> |

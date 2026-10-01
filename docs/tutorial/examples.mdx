@@ -1,0 +1,61 @@
+---
+id: examples
+sidebar_label: Examples
+title: Example scripts and texts
+description: Example scripts, rendered texts, and the corresponding descriptions.
+slug: /tutorial/examples
+---
+
+import Link from "@docusaurus/Link";
+
+import mdiLinkVariant from "@iconify-icons/mdi/link-variant";
+import InlineIcon from "@site/src/components/InlineIcon";
+import IconExternalLink from "@theme/Icon/ExternalLink";
+
+import {DemoLink} from "@site/src/envs/variables";
+
+## 1. Example scripts
+
+If the project is cloned, use can find the examples in the `./examples` folder. Use the following command to run an example script:
+
+```sh
+pythom -m examples.markdown_to_bbcode
+```
+
+where `markdown_to_bbcode` is the example script name. It can be replaced by other scripts offered in the following list:
+
+| <center>Example</center>                        | <center>Description</center>                                                            |
+| :---------------------------------------------- | :-------------------------------------------------------------------------------------- |
+| <DemoLink script="markdown_to_bbcode"/>         | A minimal example converting Markdown to BBCode.                                        |
+| <DemoLink script="bbcode_table_to_list"/>       | An example of loading a BBCode file, and convert the tables inside it to lists.         |
+| <DemoLink script="bbcode_achievements"/>        | Download achievement information of a game and save it as a BBCode list.                |
+| <DemoLink script="save_description_of_a_game"/> | Save the "about the game" section of a Steam app as an HTML file.                       |
+| <DemoLink script="download_screenshots"/>       | Download all official screenshots of a game and create thumbnails of them.              |
+| <DemoLink script="download_a_guide"/>           | Fetch a Steam guide and save it as a BBCode file.                                       |
+| <DemoLink script="create_a_title_figure"/>      | Customize a figure-based title. Such title images can be inserted into the Steam guide. |
+| <DemoLink script="create_logo"/>                | Render the title bar of this readme file.                                               |
+| <DemoLink script="render_latex_equations"/>     | Render a LaTeX equation as an image.                                                    |
+| <DemoLink script="search_font"/>                | Search the font by name, and use the searched font to render an image.                  |
+| <DemoLink script="composer_list"/>              | Generate examples for each image composer, and gather the results as an image.          |
+| <DemoLink script="effect_list"/>                | Show the performance of all image layer effects in an image.                            |
+
+## 2. Example texts
+
+The following two guides are written with the help of this tool. Check them for viewing the details:
+
+| Reviews                                                                                           |                                                       Link                                                        |
+| :------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------: |
+| 女装百合岚 (in [new style](./bbcode/special-rendering.mdx#3-renderer-for-writing-reviews))        | [<InlineIcon icon={mdiLinkVariant} vspace={-0.35}/>](https://steamcommunity.com/id/cainmagi/recommended/4466710/) |
+| Slay the Spire (in [old style](./bbcode/special-rendering.mdx#1-prefer-tables-rather-than-lists)) | [<InlineIcon icon={mdiLinkVariant} vspace={-0.35}/>](https://steamcommunity.com/id/cainmagi/recommended/646570/)  |
+
+| Guide                           |                                                          Link                                                           |
+| :------------------------------ | :---------------------------------------------------------------------------------------------------------------------: |
+| 此后，勇者学会了后验概率        | [<InlineIcon icon={mdiLinkVariant} vspace={-0.35}/>](https://steamcommunity.com/sharedfiles/filedetails/?id=3624295321) |
+| 《海猫鸣泣之时·出题篇》解（伪） | [<InlineIcon icon={mdiLinkVariant} vspace={-0.35}/>](https://steamcommunity.com/sharedfiles/filedetails/?id=2881849336) |
+
+The following article is also rendered by this package:
+
+| Article                                               |                                                          Link                                                           |
+| :---------------------------------------------------- | :---------------------------------------------------------------------------------------------------------------------: |
+| Steam Editor Tools: Help You Write Guides and Reviews | [<InlineIcon icon={mdiLinkVariant} vspace={-0.35}/>](https://steamcommunity.com/sharedfiles/filedetails/?id=3641150966) |
+| Steam Editor Tools: 帮助你撰写评测和指南              | [<InlineIcon icon={mdiLinkVariant} vspace={-0.35}/>](https://steamcommunity.com/sharedfiles/filedetails/?id=3641166480) |

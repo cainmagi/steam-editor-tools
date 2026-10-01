@@ -1,0 +1,75 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "git.autofetch": true,
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.tabSize": 2
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.tabSize": 2
+    },
+    "[html]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.tabSize": 2
+    },
+    "[javascript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.tabSize": 2
+    },
+    "[css]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.tabSize": 2
+    },
+    "[typescript]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.tabSize": 2
+    },
+    "[typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.tabSize": 2
+    },
+    "[mdx]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.tabSize": 2
+    },
+    "prettier.tabWidth": 2,
+    "editor.tabSize": 4,
+    "editor.wordWrap": "on",
+    "npm.packageManager": "yarn",
+    "search.exclude": {
+      "**/.yarn": true,
+      "**/.pnp.*": true,
+      ".git": true,
+      "node_modules": true,
+      "bower_components": true,
+      "versioned_docs": true,
+      "i18n/zh-cn/docusaurus-plugin-content-docs/version-*": true
+    },
+    "js/ts.tsdk.path": ".yarn/sdks/typescript/lib",
+    "js/ts.tsdk.promptToUseWorkspaceVersion": true
+  },
+  "extensions": {
+    "recommendations": [
+      "arcanis.vscode-zipfs",
+      "codezombiech.gitignore",
+      "dutchigor.json-viewer",
+      "ecmel.vscode-html-css",
+      "esbenp.prettier-vscode",
+      "mhutchie.git-graph",
+      "tamasfe.even-better-toml",
+      "yzhang.markdown-all-in-one",
+      "zainchen.json",
+      "mohsen1.prettify-json",
+      "syler.sass-indented",
+      "sibiraj-s.vscode-scss-formatter",
+      "redhat.vscode-yaml",
+      "unifiedjs.vscode-mdx",
+    ]
+  }
+}

@@ -1,0 +1,177 @@
+---
+id: app-details
+sidebar_label: App Details
+title: "Query and get app (game) details"
+description: Query the game by its name and parse the detailed infromation of queried results.
+slug: /steaminfo/app-details
+---
+
+import Admonition from "@theme/Admonition";
+import DarkButton from "@site/src/components/DarkButton";
+import JSONGrid from "@site/src/components/JSONGrid";
+
+import mdiImage from "@iconify-icons/mdi/image";
+import mdiCodeJSON from "@iconify-icons/mdi/code-json";
+import mdiXML from "@iconify-icons/mdi/xml";
+import mdiLanguagePython from "@iconify-icons/mdi/language-python";
+import InlineIcon from "@site/src/components/InlineIcon";
+import IconExternalLink from "@theme/Icon/ExternalLink";
+
+import useBaseUrl from '@docusaurus/useBaseUrl';
+import {demoURL} from "@site/src/envs/variables";
+
+Steam Editor Tools (StET) provides limited functionality for fetching information from Steam's public APIs and game pages. Unlike most competitors, StET is completely **blind** to user login credentials and therefore **does not** require a **Steam API token**.
+
+:::info
+
+It means that
+
+1. StET can access only the information available on Steam's web page without logging in.
+2. StET cannot access ownership information, such as the list of uploaded images during guide editing.
+
+:::
+
+## 1. Search for a game
+
+This package provide a function [`query_app_by_name_simple`](../../apis/steaminfo/query/query_app_by_name_simple.mdx) equivalent to searching a game on Steam's website. For example, the following usage query a game name containing `"TouHou Maku"`:
+
+```python
+names = stet.query_app_by_name_simple("TouHou Maku")
+```
+
+The return data is a list of [`AppQuerySimple`](../../apis/steaminfo/data/appdata/AppQuerySimple.mdx) which only contains the basic information of a game.
+
+<Admonition type="note" icon={<InlineIcon icon={mdiCodeJSON} vspace={-0.35}/>} title={<code>names</code>}>
+  <JSONGrid data="query-name"/>
+</Admonition>
+
+### 1.1. Get the tiny image of a search item
+
+[`AppQuerySimple`](../../apis/steaminfo/data/appdata/AppQuerySimple.mdx) provides a method [`get_tiny_image`](../../apis/steaminfo/data/appdata/AppQuerySimple.mdx#-get_tiny_image) that allows users to fetch the image as a [PIL image object<IconExternalLink/>](https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image). For example, the following code
+
+```python
+img = names[0].get_tiny_image()
+```
+
+will yield the following picture:
+
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>img</code>}>
+
+![query-tiny-image](/img/tutorial/query-tiny-image.jpg)
+
+</Admonition>
+
+### 1.2. Search a game by a different language
+
+[`query_app_by_name_simple`](../../apis/steaminfo/query/query_app_by_name_simple.mdx) supports arguments for specifying the language and locale. The following code searches for the same game under the Chinese locale.
+
+```python
+names = stet.query_app_by_name_simple("东方幕华祭" , lang="schinese", cc="cn")
+img = names[0].get_tiny_image()
+```
+
+<Admonition type="note" icon={<InlineIcon icon={mdiCodeJSON} vspace={-0.35}/>} title={<code>names</code>}>
+  <JSONGrid data="query-name-cn"/>
+</Admonition>
+
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>img</code>}>
+
+![query-tiny-image-cn](/img/tutorial/query-tiny-image-cn.jpg)
+
+</Admonition>
+
+:::warning
+
+Many games do not implement multi-locale names. For example, `"Hollow Knight"` has a Chinese banner image but no Chinese name, so it can not be searched using `"空洞骑士"`. If a game cannot be searched on the website, it also cannot be searched by StET.
+
+:::
+
+## 2. Get game details
+
+The acquired [`AppQuerySimple`](../../apis/steaminfo/data/appdata/AppQuerySimple.mdx) or its corresponding app ID can be used for fetching the details of a game. We provide ``For example, the following codes shows how to fetch the full details of a specific game. The returned data is an instance of [`AppInfo`](../../apis/steaminfo/data/appdata/AppInfo.mdx).
+
+```python
+names = stet.query_app_by_name_simple("Sora no Kiseki 1st")
+name = names[0]
+# highlight-next-line
+data = stet.get_app_details(name)  # Can use name.id
+```
+
+<Admonition type="note" icon={<InlineIcon icon={mdiCodeJSON} vspace={-0.35}/>} title={<code>names</code>}>
+  <JSONGrid data="game-info"/>
+</Admonition>
+
+### 2.1. Get game images
+
+On the detailed page, there are several kinds of images that can be fetched. For example,
+
+```python
+full_img = data.get_header_image("full")
+```
+
+yields
+
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>full_img</code>}>
+
+![game-image](/img/tutorial/game-image.jpg)
+
+</Admonition>
+
+Another kind of image that can be fetched is the screenshot, for example,
+
+```python
+scr_img = data.screenshots[0].get_image()  # the first screenshot
+```
+
+<Admonition type="note" icon={<InlineIcon icon={mdiImage} vspace={-0.35}/>} title={<code>scr_img</code>}>
+
+![game-screenshot](/img/tutorial/game-screenshot.jpg)
+
+</Admonition>
+
+The following example shows how to save all screenshots of a game:
+
+<p>
+  <DarkButton to={demoURL("download_screenshots.py")} icon={mdiLanguagePython}>
+    {"download_screenshots.py"}
+  </DarkButton>
+</p>
+
+### 2.2. Get DLC details
+
+The game data will contains all app IDs of the game's DLCs. Users can dive into these DLCs pages by further queries:
+
+```python
+dlc_data = stet.get_app_details(data.dlc[0])  # the first DLC
+```
+
+<Admonition type="note" icon={<InlineIcon icon={mdiCodeJSON} vspace={-0.35}/>} title={<code>names</code>}>
+  <JSONGrid data="game-dlc-info"/>
+</Admonition>
+
+### 2.3. Get game descriptions
+
+On a game's store page, there is an introduction part overviewing the game. Users can get such information by its
+
+```python
+page = data.about_the_game
+```
+
+The `page` data is in the HTML format. It will contain rich information such as figures.
+
+<Admonition type="note" icon={<InlineIcon icon={mdiXML} vspace={-0.35}/>} title={<code>page</code>}>
+  <iframe
+    src={useBaseUrl("/html/game-descr.html")}
+    width="100%" 
+    height="400"
+    loading="lazy"
+  />
+</Admonition>
+
+The following example shows how to save such information as local HTML pages:
+
+<p>
+  <DarkButton to={demoURL("save_description_of_a_game.py")} icon={mdiLanguagePython}>
+    {"save_description_of_a_game.py"}
+  </DarkButton>
+</p>

@@ -1,0 +1,581 @@
+---
+id: ImageComposer
+title: ImageComposer
+sidebar_label: ImageComposer
+slug: /apis/improc/composer/ImageComposer
+description: The image mixing operators extended to the alpha-channel (RGBA) domain.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" source="improc.composer.ImageComposer" />
+
+```python
+ImageComposer()
+```
+
+The image mixing operators extended to the alpha-channel (RGBA) domain.
+
+This composer extends the scope of `ImageChops`, which only works with non- transparent images (such as `L` and `RGB`). Using this extended version, users can stack either `RGB` or `RGBA` images, where the stacking algorithm will take the alpha channel into consideration.
+
+## Arguments
+
+No argument is needed.
+
+## Methods
+
+### <IconObjType type="method"/> `add`
+
+```python
+v_1: Image = self.add(image_bg: Image, image_fg: Image)
+```
+
+Equivalent to `ImageChops.add`.
+
+Adds two images by:
+
+```python
+out = clip(image1 + image2, (0, 255))
+```
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The foreground image that will lay over `image_bg`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The mixed image. This returned image has the same mode of `image_bg`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `add_modulo`
+
+```python
+v_1: Image = self.add_modulo(image_bg: Image, image_fg: Image)
+```
+
+Equivalent to `ImageChops.add_modulo`.
+
+Add two images, without clipping the result.
+
+```python
+out = ((image1 + image2) % MAX)
+```
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The foreground image that will lay over `image_bg`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The mixed image. This returned image has the same mode of `image_bg`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `alpha_composite`
+
+```python
+v_1: Image = self.alpha_composite(image_bg: Image, image_fg: Image)
+```
+
+Equivalent to `Image.alpha_composite`.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The foreground image that will lay over `image_bg`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The mixed image. This returned image has the same mode of `image_bg`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `by_name`
+
+```python
+v_1: Callable[[Image, Image], Image] = self.by_name(mode: ImageComposerMode)
+```
+
+Fetch the composer method by the mode name.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `mode` | `ImageComposerMode` | <InlineIcon icon={vsiCheckIcon}/> | The name of the composer binary operator. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Callable[[Image, Image], Image]` | The selected composer operator. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `darker`
+
+```python
+v_1: Image = self.darker(image_bg: Image, image_fg: Image)
+```
+
+Equivalent to `ImageChops.darker`.
+
+Compares the two images, pixel by pixel, and returns a new image containing the darker values.
+
+```python
+out = min(image1, image2)
+```
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The foreground image that will lay over `image_bg`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The mixed image. This returned image has the same mode of `image_bg`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `difference`
+
+```python
+v_1: Image = self.difference(image_bg: Image, image_fg: Image)
+```
+
+Equivalent to `ImageChops.difference`.
+
+Returns the absolute value of the pixel-by-pixel difference between the two images.
+
+```python
+out = abs(image1 - image2)
+```
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The foreground image that will lay over `image_bg`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The mixed image. This returned image has the same mode of `image_bg`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `hard_light`
+
+```python
+v_1: Image = self.hard_light(image_bg: Image, image_fg: Image)
+```
+
+Equivalent to `ImageChops.hard_light`.
+
+Superimposes two images on top of each other using the Hard Light algorithm.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The foreground image that will lay over `image_bg`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The mixed image. This returned image has the same mode of `image_bg`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `invert`
+
+```python
+v_1: Image = self.invert(image: Image)
+```
+
+Equivalent to `ImageChops.invert`.
+
+Invert an image (channel).
+
+```python
+out = MAX - image
+```
+
+Note that this operator will be applied to each channel except the alpha channel if the alpha channel exists.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The image to be inverted. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The image with the inverted colors. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `invert_luminance`
+
+```python
+v_1: Image = self.invert_luminance(image: Image)
+```
+
+Modified `ImageChops.invert`, where we only invert the luminance of the image, while preserve the color of the image.
+
+If the input image has the transparency channel, it will be preserved.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The image to be inverted. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The image with the inverted colors. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `lighter`
+
+```python
+v_1: Image = self.lighter(image_bg: Image, image_fg: Image)
+```
+
+Equivalent to `ImageChops.lighter`.
+
+Compares the two images, pixel by pixel, and returns a new image containing the lighter values.
+
+```python
+out = max(image1, image2)
+```
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The foreground image that will lay over `image_bg`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The mixed image. This returned image has the same mode of `image_bg`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `logical_and`
+
+```python
+v_1: Image = self.logical_and(image_bg: Image, image_fg: Image, threshold: int = 128)
+```
+
+Equivalent to `ImageChops.logical_and`.
+
+Both of the images will be converted to mode "1". If you would like to perform a logical AND on an image with a mode other than "1", try `self.multiply` instead, using a black-and-white mask as the second image.
+
+```python
+out = ((image1 and image2) % MAX)
+```
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The foreground image that will lay over `image_bg`. |
+| `threshold` | `int` | | The threshold used for converting `image_bg` and `image_fg` to binary images. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The mixed image. This returned image has the same mode of `image_bg`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `logical_or`
+
+```python
+v_1: Image = self.logical_or(image_bg: Image, image_fg: Image, threshold: int = 128)
+```
+
+Equivalent to `ImageChops.logical_or`.
+
+Logical OR between two images.
+
+Both of the images will be converted to mode "1".
+
+```python
+out = ((image1 or image2) % MAX)
+```
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The foreground image that will lay over `image_bg`. |
+| `threshold` | `int` | | The threshold used for converting `image_bg` and `image_fg` to binary images. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The mixed image. This returned image has the same mode of `image_bg`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `logical_xor`
+
+```python
+v_1: Image = self.logical_xor(image_bg: Image, image_fg: Image, threshold: int = 128)
+```
+
+Equivalent to `ImageChops.logical_xor`.
+
+Logical XOR between two images.
+
+Both of the images will be converted to mode "1".
+
+```python
+out = ((bool(image1) != bool(image2)) % MAX)
+```
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The foreground image that will lay over `image_bg`. |
+| `threshold` | `int` | | The threshold used for converting `image_bg` and `image_fg` to binary images. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The mixed image. This returned image has the same mode of `image_bg`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `multiply`
+
+```python
+v_1: Image = self.multiply(image_bg: Image, image_fg: Image)
+```
+
+Equivalent to `ImageChops.multiply`.
+
+Superimposes two images on top of each other.
+
+If you multiply an image with a solid black image, the result is black. If you multiply with a solid white image, the image is unaffected.
+
+```python
+out = image1 * image2 / MAX
+```
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The foreground image that will lay over `image_bg`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The mixed image. This returned image has the same mode of `image_bg`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `overlay`
+
+```python
+v_1: Image = self.overlay(image_bg: Image, image_fg: Image)
+```
+
+Equivalent to `ImageChops.overlay`.
+
+Superimposes two images on top of each other using the Overlay algorithm.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The foreground image that will lay over `image_bg`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The mixed image. This returned image has the same mode of `image_bg`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `screen`
+
+```python
+v_1: Image = self.screen(image_bg: Image, image_fg: Image)
+```
+
+Equivalent to `ImageChops.screen`.
+
+Superimposes two inverted images on top of each other.
+
+```python
+out = MAX - ((MAX - image1) * (MAX - image2) / MAX)
+```
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The foreground image that will lay over `image_bg`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The mixed image. This returned image has the same mode of `image_bg`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `soft_light`
+
+```python
+v_1: Image = self.soft_light(image_bg: Image, image_fg: Image)
+```
+
+Equivalent to `ImageChops.soft_light`.
+
+Superimposes two images on top of each other using the Soft Light algorithm.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The foreground image that will lay over `image_bg`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The mixed image. This returned image has the same mode of `image_bg`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `subtract`
+
+```python
+v_1: Image = self.subtract(image_bg: Image, image_fg: Image)
+```
+
+Equivalent to `ImageChops.subtract`.
+
+Subtracts two images.
+
+```python
+out = clip(image1 - image2, (0, 255))
+```
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The foreground image that will lay over `image_bg`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The mixed image. This returned image has the same mode of `image_bg`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `subtract_modulo`
+
+```python
+v_1: Image = self.subtract_modulo(image_bg: Image, image_fg: Image)
+```
+
+Equivalent to `ImageChops.subtract_modulo`.
+
+Subtract two images, without clipping the result.
+
+```python
+out = ((image1 - image2) % MAX)
+```
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The foreground image that will lay over `image_bg`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The mixed image. This returned image has the same mode of `image_bg`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `threshold`
+
+```python
+v_1: Image = self.threshold(image: Image, threshold: int = 128)
+```
+
+Given a threshold, use this threshold to convert the image into a binary image.
+
+If the image have multiple channels, will perform the conversion with respect to the luminance channel.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The image to be inverted. |
+| `threshold` | `int` | | The threshold used for dividing the image. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The image mask in the mode "L" or "LA". Note that we do not perform the mode "1" conversion because the alpha channel needs to be preserved if it exists. |

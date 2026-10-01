@@ -1,0 +1,382 @@
+---
+id: ImageSingle
+title: ImageSingle
+sidebar_label: ImageSingle
+slug: /apis/improc/renderer/ImageSingle
+description: The basic one-layer style of image.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" source="improc.renderer.ImageSingle" />
+
+```python
+ImageSingle(
+    img: str | PathLike[str] | IO[bytes] | Image | Self,
+    fmt: str | ImageFormat | None = None,
+)
+```
+
+The basic one-layer style of image.
+
+Add some extended method for providing extra image processing features.
+
+## Arguments
+
+### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `img` | `str \| PathLike[str] \| IO[bytes] \| Image \| Self` | <InlineIcon icon={vsiCheckIcon}/> | The image used for initializing this instance. It can be a file path, a file-like object, an image object or this kind of object. |
+| `fmt` | `str \| ImageFormat \| None` | | The format to be used for saving this image. If not specified, will try to automatically infer the format. |
+
+## Methods
+
+### <IconObjType type="method"/> `add_background`
+
+```python
+v_1: Self = self.add_background(color: str | tuple[float, ...] = "#1b2838")
+```
+
+Add a background to the image.
+
+If the current image mode is not RGBA, the output image mode will be converted to RGB automatically.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `color` | `str \| tuple[float, ...]` | | The color of the added background. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The modified image. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `blur`
+
+```python
+v_1: Self = self.blur(blur_size: int, dil_size: int | None = None)
+```
+
+Make the image blured.
+
+This operation is non-inplace.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `blur_size` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The size of blur filter. |
+| `dil_size` | `int \| None` | | The size of the dilation. If not specified, it will be the same as `blur_size`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The modified image. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `convert`
+
+```python
+v_1: Self = self.convert(mode: str)
+```
+
+Convert the image mode.
+
+This operation is non-inplace.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `mode` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The mode of the converted image. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The converted image. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `copy`
+
+```python
+v_1: Self = self.copy()
+```
+
+Get a copy of this object.
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The copied image. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `crop`
+
+```python
+v_1: Self = self.crop(
+    size: tuple[int | None, int | None], anchor: str | ImageAnchor = ImageAnchor.center
+)
+```
+
+Crop this image.
+
+This operation is non-inplace.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `size` | `tuple[int \| None, int \| None]` | <InlineIcon icon={vsiCheckIcon}/> | <p>The size of the cropped image. If this size is larger than the original size, the image mode will be converted to RGBA.</p><p>If a size is value <code>None</code>, will treat it as width/height.</p> |
+| `anchor` | `str \| ImageAnchor` | | The anchor where we set for cropping the image. For example, when this anchor is "center", will crop the image for four sides. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The cropped image. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `quantize`
+
+```python
+v_1: Self = self.quantize(n: int = 16)
+```
+
+Quantize the image.
+
+This operation is non-inplace.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `n` | `int` | | The number of colors used during the quantization. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The converted image. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `resize`
+
+```python
+v_1: Self = self.resize(size: tuple[None, int], resample: int | None = None)
+v_1: Self = self.resize(size: tuple[int, None], resample: int | None = None)
+v_1: Self = self.resize(size: tuple[int, int], resample: int | None = None)
+```
+
+Resize this image.
+
+This operation is non-inplace.
+
+#### Arguments (ver. 1)
+
+Resize this image.
+
+This operation is non-inplace.
+
+##### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `size` | `tuple[None, int]` | <InlineIcon icon={vsiCheckIcon}/> | The size of the resized image. Only the target `height` is provided. Will resize the image while preserving the w/h ratio. |
+| `resample` | `int \| None` | | <p>The resample method specified by <code>Image.Resampling</code>.</p><p>If not specified, will select the resample method automatically:</p><ol><li><p>If <code>size</code> is smaller than the current image size (for either width or height), will use <code>Image.Resampling.LANCZOS</code>.</p></li><li><p>Otherwise (usually used for enlarging the image), use <code>Image.Resampling.BICUBIC</code>.</p></li></ol> |
+
+##### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The resized image. |
+
+#### Arguments (ver. 2)
+
+Resize this image.
+
+This operation is non-inplace.
+
+##### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `size` | `tuple[int, None]` | <InlineIcon icon={vsiCheckIcon}/> | The size of the resized image. Only the target `width` is provided. Will resize the image while preserving the w/h ratio. |
+| `resample` | `int \| None` | | <p>The resample method specified by <code>Image.Resampling</code>.</p><p>If not specified, will select the resample method automatically:</p><ol><li><p>If <code>size</code> is smaller than the current image size (for either width or height), will use <code>Image.Resampling.LANCZOS</code>.</p></li><li><p>Otherwise (usually used for enlarging the image), use <code>Image.Resampling.BICUBIC</code>.</p></li></ol> |
+
+##### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The resized image. |
+
+#### Arguments (ver. 3)
+
+Resize this image.
+
+This operation is non-inplace.
+
+##### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `size` | `tuple[int, int]` | <InlineIcon icon={vsiCheckIcon}/> | The size of the resized image. |
+| `resample` | `int \| None` | | <p>The resample method specified by <code>Image.Resampling</code>.</p><p>If not specified, will select the resample method automatically:</p><ol><li><p>If <code>size</code> is smaller than the current image size (for either width or height), will use <code>Image.Resampling.LANCZOS</code>.</p></li><li><p>Otherwise (usually used for enlarging the image), use <code>Image.Resampling.BICUBIC</code>.</p></li></ol> |
+
+##### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The resized image. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `save`
+
+```python
+self.save(
+    fobj: str | PathLike[str] | IO[bytes],
+    quality: str | ImageQuality = ImageQuality.high,
+)
+```
+
+Save the image as a file.
+
+Before saving the image, this method will run optimizations corresponding to the saving format.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `fobj` | `str \| PathLike[str] \| IO[bytes]` | <InlineIcon icon={vsiCheckIcon}/> | The file path of file-like object of the output file. |
+| `quality` | `str \| ImageQuality` | | The quality of the image to be saved. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `save_steam_screenshot`
+
+```python
+self.save_steam_screenshot(
+    folder_path: str | PathLike[str],
+    file_name: str,
+    quality: str | ImageQuality = ImageQuality.high,
+    skip_thumbnails: bool = False,
+)
+```
+
+Save the image as a Steam screenshot.
+
+When using this method to save the image, we will create a "thumbnails" folder where we save the image, and save the small version (thumbnail image) in the "thumbnails" folder.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `folder_path` | `str \| PathLike[str]` | <InlineIcon icon={vsiCheckIcon}/> | The path of the folder where we save the image. |
+| `file_name` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The name of the saved screenshot file. |
+| `quality` | `str \| ImageQuality` | | The quality of the image to be saved. |
+| `skip_thumbnails` | `bool` | | A flag. If specified, will not save thumbnails. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `to_lossless`
+
+```python
+v_1: Self = self.to_lossless()
+```
+
+Convert the format of this image to the lossless type.
+
+This operation is non-inplace.
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The converted image. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `to_lossy`
+
+```python
+v_1: Self = self.to_lossy()
+```
+
+Convert the format of this image to the lossy type.
+
+This operation is non-inplace.
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The converted image. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `to_palette`
+
+```python
+v_1: Self = self.to_palette(n: int | None = None)
+```
+
+Quantize the image and convert the image mode to the palette-based mode. Note that this method will convert the image to the RGB image.
+
+This operation is non-inplace.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `n` | `int \| None` | | The number of colors used in the palette. If not specified, will use `Image.Palette.WEB` palette. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The converted image. |
+
+## Properties
+
+### <IconObjType type="param"/> `height`
+
+```python
+height: int = self.height
+```
+
+The image height.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `size`
+
+```python
+size: tuple[int, int] = self.size
+```
+
+The image `(width, height)`.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `width`
+
+```python
+width: int = self.width
+```
+
+The image width.

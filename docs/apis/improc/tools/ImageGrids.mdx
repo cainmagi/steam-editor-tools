@@ -1,0 +1,285 @@
+---
+id: ImageGrids
+title: ImageGrids
+sidebar_label: ImageGrids
+slug: /apis/improc/tools/ImageGrids
+description: The tool used for creating grided images.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" source="improc.tools.ImageGrids" />
+
+```python
+ImageGrids(
+    n_cols: int,
+    *,
+    width: int = 1024,
+    margins: tuple[int, int] = (0, 0),
+    gaps: tuple[int, int] = (0, 0),
+    bg_color: str | tuple[float, ...] | None = None,
+    fmt: str | ImageFormat = "png"
+)
+ImageGrids(
+    n_rows: int,
+    *,
+    height: int = 1024,
+    margins: tuple[int, int] = (0, 0),
+    gaps: tuple[int, int] = (0, 0),
+    bg_color: str | tuple[float, ...] | None = None,
+    fmt: str | ImageFormat = "png"
+)
+ImageGrids(
+    n_rows: int,
+    n_cols: int,
+    *,
+    width: int = 1024,
+    height: int = 1024,
+    margins: tuple[int, int] = (0, 0),
+    gaps: tuple[int, int] = (0, 0),
+    bg_color: str | tuple[float, ...] | None = None,
+    fmt: str | ImageFormat = "png"
+)
+```
+
+The tool used for creating grided images.
+
+Its design is similar to matplotlib's subplots.
+
+## Arguments
+
+Initialization.
+
+### ver. 1
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `n_cols` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The number of rows in the grid. |
+| `width` | `int` | | The width of the image. This width will be uniformly divided according to `n_cols`. |
+| `margins` | `tuple[int, int]` | | The `(horizontal_margin, vertical_margin)` padded to the image. |
+| `gaps` | `tuple[int, int]` | | The `(x_gap, y_gap)` defining the separations among images. |
+| `bg_color` | `str \| tuple[float, ...] \| None` | | The background color of the whole image. If this value is `None`, will use transparent background. |
+| `fmt` | `str \| ImageFormat` | | The format of the image. It is used only when saving this image. |
+
+### ver. 2
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `n_rows` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The number of rows in the grid. |
+| `height` | `int` | | The height of the image. This height will be uniformly divided according to `n_rows`. |
+| `margins` | `tuple[int, int]` | | The `(horizontal_margin, vertical_margin)` padded to the image. |
+| `gaps` | `tuple[int, int]` | | The `(x_gap, y_gap)` defining the separations among images. |
+| `bg_color` | `str \| tuple[float, ...] \| None` | | The background color of the whole image. If this value is `None`, will use transparent background. |
+| `fmt` | `str \| ImageFormat` | | The format of the image. It is used only when saving this image. |
+
+### ver. 3
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `n_rows` | `int` | <InlineIcon icon={vsiCheckIcon}/> | When both rows and cols are specified, this container will has a number limit of specified figures. |
+| `n_cols` | `int` | <InlineIcon icon={vsiCheckIcon}/> | When both rows and cols are specified, this container will has a number limit of specified figures. |
+| `width` | `int` | | The size of the image. The width and height will be uniformly divided. |
+| `height` | `int` | | The size of the image. The width and height will be uniformly divided. |
+| `margins` | `tuple[int, int]` | | The `(horizontal_margin, vertical_margin)` padded to the image. |
+| `gaps` | `tuple[int, int]` | | The `(x_gap, y_gap)` defining the separations among images. |
+| `bg_color` | `str \| tuple[float, ...] \| None` | | The background color of the whole image. If this value is `None`, will use transparent background. |
+| `fmt` | `str \| ImageFormat` | | The format of the image. It is used only when saving this image. |
+
+## Methods
+
+### <IconObjType type="method"/> `append`
+
+```python
+self.append(img: Image | ImageProtocol)
+```
+
+Add an image to this grid.
+
+The image added by this method will be placed after previously registered images.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `img` | `Image \| ImageProtocol` | <InlineIcon icon={vsiCheckIcon}/> | The image instance to be registered. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `clear`
+
+```python
+self.clear()
+```
+
+Remove all images registered to this storage.
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `items`
+
+```python
+(v_1: tuple[int, int], v_2: ImageProtocol) in self.items()
+```
+
+Iterate all indicies and corresponding images.
+
+#### Yields
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `tuple[int, int]` | The `(row, col)` index. |
+| `v_2` | `ImageProtocol` | The image corresponding to the index. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `pop`
+
+```python
+v_1: ImageProtocol = self.pop(row: int, col: int)
+```
+
+Remove the image in the storage, and return it.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `row` | `int` | <InlineIcon icon={vsiCheckIcon}/> | |
+| `col` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The indicies along the row and column axes. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `ImageProtocol` | <p>The image removed from the storage.</p><p>Will raise <code>KeyError</code> if the given index does not refer to an registered image.</p> |
+
+## Properties
+
+### <IconObjType type="param"/> `img`
+
+```python
+img: ImageMultiLayer = self.img
+```
+
+Render the multi-layer image.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `n_cols`
+
+```python
+n_cols: int = self.n_cols
+```
+
+Get the number of columns based on the currently registered
+images.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `n_rows`
+
+```python
+n_rows: int = self.n_rows
+```
+
+Get the number of rows based on the currently registered images.
+
+## Operators
+
+### <IconObjType type="op"/> `__contains__`
+
+```python
+flag: bool = idx in self
+```
+
+Test whether the index exists in the grid.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `idx` | `tuple[int, int]` | <InlineIcon icon={vsiCheckIcon}/> | The `(row, col)` index. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `bool` | Whether the given index is in the grid. |
+
+______________________________________________________________________
+
+### <IconObjType type="op"/> `__delitem__`
+
+```python
+del self[idx]
+```
+
+Remove the image in this grid.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `idx` | `tuple[int, int]` | <InlineIcon icon={vsiCheckIcon}/> | The `(row, col)` index. |
+
+______________________________________________________________________
+
+### <IconObjType type="op"/> `__getitem__`
+
+```python
+idx: tuple[int, int]
+v_1: ImageProtocol = self[idx]
+```
+
+Get the image stored in this grid.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `idx` | `tuple[int, int]` | <InlineIcon icon={vsiCheckIcon}/> | The `(row, col)` index. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `ImageProtocol` | <p>The image in the storage.</p><p>Will raise <code>KeyError</code> if the given index does not refer to an registered image.</p> |
+
+______________________________________________________________________
+
+### <IconObjType type="op"/> `__iter__`
+
+```python
+for (v_1, v_2) in self:
+    v_1: int
+    v_2: int
+```
+
+Iterate all `(row, col)` indicies in the order of row-col.
+
+#### Yields
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `int` | The `row` index. |
+| `v_2` | `int` | The `col` index. |
+
+______________________________________________________________________
+
+### <IconObjType type="op"/> `__setitem__`
+
+```python
+val: Image | ImageProtocol
+self[idx] = val
+```
+
+Add the image to this grid.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `idx` | `tuple[int, int]` | <InlineIcon icon={vsiCheckIcon}/> | The `(row, col)` index. |
+| `val` | `Image \| ImageProtocol` | <InlineIcon icon={vsiCheckIcon}/> | <p>The image in the to be configured in the storage.</p><p>Will raise <code>IndexError</code> if the the given index cannot be placed in the grid.</p> |

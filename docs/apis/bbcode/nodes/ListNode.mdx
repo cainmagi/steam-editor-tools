@@ -1,0 +1,51 @@
+---
+id: ListNode
+title: ListNode
+sidebar_label: ListNode
+slug: /apis/bbcode/nodes/ListNode
+description: 'Node: List.'
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="bbcode.nodes.ListNode" />
+
+```python
+ListNode(type: Literal["list"] = "list", ordered: bool, items: list[ListItemNode])
+```
+
+Node: List
+
+Provide the ordered or unordered lists.
+
+`ordered = True` for `<ol>`, `False` for `<ul>`.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `type` | `Literal["list"]` | | The type identifer of this document node. |
+| `ordered` | `bool` | <InlineIcon icon={vsiCheckIcon}/> | A flag. If specified, the list will be recognized as an ordered list. |
+| `items` | `list[ListItemNode]` | <InlineIcon icon={vsiCheckIcon}/> | The list items in this list. |
+
+## Properties
+
+### <IconObjType type="param"/> `pure_text`
+
+```python
+pure_text: str = self.pure_text
+```
+
+The pure text of the current node.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `size`
+
+```python
+size: int = self.size
+```
+
+The estimated text length of the current node.

@@ -1,0 +1,26 @@
+---
+id: ImageFontAbsSize
+title: ImageFontAbsSize
+sidebar_label: ImageFontAbsSize
+slug: /apis/improc/data/ImageFontAbsSize
+description: Absolute image text size.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="improc.data.ImageFontAbsSize" />
+
+```python
+ImageFontAbsSize(n_per_line: int | None = None, font_size: int)
+```
+
+Absolute image text size.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `n_per_line` | `int \| None` | | Number of characters per line. |
+| `font_size` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The absolute font size. |

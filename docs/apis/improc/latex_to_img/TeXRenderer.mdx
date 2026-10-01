@@ -1,0 +1,107 @@
+---
+id: TeXRenderer
+title: TeXRenderer
+sidebar_label: TeXRenderer
+slug: /apis/improc/latex_to_img/TeXRenderer
+description: The LaTeX renderer.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" source="improc.latex_to_img.TeXRenderer" />
+
+```python
+TeXRenderer(
+    path_temp: str | PathLike[str] | None = None, verbose: bool = False
+)
+```
+
+The LaTeX renderer.
+
+Render the LaTeX equation to pixel image. The backend is implemented by calling the `latex` command. Therefore, using this renderer requires the installation of a LaTeX released version.
+
+## Arguments
+
+### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `path_temp` | `str \| PathLike[str] \| None` | | The path to the folder storing the temporary files. If not specified, will create a folder in the temp path, |
+| `verbose` | `bool` | | Whether to show the running details of LaTeX. |
+
+## Methods
+
+### <IconObjType type="method"/> `get_template`
+
+```python
+v_1: TeXTemplate = TeXRenderer.get_template(template: str | TeXTemplate = "default")
+```
+
+Get the LaTeX rendering template by specifying the template name.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `template` | `str \| TeXTemplate` | | The name of the template. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `TeXTemplate` | The fetched LaTeX template. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render`
+
+```python
+v_1: Image = self.render(equation: str, template: str | TeXTemplate = "default")
+```
+
+Render the equation into a pixel-based image.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `equation` | `str` | <InlineIcon icon={vsiCheckIcon}/> | <p>The LaTeX equation. This equation is treated as a block equation.</p><p>Do not need to specify <code>$</code> or <code>$$</code> symbol.</p> |
+| `template` | `str \| TeXTemplate` | | <p>The LaTeX template used for rendering the equation. If using <code>str</code>, this value will be treated as the template name. Users can provide self-implemented template by instantiate <code>TeXTemplate</code>.</p><p>Check <code>improc.variables.tex_templates</code> to view the currently supported templates.</p> |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The image rendered from the LaTeX equation. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_png`
+
+```python
+self.render_png(
+    out_file: str | PathLike[str],
+    equation: str,
+    template: str | TeXTemplate = "default",
+    bg_color: str | tuple[float, ...] = "#1b2838",
+    fg_color: str | tuple[float, ...] = "#ffffff",
+    out_width: int = 3000,
+)
+```
+
+Render the equation as a PNG file.
+
+This method is recommended for previewing the rendered equations.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `out_file` | `str \| PathLike[str]` | <InlineIcon icon={vsiCheckIcon}/> | The path to the output file. |
+| `equation` | `str` | <InlineIcon icon={vsiCheckIcon}/> | <p>The LaTeX equation. This equation is treated as a block equation.</p><p>Do not need to specify <code>$</code> or <code>$$</code> symbol.</p> |
+| `template` | `str \| TeXTemplate` | | <p>The LaTeX template used for rendering the equation. If using <code>str</code>, this value will be treated as the template name. Users can provide self-implemented template by instantiate <code>TeXTemplate</code>.</p><p>Check <code>improc.variables.tex_templates</code> to view the currently supported templates.</p> |
+| `bg_color` | `str \| tuple[float, ...]` | | The background color of the rendered image. |
+| `fg_color` | `str \| tuple[float, ...]` | | The foreground (text) color. |
+| `out_width` | `int` | | <p>The width of the output image. If the rendered equation is not long enough, will place the equation in the center of the image.</p><p>This option ensures that every output file to have the same image width.</p> |

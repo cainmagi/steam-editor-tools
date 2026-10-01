@@ -1,0 +1,33 @@
+---
+id: HeadingNode
+title: HeadingNode
+sidebar_label: HeadingNode
+slug: /apis/bbcode/nodes/HeadingNode
+description: 'Node: Heading.'
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="bbcode.nodes.HeadingNode" />
+
+```python
+HeadingNode(
+    children: list[DeletedNode | TextNode | LineBreakNode | HorizontalRuleNode | InlineCodeNode | CodeBlockNode | BoldNode | ItalicNode | UnderlineNode | StrikeNode | SpoilerNode | LinkNode | HeadingNode | ParagraphNode | QuoteNode | AlertNode | ListItemNode | ListNode | TableCellNode | TableRowNode | TableNode],
+    type: Literal["heading"] = "heading",
+    level: int
+)
+```
+
+Node: Heading
+
+Provide the one-liner title block. The level is specified as 1-6 for representing `<h1>`-`<h6>`.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `children` | `list[DeletedNode \| TextNode \| LineBreakNode \| HorizontalRuleNode \| InlineCodeNode \| CodeBlockNode \| BoldNode \| ItalicNode \| UnderlineNode \| StrikeNode \| SpoilerNode \| LinkNode \| HeadingNode \| ParagraphNode \| QuoteNode \| AlertNode \| ListItemNode \| ListNode \| TableCellNode \| TableRowNode \| TableNode]` | <InlineIcon icon={vsiCheckIcon}/> | The children of the node. |
+| `type` | `Literal["heading"]` | | The type identifer of this document node. |
+| `level` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The level of the title |

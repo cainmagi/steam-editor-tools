@@ -1,0 +1,22 @@
+---
+id: index
+title: renderer
+sidebar_label: renderer
+slug: /apis/improc/renderer
+description: The single-layer and multi-layer image renderers.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+
+<APITopBar type="module" source="improc.renderer" />
+
+The single-layer and multi-layer image renderers. This module provides easy-to-use methods for optimizing the images when saving them.
+
+## Classes
+
+| Member | <center>Description</center> |
+| :-----: | :------ |
+| [<IconObjType type="class" hasText={true} text="ImageSingle"/>](./ImageSingle.mdx) | The basic one-layer style of image. |
+| [<IconObjType type="class" hasText={true} text="ImageText"/>](./ImageText.mdx) | A layer of text that can be rendered as an image. |
+| [<IconObjType type="class" hasText={true} text="ImageTeX"/>](./ImageTeX.mdx) | A layer of TeX equation that can be rendered as an image. |
+| [<IconObjType type="class" hasText={true} text="ImageMultiLayer"/>](./ImageMultiLayer.mdx) | The handle of a stack of layered images. |

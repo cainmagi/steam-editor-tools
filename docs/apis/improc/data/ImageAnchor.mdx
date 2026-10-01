@@ -1,0 +1,67 @@
+---
+id: ImageAnchor
+title: ImageAnchor
+sidebar_label: ImageAnchor
+slug: /apis/improc/data/ImageAnchor
+description: The image anchor.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isEnum={true} source="improc.data.ImageAnchor" />
+
+```python
+ImageAnchor.top_left = "top left"
+ImageAnchor.top_center = "top center"
+ImageAnchor.top_right = "top right"
+ImageAnchor.left = "left"
+ImageAnchor.center = "center"
+ImageAnchor.right = "right"
+ImageAnchor.bottom_left = "bottom left"
+ImageAnchor.bottom_center = "bottom center"
+ImageAnchor.bottom_right = "bottom right"
+```
+
+The image anchor.
+
+Inspired by LaTeX/TikZ's node anchors. This value can help users put the image near another image easily.
+
+For example, we can align the "top left" corner of an image to the same position of another image. Then the two image will share the same top-left corner position.
+
+## Enums
+
+| Name | Type | Value |
+| :-----: | :-----: | :-----: |
+| `top_left` | `str` | `"top left"` |
+| `top_center` | `str` | `"top center"` |
+| `top_right` | `str` | `"top right"` |
+| `left` | `str` | `"left"` |
+| `center` | `str` | `"center"` |
+| `right` | `str` | `"right"` |
+| `bottom_left` | `str` | `"bottom left"` |
+| `bottom_center` | `str` | `"bottom center"` |
+| `bottom_right` | `str` | `"bottom right"` |
+
+## Methods
+
+### <IconObjType type="method"/> `from_str`
+
+```python
+v_1: Self = ImageAnchor.from_str(val: str | Self)
+```
+
+Use a `str` to define this size.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `val` | `str \| Self` | <InlineIcon icon={vsiCheckIcon}/> | The text used for conversion is flexible. For example, both "bottom-left" and "bottom left" will be converted to `ImageAnchor.bottom_left`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The converted anchor enum object. |

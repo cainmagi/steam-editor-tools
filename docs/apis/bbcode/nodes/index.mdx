@@ -1,0 +1,46 @@
+---
+id: index
+title: nodes
+sidebar_label: nodes
+slug: /apis/bbcode/nodes
+description: The parsed structured data nodes.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+
+<APITopBar type="module" source="bbcode.nodes" />
+
+The parsed structured data nodes. The nodes contain the structured text parsed from other formats (like HTML and Markdown). The nodes only preserve the data that is needed for reconstructing the BBCode text.
+
+## Classes
+
+| Member | <center>Description</center> |
+| :-----: | :------ |
+| [<IconObjType type="class" hasText={true} text="DeletedNode"/>](./DeletedNode.mdx) | Node: Deleted. |
+| [<IconObjType type="class" hasText={true} text="TextNode"/>](./TextNode.mdx) | Node: Text. |
+| [<IconObjType type="class" hasText={true} text="LineBreakNode"/>](./LineBreakNode.mdx) | Node: Line Break. |
+| [<IconObjType type="class" hasText={true} text="HorizontalRuleNode"/>](./HorizontalRuleNode.mdx) | Node: Horizontal Rule. |
+| [<IconObjType type="class" hasText={true} text="InlineCodeNode"/>](./InlineCodeNode.mdx) | Node: Code (Inline). |
+| [<IconObjType type="class" hasText={true} text="CodeBlockNode"/>](./CodeBlockNode.mdx) | Node: Code (Block). |
+| [<IconObjType type="class" hasText={true} text="BoldNode"/>](./BoldNode.mdx) | Node: Bold. |
+| [<IconObjType type="class" hasText={true} text="ItalicNode"/>](./ItalicNode.mdx) | Node: Italic. |
+| [<IconObjType type="class" hasText={true} text="UnderlineNode"/>](./UnderlineNode.mdx) | Node: Underline. |
+| [<IconObjType type="class" hasText={true} text="StrikeNode"/>](./StrikeNode.mdx) | Node: Strike. |
+| [<IconObjType type="class" hasText={true} text="SpoilerNode"/>](./SpoilerNode.mdx) | Node: Spoiler. |
+| [<IconObjType type="class" hasText={true} text="LinkNode"/>](./LinkNode.mdx) | Node: Link. |
+| [<IconObjType type="class" hasText={true} text="HeadingNode"/>](./HeadingNode.mdx) | Node: Heading. |
+| [<IconObjType type="class" hasText={true} text="ParagraphNode"/>](./ParagraphNode.mdx) | Node: Paragraph. |
+| [<IconObjType type="class" hasText={true} text="QuoteNode"/>](./QuoteNode.mdx) | Node: Quote. |
+| [<IconObjType type="class" hasText={true} text="AlertNode"/>](./AlertNode.mdx) | Node: Alert. |
+| [<IconObjType type="class" hasText={true} text="ListItemNode"/>](./ListItemNode.mdx) | Node: List Item. |
+| [<IconObjType type="class" hasText={true} text="ListNode"/>](./ListNode.mdx) | Node: List. |
+| [<IconObjType type="class" hasText={true} text="TableCellNode"/>](./TableCellNode.mdx) | Node: Table Cell. |
+| [<IconObjType type="class" hasText={true} text="TableRowNode"/>](./TableRowNode.mdx) | Node: Table Row. |
+| [<IconObjType type="class" hasText={true} text="TableNode"/>](./TableNode.mdx) | Node: Table. |
+| [<IconObjType type="class" hasText={true} text="Document"/>](./Document.mdx) | The top-level parsed document. |
+
+## Aliases
+
+| Member | <center>Description</center> |
+| :-----: | :------ |
+| [<IconObjType type="type" hasText={true} text="Node"/>](./Node.mdx) | The union type of all nodes. |

@@ -1,0 +1,75 @@
+---
+id: Document
+title: Document
+sidebar_label: Document
+slug: /apis/bbcode/nodes/Document
+description: The top-level parsed document.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="bbcode.nodes.Document" />
+
+```python
+Document(
+    type: Literal["document"] = "document",
+    children: list[DeletedNode | TextNode | LineBreakNode | HorizontalRuleNode | InlineCodeNode | CodeBlockNode | BoldNode | ItalicNode | UnderlineNode | StrikeNode | SpoilerNode | LinkNode | HeadingNode | ParagraphNode | QuoteNode | AlertNode | ListItemNode | ListNode | TableCellNode | TableRowNode | TableNode]
+)
+```
+
+The top-level parsed document.
+
+This document can be parsed in the following chain:
+
+```
+Markdown -> HTML -> Document
+```
+
+It is fully structured and ready to be converted to other formats.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `type` | `Literal["document"]` | | The type identifer of this document node. |
+| `children` | `list[DeletedNode \| TextNode \| LineBreakNode \| HorizontalRuleNode \| InlineCodeNode \| CodeBlockNode \| BoldNode \| ItalicNode \| UnderlineNode \| StrikeNode \| SpoilerNode \| LinkNode \| HeadingNode \| ParagraphNode \| QuoteNode \| AlertNode \| ListItemNode \| ListNode \| TableCellNode \| TableRowNode \| TableNode]` | <InlineIcon icon={vsiCheckIcon}/> | The children of the document. |
+
+## Methods
+
+### <IconObjType type="method"/> `walk`
+
+```python
+self.walk(func: Callable[[Node], None])
+```
+
+Walk from the top to the down of each node in this document.
+
+The visiting order is depth-first, i.e., the leaf nodes will be processed first.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `func` | `Callable[[Node], None]` | <InlineIcon icon={vsiCheckIcon}/> | A function to be applied to each node. This function is a visitor that is used for processing the doucment. |
+
+## Properties
+
+### <IconObjType type="param"/> `pure_text`
+
+```python
+pure_text: str = self.pure_text
+```
+
+The pure text of the current node.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `size`
+
+```python
+size: int = self.size
+```
+
+The estimated text length of the current node.

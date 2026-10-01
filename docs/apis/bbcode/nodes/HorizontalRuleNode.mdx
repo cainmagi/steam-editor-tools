@@ -1,0 +1,45 @@
+---
+id: HorizontalRuleNode
+title: HorizontalRuleNode
+sidebar_label: HorizontalRuleNode
+slug: /apis/bbcode/nodes/HorizontalRuleNode
+description: 'Node: Horizontal Rule.'
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+
+<APITopBar type="class" isDataClass={true} source="bbcode.nodes.HorizontalRuleNode" />
+
+```python
+HorizontalRuleNode(type: Literal["hr"] = "hr")
+```
+
+Node: Horizontal Rule
+
+Provide the horizontal rule.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `type` | `Literal["hr"]` | | The type identifer of this document node. |
+
+## Properties
+
+### <IconObjType type="param"/> `pure_text`
+
+```python
+pure_text: str = self.pure_text
+```
+
+The pure text of the current node.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `size`
+
+```python
+size: int = self.size
+```
+
+The estimated text length of the current node.

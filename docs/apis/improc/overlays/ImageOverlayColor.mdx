@@ -1,0 +1,64 @@
+---
+id: ImageOverlayColor
+title: ImageOverlayColor
+sidebar_label: ImageOverlayColor
+slug: /apis/improc/overlays/ImageOverlayColor
+description: An overlay layer with a pure color.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="improc.overlays.ImageOverlayColor" />
+
+```python
+ImageOverlayColor(
+    color: str | tuple[float, ...],
+    pos_shift: tuple[int, int] = (0, 0),
+    mode: Literal["default", "add", "add_modulo", "screen", "lighter", "subtract", "subtract_modulo", "multiply", "darker", "difference", "soft_light", "hard_light"] = "default"
+)
+```
+
+An overlay layer with a pure color.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `color` | `str \| tuple[float, ...]` | <InlineIcon icon={vsiCheckIcon}/> | The RGB/RGBA color of the overlaying layer. |
+| `pos_shift` | `tuple[int, int]` | | The shift of the overlaying content. By default, the content will be center- aligned with the giving shape. The overlaying content that is outside the shape mask will be cut off. |
+| `mode` | `Literal["default", "add", "add_modulo", "screen", "lighter", "subtract", "subtract_modulo", "multiply", "darker", "difference", "soft_light", "hard_light"]` | | The blender mode of the overlaying effect. |
+
+## Methods
+
+### <IconObjType type="method"/> `overlay`
+
+```python
+v_1: Image | None = self.overlay(shape: Image)
+```
+
+Generate the overlay image from the given image.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `shape` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | An `L` type image defining the shape of the overlay. This value is provided when rendering the overlaying effect. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image \| None` | <p>The generated overlay image. This image can be not <code>RGBA</code>, but will be automatically converted to <code>RGBA</code> by applying the <code>self.shape</code> as the alpha channel. The size can be different from the input image. However, in most cases, this size should be the same as <code>self.shape</code>.</p><p>This image should be center-aligned with the input <code>self.shape</code>.</p><p>Will return <code>None</code> if the effect should be skipped.</p> |
+
+## Properties
+
+### <IconObjType type="param"/> `intermediate_bg_color`
+
+```python
+intermediate_bg_color: str | tuple[float, ...] = self.intermediate_bg_color
+```
+
+The intermediate background color. This value may be used
+when the layer content needs to be rescale.

@@ -1,0 +1,57 @@
+---
+id: ImageEffectStroke
+title: ImageEffectStroke
+sidebar_label: ImageEffectStroke
+slug: /apis/improc/effects/ImageEffectStroke
+description: 'The image effect: Stroke.'
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="improc.effects.ImageEffectStroke" />
+
+```python
+ImageEffectStroke(
+    mode: Literal["default", "add", "add_modulo", "screen", "lighter", "subtract", "subtract_modulo", "multiply", "darker", "difference", "soft_light", "hard_light"] = "default",
+    type: Literal["stroke"] = "stroke",
+    size: int = 2,
+    color: str | tuple[float, ...] = "#000000"
+)
+```
+
+The image effect: Stroke
+
+Add the stroke effect to the alpha channel of the given image.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `mode` | `Literal["default", "add", "add_modulo", "screen", "lighter", "subtract", "subtract_modulo", "multiply", "darker", "difference", "soft_light", "hard_light"]` | | The blending mode of the stroke. |
+| `type` | `Literal["stroke"]` | | The type code of this effect. It should not be modified. |
+| `size` | `int` | | The size of the stroke. |
+| `color` | `str \| tuple[float, ...]` | | The RGB/RGBA color of the stroke. |
+
+## Methods
+
+### <IconObjType type="method"/> `effect`
+
+```python
+v_1: Image | None = self.effect(image_fg: Image)
+```
+
+Generate the effect image from the given image.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The image used for genereating this effect. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image \| None` | <p>The generated effect image. This image should be <code>RGBA</code>, and the size can be different from the input image.</p><p>This image should be center-aligned with the input <code>image_fg</code>.</p><p>Will return <code>None</code> if the effect should be skipped.</p> |

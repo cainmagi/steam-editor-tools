@@ -1,0 +1,37 @@
+---
+id: index
+title: bbcode
+sidebar_label: bbcode
+slug: /apis/bbcode
+description: The BBCode parsing package in Steam Editor Tools.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+
+<APITopBar type="package" source="bbcode" />
+
+The BBCode parsing package in Steam Editor Tools.
+
+This package supports the conversion and serialization from the other document formats to Steam BBCode texts.
+
+This package may also supports other BBCode formats if users customize `BBCodeConfig` by themselves.
+
+## Modules
+
+| Member | <center>Description</center> |
+| :-----: | :------ |
+| [<IconObjType type="module" hasText={true} text="nodes"/>](./nodes/index.mdx) | The parsed structured data nodes. |
+| [<IconObjType type="package" hasText={true} text="plugins"/>](./plugins/index.mdx) | The plugins for improving the markdown-it. |
+| [<IconObjType type="module" hasText={true} text="parser"/>](./parser/index.mdx) | The parser converting the other text formats to the structured data. |
+| [<IconObjType type="package" hasText={true} text="renderer"/>](./renderer/index.mdx) | Render the AST (Document/Node) into BBCode. |
+| [<IconObjType type="module" hasText={true} text="guide"/>](./guide/index.mdx) | This module provides the utilities for parsing a Steam guide as `Document`. |
+
+## Aliases
+
+| Member | <center>Description</center> |
+| :-----: | :------ |
+| [<IconObjType type="class" hasText={true} text="DocumentParser"/>](./parser/DocumentParser.mdx) | Document Parser. |
+| [<IconObjType type="class" hasText={true} text="GuideParser"/>](./guide/GuideParser.mdx) | Parser for Steam Guide. |
+| [<IconObjType type="class" hasText={true} text="BBCodeRenderer"/>](./renderer/base/BBCodeRenderer.mdx) | The BBCode renderer. |
+| [<IconObjType type="class" hasText={true} text="BBCodeConfig"/>](./renderer/configs/BBCodeConfig.mdx) | Configurations of BBCode renderer. |
+| [<IconObjType type="class" hasText={true} text="AlertTitleConfigs"/>](./renderer/configs/AlertTitleConfigs.mdx) | The translation list of alert box titles. |

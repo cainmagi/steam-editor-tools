@@ -1,0 +1,323 @@
+---
+id: ImageMultiLayer
+title: ImageMultiLayer
+sidebar_label: ImageMultiLayer
+slug: /apis/improc/renderer/ImageMultiLayer
+description: The handle of a stack of layered images.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" source="improc.renderer.ImageMultiLayer" />
+
+```python
+ImageMultiLayer(width: int, height: int, fmt: str | ImageFormat = "png")
+ImageMultiLayer(size: tuple[int, int], fmt: str | ImageFormat = "png")
+ImageMultiLayer(
+    img: ImageSingle, name: str, fmt: str | ImageFormat | None = None
+)
+ImageMultiLayer(
+    img: ImageLayer | ImageMultiLayer, fmt: str | ImageFormat | None = None
+)
+```
+
+The handle of a stack of layered images.
+
+This class is inspired by the image editing software.
+
+All modifications to this class is INPLACE. If the non-inplace modification is required, please use copy() method.
+
+## Arguments
+
+Initialization.
+
+### ver. 1
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `width` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The width of the canvas (this multi-layered image). |
+| `height` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The height of the canvas (this multi-layered image). |
+| `fmt` | `str \| ImageFormat` | | The format of the image. It is used only when saving this image. |
+
+### ver. 2
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `size` | `tuple[int, int]` | <InlineIcon icon={vsiCheckIcon}/> | The `(width, height)` of the canvas (this multi-layered image). |
+| `fmt` | `str \| ImageFormat` | | The format of the image. It is used only when saving this image. |
+
+### ver. 3
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `img` | `ImageSingle` | <InlineIcon icon={vsiCheckIcon}/> | The image used as the first layer of this multi-layered image. The canvas size will be the same as this image size. |
+| `name` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The name of the first image layer (the layer is specified by `img`). |
+| `fmt` | `str \| ImageFormat \| None` | | The format of the image. It is used only when saving this image. |
+
+### ver. 4
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `img` | `ImageLayer \| ImageMultiLayer` | <InlineIcon icon={vsiCheckIcon}/> | The image used for initializing this image. If it is `ImageLayer`, will use this layer as the first layer. If it is `ImageMultiLayer`, will make a copy of the given `img`. |
+| `fmt` | `str \| ImageFormat \| None` | | The format of the image. It is used only when saving this image. |
+
+## Methods
+
+### <IconObjType type="method"/> `add_background`
+
+```python
+v_1: Self = self.add_background(
+    color: str | tuple[float, ...] = "#1b2838", name: str = "background"
+)
+```
+
+Add a background layer to this multi-layered image.
+
+This method is inplace.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `color` | `str \| tuple[float, ...]` | | The color of the background to be added. |
+| `name` | `str` | | The name of the added background layer. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The inplace-modified multi-layered image. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `add_image`
+
+```python
+v_1: Self = self.add_image(
+    img: ImageSingle | ImageText,
+    name: str,
+    anchor: str | ImageAnchor = ImageAnchor.center,
+    related_to: str | None = None,
+    rel_anchor: str | ImageAnchor = ImageAnchor.center,
+    pos_shift: tuple[int, int] | None = None,
+)
+```
+
+Add an image layer to this multi-layered image.
+
+This method is inplace.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `img` | `ImageSingle \| ImageText` | <InlineIcon icon={vsiCheckIcon}/> | The image to be added. |
+| `name` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The name of the added image layer. |
+| `anchor` | `str \| ImageAnchor` | | The anchor of this image. |
+| `related_to` | `str \| None` | | <p>The name of another image layer. When rendering the image, will place this image based on the position of the image specified by <code>related_to</code>.</p><p>If not specified, the image layer will be put related to the canvas.</p> |
+| `rel_anchor` | `str \| ImageAnchor` | | The anchor of the reference image specified by `related_to` when placing this image. |
+| `pos_shift` | `tuple[int, int] \| None` | | The `(h_shift, v_shift)` of this image position. If not specified, will use `(0, 0)`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The inplace-modified multi-layered image. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `add_latex`
+
+```python
+v_1: Self = self.add_latex(
+    equation: str,
+    name: str,
+    template: str | TeXTemplate = "default",
+    font_size: str | ImageFontSize = ImageFontSize.h2,
+    color: str | tuple[float, ...] = "#FFFFFF",
+    stroke_color: str | tuple[float, ...] | None = None,
+    glow_color: str | tuple[float, ...] | None = None,
+    shadow_color: str | tuple[float, ...] | None = None,
+    anchor: str | ImageAnchor = ImageAnchor.center,
+    related_to: str | None = None,
+    rel_anchor: str | ImageAnchor = ImageAnchor.center,
+    pos_shift: tuple[int, int] | None = None,
+)
+```
+
+Add a LaTeX equation layer to this multi-layered image.
+
+This method is inplace.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `equation` | `str` | <InlineIcon icon={vsiCheckIcon}/> | <p>The LaTeX equation to be rendered.</p><p>Do not add <code>$</code> or <code>$$</code> symbol to the equation.</p> |
+| `name` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The name of the added equation (text) layer. |
+| `template` | `str \| TeXTemplate` | | <p>The LaTeX template used for rendering the equation. If using <code>str</code>, will treat this value as the template name.</p><p>The available templates can be found in <code>improc.variables.tex_templates</code>.</p> |
+| `font_size` | `str \| ImageFontSize` | | The dynamic font size of the rendered text. |
+| `color` | `str \| tuple[float, ...]` | | The text color. |
+| `stroke_color` | `str \| tuple[float, ...] \| None` | | The text stroke color. If not specified, will not add a stroke to the text. |
+| `glow_color` | `str \| tuple[float, ...] \| None` | | The text glow color. If not specified, will not add a glow to the text. |
+| `shadow_color` | `str \| tuple[float, ...] \| None` | | The text shadow color. If not specified, will not add a shadow to the text. |
+| `anchor` | `str \| ImageAnchor` | | The anchor of this image. |
+| `related_to` | `str \| None` | | <p>The name of another image layer. When rendering the image, will place this image based on the position of the image specified by <code>related_to</code>.</p><p>If not specified, the image layer will be put related to the canvas.</p> |
+| `rel_anchor` | `str \| ImageAnchor` | | The anchor of the reference image specified by `related_to` when placing this image. |
+| `pos_shift` | `tuple[int, int] \| None` | | The `(h_shift, v_shift)` of this image position. If not specified, will use `(0, 0)`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The inplace-modified multi-layered image. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `add_text`
+
+```python
+v_1: Self = self.add_text(
+    text: str,
+    name: str,
+    font: str | PathLike[str] | FontInfo | None = None,
+    font_size: int | str | ImageFontAbsSize | ImageFontSize = ImageFontSize.h2,
+    color: str | tuple[float, ...] = "#FFFFFF",
+    stroke_color: str | tuple[float, ...] | None = None,
+    glow_color: str | tuple[float, ...] | None = None,
+    shadow_color: str | tuple[float, ...] | None = None,
+    anchor: str | ImageAnchor = ImageAnchor.center,
+    related_to: str | None = None,
+    rel_anchor: str | ImageAnchor = ImageAnchor.center,
+    pos_shift: tuple[int, int] | None = None,
+)
+```
+
+Add a text layer to this multi-layered image.
+
+This method is inplace.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `text` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The text to be rendered. |
+| `name` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The name of the added text layer. |
+| `font` | `str \| PathLike[str] \| FontInfo \| None` | | The path of the font, or the searched font used for rendering the text. If not specified, will use the default font. |
+| `font_size` | `int \| str \| ImageFontAbsSize \| ImageFontSize` | | The dynamic font size of the rendered text. If using `int`, this size will be absolute. |
+| `color` | `str \| tuple[float, ...]` | | The text color. |
+| `stroke_color` | `str \| tuple[float, ...] \| None` | | The text stroke color. If not specified, will not add a stroke to the text. |
+| `glow_color` | `str \| tuple[float, ...] \| None` | | The text glow color. If not specified, will not add a glow to the text. |
+| `shadow_color` | `str \| tuple[float, ...] \| None` | | The text shadow color. If not specified, will not add a shadow to the text. |
+| `anchor` | `str \| ImageAnchor` | | The anchor of this image. |
+| `related_to` | `str \| None` | | <p>The name of another image layer. When rendering the image, will place this image based on the position of the image specified by <code>related_to</code>.</p><p>If not specified, the image layer will be put related to the canvas.</p> |
+| `rel_anchor` | `str \| ImageAnchor` | | The anchor of the reference image specified by `related_to` when placing this image. |
+| `pos_shift` | `tuple[int, int] \| None` | | The `(h_shift, v_shift)` of this image position. If not specified, will use `(0, 0)`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The inplace-modified multi-layered image. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `convert`
+
+```python
+v_1: Self = self.convert(mode: str)
+```
+
+Convert the image mode.
+
+This method is inplace.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `mode` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The mode of the converted image. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The inplace-modified multi-layered image. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `flatten`
+
+```python
+v_1: ImageSingle = self.flatten()
+```
+
+Flatten this image as a single-layer image.
+
+This method is non-inplace.
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `ImageSingle` | The flattened single-layer image. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `save`
+
+```python
+self.save(
+    fobj: str | PathLike[str] | IO[bytes],
+    quality: str | ImageQuality = ImageQuality.high,
+)
+```
+
+Save the image as a file.
+
+Before saving the image, this method will run optimizations corresponding to the saving format.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `fobj` | `str \| PathLike[str] \| IO[bytes]` | <InlineIcon icon={vsiCheckIcon}/> | The file path of file-like object of the output file. |
+| `quality` | `str \| ImageQuality` | | The quality of the image to be saved. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `save_steam_screenshot`
+
+```python
+self.save_steam_screenshot(
+    folder_path: str | PathLike[str],
+    file_name: str,
+    quality: str | ImageQuality = ImageQuality.high,
+    skip_thumbnails: bool = False,
+)
+```
+
+Save the image as a Steam screenshot.
+
+When using this method to save the image, we will create a "thumbnails" folder where we save the image, and save the small version (thumbnail image) in the "thumbnails" folder.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `folder_path` | `str \| PathLike[str]` | <InlineIcon icon={vsiCheckIcon}/> | The path of the folder where we save the image. |
+| `file_name` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The name of the saved screenshot file. |
+| `quality` | `str \| ImageQuality` | | The quality of the image to be saved. |
+| `skip_thumbnails` | `bool` | | A flag. If specified, will not save thumbnails. |
+
+## Properties
+
+### <IconObjType type="param"/> `size`
+
+```python
+size: tuple[int, int] = self.size
+```
+
+The `(width, height)` shape of this image.

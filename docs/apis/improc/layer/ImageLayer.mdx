@@ -1,0 +1,413 @@
+---
+id: ImageLayer
+title: ImageLayer
+sidebar_label: ImageLayer
+slug: /apis/improc/layer/ImageLayer
+description: A layer of image.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" source="improc.layer.ImageLayer" />
+
+```python
+ImageLayer(
+    parent: ImageLayerContainerProtocol,
+    name: str,
+    img: ImageLayerContentProtocol,
+    anchor: str | ImageAnchor = ImageAnchor.center,
+    related_to: str | None = None,
+    rel_anchor: str | ImageAnchor = ImageAnchor.center,
+    pos_shift: tuple[int, int] | None = None,
+    effects: ImageEffects | None = None,
+)
+```
+
+A layer of image. It is typically used as a member of MultiLayerImage stack.
+
+All instance operations of this class are non-inplace.
+
+## Arguments
+
+### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `parent` | `ImageLayerContainerProtocol` | <InlineIcon icon={vsiCheckIcon}/> | <p>The canvas, i.e. the container that manages several image layers.</p><p>This layer is registered as a member of this container.</p> |
+| `name` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The name of this layer. |
+| `img` | `ImageLayerContentProtocol` | <InlineIcon icon={vsiCheckIcon}/> | The image instance maintained by this layer. |
+| `anchor` | `str \| ImageAnchor` | | The anchor of this image. |
+| `related_to` | `str \| None` | | <p>The name of another image layer. When rendering the image, will place this image based on the position of the image specified by <code>related_to</code>.</p><p>If not specified, the image layer will be put related to the canvas.</p> |
+| `rel_anchor` | `str \| ImageAnchor` | | The anchor of the reference image specified by `related_to` when placing this image. |
+| `pos_shift` | `tuple[int, int] \| None` | | The `(h_shift, v_shift)` of this image position. If not specified, will use `(0, 0)`. |
+| `effects` | `ImageEffects \| None` | | The effects configured during the initialization. If not specified, will use an empty `ImageEffects` to configure this layer. |
+
+## Methods
+
+### <IconObjType type="method"/> `add_overlay_color`
+
+```python
+self.add_overlay_color(
+    color: str | tuple[float, ...],
+    mode: ImageComposerMode = "default",
+    pos_shift: tuple[int, int] = (0, 0),
+)
+```
+
+Add a pure-color overlaying layer to the current layer.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `color` | `str \| tuple[float, ...]` | <InlineIcon icon={vsiCheckIcon}/> | The RGB/RGBA color of the overlaying layer. |
+| `mode` | `ImageComposerMode` | | The blending mode of the overlaying effect. |
+| `pos_shift` | `tuple[int, int]` | | The shift of the overlaying content. By default, the content will be center-aligned with the giving shape. The overlaying content that is outside the shape mask will be cut off. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `add_overlay_gradient`
+
+```python
+self.add_overlay_gradient(
+    color_a: str | tuple[float, ...],
+    color_b: str | tuple[float, ...],
+    mode: ImageComposerMode = "default",
+    size: tuple[int | None, int | None] | None = None,
+    direction: Literal[
+        "left_to_right",
+        "top_to_bottom",
+        "rect_center_to_outside",
+        "radius_center_to_outside",
+    ] = "left_to_right",
+    pos_shift: tuple[int, int] = (0, 0),
+)
+```
+
+Add a linear-gradient overlaying layer to the current layer.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `color_a` | `str \| tuple[float, ...]` | <InlineIcon icon={vsiCheckIcon}/> | The starting RGB/RGBA color of the overlaying layer. |
+| `color_b` | `str \| tuple[float, ...]` | <InlineIcon icon={vsiCheckIcon}/> | The ending RGB/RGBA color of the overlaying layer. |
+| `mode` | `ImageComposerMode` | | The blending mode of the overlaying effect. |
+| `size` | `tuple[int \| None, int \| None] \| None` | | The size of the gradient. If not specified, will use the layer size. |
+| `direction` | `Literal["left_to_right", "top_to_bottom", "rect_center_to_outside", "radius_center_to_outside"]` | | <ul><li><code>"left_to_right"</code></li><li><code>"top_to_bottom"</code></li><li><code>"rect_center_to_outside"</code></li><li><code>"radius_center_to_outside"</code></li></ul><p>The gradient direction. The value means the direction from <code>color_a</code> to <code>color_b</code>.</p> |
+| `pos_shift` | `tuple[int, int]` | | The shift of the overlaying content. By default, the content will be center-aligned with the giving shape. The overlaying content that is outside the shape mask will be cut off. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `add_overlay_image`
+
+```python
+self.add_overlay_image(
+    image: Image,
+    mode: ImageComposerMode = "default",
+    size: tuple[int | None, int | None] | None = None,
+    feather_depth: int = 0,
+    pos_shift: tuple[int, int] = (0, 0),
+)
+```
+
+Add an image-based overlaying layer to the current layer.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The image filled as the overlaying layer. |
+| `mode` | `ImageComposerMode` | | The blending mode of the overlaying effect. |
+| `size` | `tuple[int \| None, int \| None] \| None` | | <p>The size of the image. If not specified, will use the layer size.</p><p>If at least one of the size is not specified, will attempt to resize the image while preserving the ratio.</p> |
+| `feather_depth` | `int` | | Whether to apply feathering edge mask to the image. If this value is 0, will use the image as it is. |
+| `pos_shift` | `tuple[int, int]` | | The shift of the overlaying content. By default, the content will be center-aligned with the giving shape. The overlaying content that is outside the shape mask will be cut off. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `copy`
+
+```python
+v_1: Self = self.copy()
+```
+
+Get a copy of this instance.
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The copy of the layer. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `del_bevel`
+
+```python
+self.del_bevel()
+```
+
+Delete the bevel effect of this layer.
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `del_glow`
+
+```python
+self.del_glow()
+```
+
+Delete the glowing effect of this layer.
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `del_shadow`
+
+```python
+self.del_shadow()
+```
+
+Delete the shadow effect of this layer.
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `del_stroke`
+
+```python
+self.del_stroke()
+```
+
+Delete the glowing effect of this layer.
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `delete_overlays`
+
+```python
+self.delete_overlays()
+```
+
+Delete all overlay effects. This method is equivalent to
+
+```python
+self.effects.overlays.clear()
+```
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `get_pos_abs`
+
+```python
+v_1: _LayerPos = self.get_pos_abs(cache: MutableMapping[str, _LayerPos] | None = None)
+```
+
+Get the absolute position of this layer.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `cache` | `MutableMapping[str, _LayerPos] \| None` | | <p>The cache used for accelerating the position locating. Typically, this value is maintained in the container when rendering all layers.</p><p>If not specified, will not benefit from acceleration.</p> |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `_LayerPos` | The position of the top left corner (anchor), and the `(width, height)` of this layer. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render`
+
+```python
+v_1: Image = self.render(
+    comp: ImageComposer,
+    image_bg: Image,
+    cache: MutableMapping[str, _LayerPos] | None = None,
+)
+```
+
+Render this layer.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `comp` | `ImageComposer` | <InlineIcon icon={vsiCheckIcon}/> | The composer that is used for merging images. |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image where this layer will be rendered on. This image should be in `RGB` or `RGBA`. |
+| `cache` | `MutableMapping[str, _LayerPos] \| None` | | <p>The cache used for accelerating the position locating. Typically, this value is maintained in the container when rendering all layers.</p><p>If not specified, will not benefit from acceleration.</p> |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The `image_bg` with this layer rendered on it. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `set_bevel`
+
+```python
+self.set_bevel(
+    mode: Literal["default", "screen", "lighter", "add"] = "default",
+    algorithm: Literal["euclidean", "gaussian"] = "euclidean",
+    threshold: int = 128,
+    max_distance: int = 3,
+    smooth: float = 1.0,
+    opacity: int = 75,
+)
+```
+
+Set the glowing effect of this layer.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `mode` | `Literal["default", "screen", "lighter", "add"]` | | The blending mode of the bevel effect. This value is the blending mode of the highlight. The mode of the bevel shadow will be automatically chosen based on this value. |
+| `algorithm` | `Literal["euclidean", "gaussian"]` | | The algorithm used for solving the chisel distance. The "eudlidean" mode is strict, while the "gaussian" mode is a fast approximation. |
+| `threshold` | `int` | | A threshold in the range of 0~255. This value is used for determining the edge of the bevel effect. |
+| `max_distance` | `int` | | The maximal distance when solving the depth of the bevel effect. When using "euclidean" algorithm, this value is strictly the same as the bevel depth. |
+| `smooth` | `float` | | The size of the smoothing filter. The configuration `smooth=0` is equivalent to "Chisel Hard" effect. |
+| `opacity` | `int` | | The opacity of the effect. It is in the range of 0~100. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `set_glow`
+
+```python
+self.set_glow(
+    mode: ImageComposerMode = "screen",
+    size: int = 8,
+    color: str | tuple[float, ...] = "#FFFFFF",
+)
+```
+
+Set the glowing effect of this layer.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `mode` | `ImageComposerMode` | | The blending mode of the glowing light. |
+| `size` | `int` | | The size of the glowing light. This size can be viewed as "brush size" when creating the glowing light. |
+| `color` | `str \| tuple[float, ...]` | | The RGB/RGBA color of the glowing light. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `set_shadow`
+
+```python
+self.set_shadow(
+    mode: ImageComposerMode = "multiply",
+    size: int = 4,
+    offset: int = 8,
+    color: str | tuple[float, ...] = "#000000",
+)
+```
+
+Set the shadow effect of this layer.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `mode` | `ImageComposerMode` | | The blending mode of the shadow. |
+| `size` | `int` | | The size of the shadow. This size can be viewed as "brush size" when creating the shadow. |
+| `offset` | `int` | | The offset of the shadow. It represents the distance between the shadow and the image. |
+| `color` | `str \| tuple[float, ...]` | | The RGB/RGBA color of the shadow. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `set_stroke`
+
+```python
+self.set_stroke(
+    mode: ImageComposerMode = "default",
+    size: int = 2,
+    color: str | tuple[float, ...] = "#000000",
+)
+```
+
+Set the glowing effect of this layer.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `mode` | `ImageComposerMode` | | The blending mode of the stroke. |
+| `size` | `int` | | The size of the stroke. This size can be viewed as stroke width. |
+| `color` | `str \| tuple[float, ...]` | | The RGB/RGBA color of the stroke. |
+
+## Properties
+
+### <IconObjType type="param"/> `alpha`
+
+```python
+alpha: Image | None = self.alpha
+```
+
+Get the alpha channel of this layer. It is equivalent to
+
+```python
+self.img.img.getchannel("A")
+```
+
+The returned image is in the L mode.
+
+If the image does not contain the alpha channel, will return `None`.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `fmt`
+
+```python
+fmt: ImageFormat = self.fmt
+```
+
+Attempt to get the image format from the content. If failed,
+return `ImageFormat.png`.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `height`
+
+```python
+height: int = self.height
+```
+
+The height of the image.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `related`
+
+```python
+related: ImageLayer | ImageLayerContainerProtocol = self.related
+```
+
+The instance of the `ImageLayer` that is specified by `self.related_to`.
+
+If `self.related_to` is None, return `self.parent` (canvas).
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `size`
+
+```python
+size: tuple[int, int] = self.size
+```
+
+The `(width, height)` of the image.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `width`
+
+```python
+width: int = self.width
+```
+
+The width of the image.

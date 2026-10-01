@@ -1,0 +1,45 @@
+---
+id: LineBreakNode
+title: LineBreakNode
+sidebar_label: LineBreakNode
+slug: /apis/bbcode/nodes/LineBreakNode
+description: 'Node: Line Break.'
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+
+<APITopBar type="class" isDataClass={true} source="bbcode.nodes.LineBreakNode" />
+
+```python
+LineBreakNode(type: Literal["br"] = "br")
+```
+
+Node: Line Break
+
+Provide the hard line break.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `type` | `Literal["br"]` | | The type identifer of this document node. |
+
+## Properties
+
+### <IconObjType type="param"/> `pure_text`
+
+```python
+pure_text: str = self.pure_text
+```
+
+The pure text of the current node.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `size`
+
+```python
+size: int = self.size
+```
+
+The estimated text length of the current node.

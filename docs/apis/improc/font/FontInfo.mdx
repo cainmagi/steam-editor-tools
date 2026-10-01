@@ -1,0 +1,83 @@
+---
+id: FontInfo
+title: FontInfo
+sidebar_label: FontInfo
+slug: /apis/improc/font/FontInfo
+description: The basic font information.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="improc.font.FontInfo" />
+
+```python
+FontInfo(names: dict[FontLanguage, FontNameInfo], index: int = 0, path: str)
+```
+
+The basic font information.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `names` | `dict[FontLanguage, FontNameInfo]` | <InlineIcon icon={vsiCheckIcon}/> | The multi-lingual names of this font. All font names here are "full" names. |
+| `index` | `int` | | The font index. This value is used only when the font is ttc. Otherwise, this value should be 0. |
+| `path` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The full path to the font file. |
+
+## Methods
+
+### <IconObjType type="method"/> `get_font`
+
+```python
+v_1: FreeTypeFont = self.get_font(size: int = 10)
+```
+
+Load the Pillow `FreeTypeFont`.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `size` | `int` | | The font size. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `FreeTypeFont` | The loaded font. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `get_name`
+
+```python
+v_1: str = self.get_name(lang: str | FontLanguage = FontLanguage.en)
+```
+
+Get the best name of this font.
+
+Will use the given language to search the font name. If not found, use the English language to search the font name. If still not found, will use the first available language of the font to get the font name.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `lang` | `str \| FontLanguage` | | The language name or code used for searching he font. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The best string name of the font. |
+
+## Properties
+
+### <IconObjType type="param"/> `langs`
+
+```python
+langs: list[FontLanguage] = self.langs
+```
+
+List the supported languages.

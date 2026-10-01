@@ -1,0 +1,49 @@
+---
+id: AppScreenShot
+title: AppScreenShot
+sidebar_label: AppScreenShot
+slug: /apis/steaminfo/data/appdata/AppScreenShot
+description: The information of an app screenshot.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="steaminfo.data.appdata.AppScreenShot" />
+
+```python
+AppScreenShot(id: int, path_thumbnail: str, path_full: str)
+```
+
+The information of an app screenshot.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `id` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The ID of the screenshot. It is maintained by each app. |
+| `path_thumbnail` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The url to the thumbnail screenshot. |
+| `path_full` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The url to the full screenshot. |
+
+## Methods
+
+### <IconObjType type="method"/> `get_image`
+
+```python
+v_1: Image | None = self.get_image(thumbnail: bool = False)
+```
+
+Download the screenshot image by its url.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `thumbnail` | `bool` | | If specified, will download the thumbnail version. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image \| None` | The downloaded image. If no image can be downloaded, return `None`. |

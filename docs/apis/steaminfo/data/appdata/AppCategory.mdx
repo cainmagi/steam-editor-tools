@@ -1,0 +1,26 @@
+---
+id: AppCategory
+title: AppCategory
+sidebar_label: AppCategory
+slug: /apis/steaminfo/data/appdata/AppCategory
+description: The category of a game app.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="steaminfo.data.appdata.AppCategory" />
+
+```python
+AppCategory(id: int, description: str)
+```
+
+The category of a game app.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `id` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The identifier (code) of the game category. |
+| `description` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The description of the category. |

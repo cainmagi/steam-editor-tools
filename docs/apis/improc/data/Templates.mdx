@@ -1,0 +1,33 @@
+---
+id: Templates
+title: Templates
+sidebar_label: Templates
+slug: /apis/improc/data/Templates
+description: Default supported LaTeX templates.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="type" source="improc.data.Templates" />
+
+```python
+Templates(
+    default: TeXTemplate,
+    chinese: TeXTemplate,
+    multilines: TeXTemplate,
+    multilines_chinese: TeXTemplate,
+)
+```
+
+Default supported LaTeX templates.
+
+## Keywords
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `default` | `TeXTemplate` | <InlineIcon icon={vsiCheckIcon}/> | The default LaTeX template. |
+| `chinese` | `TeXTemplate` | <InlineIcon icon={vsiCheckIcon}/> | The LaTeX template used for rendering equations containing Chinese. |
+| `multilines` | `TeXTemplate` | <InlineIcon icon={vsiCheckIcon}/> | The LaTeX template only contains a bare equation environment. Use it for writing multi-line equations. |
+| `multilines_chinese` | `TeXTemplate` | <InlineIcon icon={vsiCheckIcon}/> | The LaTeX template "multilines" with Chinese support. |

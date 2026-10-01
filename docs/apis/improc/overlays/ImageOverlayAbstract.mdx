@@ -1,0 +1,113 @@
+---
+id: ImageOverlayAbstract
+title: ImageOverlayAbstract
+sidebar_label: ImageOverlayAbstract
+slug: /apis/improc/overlays/ImageOverlayAbstract
+description: The abstract image overlay.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="improc.overlays.ImageOverlayAbstract" />
+
+```python
+ImageOverlayAbstract()
+```
+
+The abstract image overlay.
+
+Most properties are not implemented here.
+
+It is only used for providing the common logics of different effects.
+
+## Fields
+
+No field is defined.
+
+## Abstract methods
+
+### <IconObjType type="method"/> `overlay`
+
+```python
+v_1: Image | None = self.overlay(shape: Image)
+```
+
+Generate the overlay image from the given image.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `shape` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | An `L` type image defining the shape of the overlay. This value is provided when rendering the overlaying effect. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image \| None` | <p>The generated overlay image. This image can be not <code>RGBA</code>, but will be automatically converted to <code>RGBA</code> by applying the <code>self.shape</code> as the alpha channel. The size can be different from the input image. However, in most cases, this size should be the same as <code>self.shape</code>.</p><p>This image should be center-aligned with the input <code>self.shape</code>.</p><p>Will return <code>None</code> if the effect should be skipped.</p> |
+
+## Methods
+
+### <IconObjType type="method"/> `compose`
+
+```python
+v_1: Image = self.compose(comp: ImageComposer, image_bg: Image, image_fg: Image)
+```
+
+Compose the background and foreground images.
+
+This method do not need to be overriden unless the subclass needs to change the behavior of image blending.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `comp` | `ImageComposer` | <InlineIcon icon={vsiCheckIcon}/> | The composer that is used for merging images. |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image where the effect will be rendered. This image should be in `RGB` or `RGBA`. |
+| `image_fg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The foreground image that will be used as the overlaid layer. This image should be in `RGBA`. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The composed image. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render`
+
+```python
+v_1: Image = self.render(
+    comp: ImageComposer, image_bg: Image, shape: Image, pos: tuple[int, int]
+)
+```
+
+Render this overlay effect.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `comp` | `ImageComposer` | <InlineIcon icon={vsiCheckIcon}/> | The composer that is used for merging images. |
+| `image_bg` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The background image where the overlay image will be rendered. This image should be in `RGB` or `RGBA`. |
+| `shape` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | An `L` type image defining the shape of the overlay. This value can be provided by the alpha channel of an image. |
+| `pos` | `tuple[int, int]` | <InlineIcon icon={vsiCheckIcon}/> | <p>The position shift of the shape. This position means the top left corner of the given shape.</p><p>This value should be <code>(0, 0)</code> if the given shape has the same size of the background.</p> |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image` | The `image_bg` with this effect image rendered on it. |
+
+## Properties
+
+### <IconObjType type="param"/> `intermediate_bg_color`
+
+```python
+intermediate_bg_color: str | tuple[float, ...] = self.intermediate_bg_color
+```
+
+The intermediate background color. This value may be used
+when the layer content needs to be rescale.

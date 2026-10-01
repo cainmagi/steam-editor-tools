@@ -1,0 +1,127 @@
+---
+id: AchievementList
+title: AchievementList
+sidebar_label: AchievementList
+slug: /apis/steaminfo/data/achievements/AchievementList
+description: The list of achievements.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="steaminfo.data.achievements.AchievementList" />
+
+```python
+AchievementList(
+    achievements: list[Achievement] = [], steam_appid: int, lang: str = "english"
+)
+```
+
+The list of achievements.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `achievements` | `list[Achievement]` | | The list of detected achievements. |
+| `steam_appid` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The app ID. It specifies the game where the achievements belong. |
+| `lang` | `str` | | The language of the parsed achievments. |
+
+## Methods
+
+### <IconObjType type="method"/> `add_extra_info`
+
+```python
+v_1: Self = self.add_extra_info(user_profile: str)
+```
+
+Add extra information to this achievement list.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `user_profile` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The profile name used to compensate the current list. This name needs to be strictly configured as the name in the following link: `https://steamcommunity.com/id/{name}/` |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The updated list. Note that the changes are inplace. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `from_app`
+
+```python
+v_1: Self = AchievementList.from_app(
+    app: int | AppQuerySimple,
+    lang: str = "english",
+    extra_user_profiles: Sequence[str] | None = None,
+)
+```
+
+Detect the achievements from a Steam game.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `app` | `int \| AppQuerySimple` | <InlineIcon icon={vsiCheckIcon}/> | The steam app ID or the query object. It is used for locating the game achievement page. |
+| `lang` | `str` | | The language used for accessing the achievement profile. |
+| `extra_user_profiles` | `Sequence[str] \| None` | | A list of extra Steam user profile names. If provided, will attempt to parse more achievement information from the given profiles. Ideally, a profile with all achievements unlocked and another profile with all achievements locked will yield the full information. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The achievement list detected from the app. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `get_icon_names`
+
+```python
+v_1: list[AchievementIconName] = self.get_icon_names()
+```
+
+Get the list of achievement icon names.
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `list[AchievementIconName]` | The list of achievement icon names. These names will be used by `self.save_icons(...)`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `save_icons`
+
+```python
+v_1: list[AchievementIconName] = self.save_icons(out_dir: str | PathLike[str])
+```
+
+Save the acheivement icons in a folder.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `out_dir` | `str \| PathLike[str]` | <InlineIcon icon={vsiCheckIcon}/> | The path to the directory where the icons will be savd. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `list[AchievementIconName]` | The list of saved achievement icon names. It provides a mapping from an achievement to the saved file name. |
+
+## Properties
+
+### <IconObjType type="param"/> `names`
+
+```python
+names: list[str] = self.names
+```
+
+A mapping from all achievement names to their indicies.

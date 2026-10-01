@@ -1,0 +1,105 @@
+---
+id: ImageTeX
+title: ImageTeX
+sidebar_label: ImageTeX
+slug: /apis/improc/renderer/ImageTeX
+description: A layer of TeX equation that can be rendered as an image.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" source="improc.renderer.ImageTeX" />
+
+```python
+ImageTeX(
+    equation: str,
+    template: str | TeXTemplate = "default",
+    font_size: int | str | ImageFontAbsSize | ImageFontSize = ImageFontSize.h2,
+    pad_size: int = 0,
+    color: str | tuple[float, ...] = "#FFFFFF",
+)
+```
+
+A layer of TeX equation that can be rendered as an image.
+
+The image will be rendered every time when it is accessed.
+
+## Arguments
+
+### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `equation` | `str` | <InlineIcon icon={vsiCheckIcon}/> | <p>The LaTeX equation to be rendered.</p><p>Do not add <code>$</code> or <code>$$</code> symbol to the equation.</p> |
+| `template` | `str \| TeXTemplate` | | <p>The LaTeX template used for rendering the equation. If using <code>str</code>, will treat this value as the template name.</p><p>The available templates can be found in <code>improc.variables.tex_templates</code>.</p> |
+| `font_size` | `int \| str \| ImageFontAbsSize \| ImageFontSize` | | The dynamic font size of the rendered text. |
+| `pad_size` | `int` | | The size used for padding on all sides of the text. |
+| `color` | `str \| tuple[float, ...]` | | The text color. |
+
+## Methods
+
+### <IconObjType type="method"/> `copy`
+
+```python
+v_1: Self = self.copy()
+```
+
+Get a copy of this instance.
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The copied text image. |
+
+## Properties
+
+### <IconObjType type="param"/> `equation`
+
+```python
+equation: str = self.equation
+```
+
+The LaTeX equation. Equivalent to `self.text`.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `height`
+
+```python
+height: int = self.height
+```
+
+The height of the text image.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `img`
+
+```python
+img: Image = self.img
+```
+
+Render the text as an image, and get the pixel-based image.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `size`
+
+```python
+size: tuple[int, int] = self.size
+```
+
+The `(width, height)` shape of the text image.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `width`
+
+```python
+width: int = self.width
+```
+
+The width of the text image.

@@ -1,0 +1,279 @@
+---
+id: achievements
+sidebar_label: Achievements
+title: "Get all achievements of a game"
+description: Get a game's achievements and icons, then render them as a BBCode file.
+slug: /steaminfo/achievements
+---
+
+import Admonition from "@theme/Admonition";
+import DarkButton from "@site/src/components/DarkButton";
+import JSONGrid from "@site/src/components/JSONGrid";
+
+import mdiCodeJSON from "@iconify-icons/mdi/code-json";
+import mdiLanguagePython from "@iconify-icons/mdi/language-python";
+import InlineIcon from "@site/src/components/InlineIcon";
+import IconExternalLink from "@theme/Icon/ExternalLink";
+
+import {demoURL} from "@site/src/envs/variables";
+
+When writing guides, users may need to access a game's achievement descriptions and icons. Currently, Steam does not expose a public API. As a result, many existing solutions call [the developer's features<IconExternalLink/>][link-steamach], which requires a Steam API key.
+
+Our package provides an alternative solution that does not require login credentials. The basic ideas can be explained as follows:
+
+1. The achievement list can be accessed on the store page. However, this page does not show descriptions for hidden achievements.
+2. When accessing a user's public profile, the icons for those locked achievements can be found.
+3. If a user has unlocked an achievement, its description will be available even if the achievement is hidden.
+
+## 1. Get achievement list
+
+The simplest way to get the list is to use the method [`get_achievement_list`](../../apis/steaminfo/query/get_achievement_list.mdx). The following example accesses the achievements of the game `"The Hex"`.
+
+```python
+names = stet.query_app_by_name_simple("The Hex")
+achievements = stet.get_achievement_list(names[0])
+```
+
+<Admonition type="note" icon={<InlineIcon icon={mdiCodeJSON} vspace={-0.35}/>} title={<code>achievements</code>}>
+  <JSONGrid data="game-achievements"/>
+</Admonition>
+
+The above information, [`AchievementList`](../../apis/steaminfo/data/achievements/AchievementList.mdx), is the same as what can be accessed on [the game page<IconExternalLink/>][link-hex].
+
+### 1.1. Get more details
+
+The achievement list can be further completed by adding details from user profiles. In the following example, we access two users' profiles. `nonno24` has unlocked all achievements, while `cainmagi` has not unlocked any achievements:
+
+```python
+achievements = stet.get_achievement_list(
+    names[0], extra_user_profiles=["nonno24", "cainmagi"]
+)
+```
+
+<Admonition type="note" icon={<InlineIcon icon={mdiCodeJSON} vspace={-0.35}/>} title={<code>achievements</code>}>
+  <JSONGrid data="game-achievements-full"/>
+</Admonition>
+
+:::warning
+
+So far, our package does not have a way to access the icons for those locked, hidden achievements. Even in the full list above, the icons for those locked versions remain `null`.
+
+:::
+
+### 1.2. Get the list in other langauges
+
+Users can specify the language when acquiring the achievement list:
+
+```python
+achievements = stet.get_achievement_list(
+    names[0], lang="schinese", extra_user_profiles=["nonno24", "cainmagi"]
+)
+```
+
+which yields
+
+<Admonition type="note" icon={<InlineIcon icon={mdiCodeJSON} vspace={-0.35}/>} title={<code>achievements</code>}>
+  <JSONGrid data="game-achievements-full-cn"/>
+</Admonition>
+
+## 2. Render the achievement list as BBCode
+
+The achievement list can be rendered as a BBCode file. Users can further integrate the snippets in the rendered file into their guides.
+
+```python
+with open("achievements.bbcode", "w", encoding="utf-8") as fobj:
+    fobj.write(
+        stet.BBCodeRenderer().render(
+            stet.DocumentParser().parse_achievements(achievements)
+        )
+    )
+```
+
+The following command will save all icons in a folder:
+
+```python
+achievements.save_icons("out-icon-dir")
+```
+
+In the following BBCode file, each achievement is rendered as a quote box. The quote box starts with a number, which is also the name of the saved icon.
+
+```bbcode showLineNumbers title="achievements.bbcode"
+[quote]
+01
+[h1]01: Childhood Ruined[/h1]
+Completed Super Weasel Kid's memory.
+[/quote]
+
+[quote]
+02
+[h1]02: Overdone[/h1]
+Completed Bryce's memory.
+[/quote]
+
+[quote]
+03
+[h1]03: Lousy Tenant[/h1]
+Completed Chandrelle's memory.
+[/quote]
+
+[quote]
+04
+[h1]04: Rocky Road[/h1]
+Completed Rust's memory.
+[/quote]
+
+[quote]
+05
+[h1]05: Pyrrhic Victory[/h1]
+Completed Lazarus' memory.
+[/quote]
+
+[quote]
+06
+[h1]06: That Was Lionel Snill[/h1]
+Completed ???'s memory.
+[/quote]
+
+[quote]
+07
+[h1][spoiler]07: The Hex[/spoiler][/h1]
+[spoiler]Opened The Hex.[/spoiler]
+[/quote]
+
+[quote]
+08
+[h1]08: Insert Coin[/h1]
+Crack a soda vending machine at The Six Pint.
+[/quote]
+
+[quote]
+09
+[h1]09: Master Mechanic[/h1]
+Help Rebecha survive the first wave in Walk.
+[/quote]
+
+[quote]
+10
+[h1][spoiler]10: M0RE_FRI#NDLY(C0NTENT)[/spoiler][/h1]
+[spoiler]Activate a gated mod in Waste World.[/spoiler]
+[/quote]
+
+[quote]
+11
+[h1]11: OK, now 1000![/h1]
+Score a 1000 hit combo in Combat Arena X.
+[/quote]
+
+[quote]
+12
+[h1]12: Beginning To Feel Like A Scrap God[/h1]
+Buy 10 upgrades from the Scrap Shop in Waste World.
+[/quote]
+
+[quote]
+13
+[h1][spoiler]13: The Full Truth[/spoiler][/h1]
+[spoiler]Learn all of Catarina's secrets in Super Weasel Kid.[/spoiler]
+[/quote]
+
+[quote]
+14
+[h1]14: Ice Cold[/h1]
+Crack all the vending machines at The Six Pint.
+[/quote]
+
+[quote]
+15
+[h1][spoiler]15: Card Captive[/spoiler][/h1]
+[spoiler]Receive 4 card readings from Catarina in Walk.[/spoiler]
+[/quote]
+
+[quote]
+16
+[h1][spoiler]16: Got To Catch Them All[/spoiler][/h1]
+[spoiler]Find Missing No. in Secrets of Legendaria.[/spoiler]
+[/quote]
+
+[quote]
+17
+[h1][spoiler]17: ERROR 09[/spoiler][/h1]
+[spoiler]Crashed Super Weasel Kid '09.[/spoiler]
+[/quote]
+
+[quote]
+18
+[h1][spoiler]18: What's Kraken[/spoiler][/h1]
+[spoiler]Wooed a Great Kraken.[/spoiler]
+[/quote]
+
+[quote]
+19
+[h1]19: 360 No Scope[/h1]
+Perform a 360 No Scope with the sniper rifle.
+[/quote]
+
+[quote]
+20
+[h1][spoiler]20: ERROR 3[/spoiler][/h1]
+[spoiler]Crashed Walk.[/spoiler]
+[/quote]
+
+[quote]
+21
+[h1]21: No Thanks, Mr. Shrewd![/h1]
+Complete the original Super Weasel Kid without any help from Mr. Shrewd.
+[/quote]
+
+[quote]
+22
+[h1][spoiler]22: ERROR 2X[/spoiler][/h1]
+[spoiler]Crashed Combat Arena X.[/spoiler]
+[/quote]
+
+[quote]
+23
+[h1]23: we ain't m8's[/h1]
+Score a true KO on Alley Gator in Combat Arena X.
+[/quote]
+
+[quote]
+24
+[h1]24: For 'Mir's Sake[/h1]
+Deal at least 500 damage in a single strike in Secrets of Legendaria.
+[/quote]
+
+[quote]
+25
+[h1][spoiler]25: ERROR 57[/spoiler][/h1]
+[spoiler]Crashed Secrets of Legendaria.[/spoiler]
+[/quote]
+
+[quote]
+26
+[h1][spoiler]26: ERROR 33[/spoiler][/h1]
+[spoiler]Crashed Waste World.[/spoiler]
+[/quote]
+
+[quote]
+27
+[h1]27: Shrewd Awakening[/h1]
+Discovered the truth about Mr. Shrewd.
+[/quote]
+
+[quote]
+28
+[h1]28: Heheh[/h1]
+Free Vallamir.
+[/quote]
+```
+
+Check more details in the following example:
+
+<p>
+  <DarkButton to={demoURL("bbcode_achievements.py")} icon={mdiLanguagePython}>
+    {"bbcode_achievements.py"}
+  </DarkButton>
+</p>
+
+[link-steamach]: https://partner.steamgames.com/doc/features/achievements
+[link-hex]: https://steamcommunity.com/stats/510420/achievements

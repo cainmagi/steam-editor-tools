@@ -1,0 +1,48 @@
+---
+id: TeXTemplate
+title: TeXTemplate
+sidebar_label: TeXTemplate
+slug: /apis/improc/data/TeXTemplate
+description: The template used for rendering LaTeX.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="improc.data.TeXTemplate" />
+
+```python
+TeXTemplate(prep: str, end: str)
+```
+
+The template used for rendering LaTeX.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `prep` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The beginning part of the LaTeX template. |
+| `end` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The end part of the LaTeX template. |
+
+## Methods
+
+### <IconObjType type="method"/> `render`
+
+```python
+v_1: str = self.render(text: str)
+```
+
+Render the content of the full `.tex` file.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `text` | `str` | <InlineIcon icon={vsiCheckIcon}/> | An equation to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The LaTeX equation rendered as the `.tex` file content. |

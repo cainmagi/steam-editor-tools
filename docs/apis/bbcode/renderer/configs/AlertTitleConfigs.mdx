@@ -1,0 +1,86 @@
+---
+id: AlertTitleConfigs
+title: AlertTitleConfigs
+sidebar_label: AlertTitleConfigs
+slug: /apis/bbcode/renderer/configs/AlertTitleConfigs
+description: The translation list of alert box titles.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="bbcode.renderer.configs.AlertTitleConfigs" />
+
+```python
+AlertTitleConfigs(
+    note: str = "quote",
+    tip: str = "quote",
+    important: str = "b",
+    warning: str = "u",
+    caution: str = "spoiler",
+    tag_b: str = "b",
+    tag_i: str = "i",
+    tag_u: str = "u",
+    tag_strike: str = "strike",
+    tag_spoiler: str = "spoiler"
+)
+```
+
+The translation list of alert box titles.
+
+Each field name will be interpreted as an allowed alert box title in Markdown. For example, users can write
+
+```markdown
+> [!note]
+> A example of note box.
+```
+
+which will be interpreted as
+
+```bbcode
+[quote]
+A example of note box.
+[/quote]
+```
+
+if `AlertTitleConfigs.note == "quote"`.
+
+Any alert box title that are not defined in this list will be interpreted as `quote` when rendering BBCode.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `note` | `str` | | The tag used to render the alert block with the type: note. |
+| `tip` | `str` | | The tag used to render the alert block with the type: tip. |
+| `important` | `str` | | The tag used to render the alert block with the type: important. |
+| `warning` | `str` | | The tag used to render the alert block with the type: warning. |
+| `caution` | `str` | | The tag used to render the alert block with the type: caution. |
+| `tag_b` | `str` | | The tag used to render the alert block with the type: tag_b. |
+| `tag_i` | `str` | | The tag used to render the alert block with the type: tag_i. |
+| `tag_u` | `str` | | The tag used to render the alert block with the type: tag_u. |
+| `tag_strike` | `str` | | The tag used to render the alert block with the type: tag_strike. |
+| `tag_spoiler` | `str` | | The tag used to render the alert block with the type: tag_spoiler. |
+
+## Methods
+
+### <IconObjType type="method"/> `render_title_as_tag`
+
+```python
+v_1: str | None = self.render_title_as_tag(title: str)
+```
+
+Given a title specified in `AlertNode`, get the appropriate BBCode tag for it.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `title` | `str` | <InlineIcon icon={vsiCheckIcon}/> | Given the title of an alert block, and use it to find the tag. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str \| None` | <p>The returned tag.</p><p>This method may return <code>None</code>. In this case, the <code>AlertNode</code> will fall back into a <code>QuoteNode</code>.</p> |

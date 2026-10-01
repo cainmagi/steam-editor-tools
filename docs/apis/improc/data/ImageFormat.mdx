@@ -1,0 +1,93 @@
+---
+id: ImageFormat
+title: ImageFormat
+sidebar_label: ImageFormat
+slug: /apis/improc/data/ImageFormat
+description: The image file format.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isEnum={true} source="improc.data.ImageFormat" />
+
+```python
+ImageFormat.png = "png"
+ImageFormat.jpeg = "jpeg"
+ImageFormat.webp = "webp"
+ImageFormat.webp_lossless = "webp_lossless"
+```
+
+The image file format.
+
+This format is only used when saving the images to files.
+
+## Enums
+
+| Name | Type | Value |
+| :-----: | :-----: | :-----: |
+| `png` | `str` | `"png"` |
+| `jpeg` | `str` | `"jpeg"` |
+| `webp` | `str` | `"webp"` |
+| `webp_lossless` | `str` | `"webp_lossless"` |
+
+## Methods
+
+### <IconObjType type="method"/> `from_str`
+
+```python
+v_1: Self = ImageFormat.from_str(val: str | Self)
+```
+
+Use a `str` to define this size.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `val` | `str \| Self` | <InlineIcon icon={vsiCheckIcon}/> | <p>Should be a file name extension without the staring dot.</p><p>For example <code>jpg</code> or <code>jpeg</code> will be converted to <code>ImageFormat.jpeg</code>.</p> |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The converted format enum object. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `from_img`
+
+```python
+v_1: Self = ImageFormat.from_img(img: Image)
+```
+
+Get the appropriate image format by inferring from the image object.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `img` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The PIL image object used to infer the format. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The converted format enum object. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `as_fmt_str`
+
+```python
+v_1: str = self.as_fmt_str()
+```
+
+Convert this value as the format name that can be used in pillow.
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The format name converted from this enum object. |

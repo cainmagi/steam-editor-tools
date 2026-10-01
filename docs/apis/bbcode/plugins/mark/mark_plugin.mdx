@@ -1,0 +1,27 @@
+---
+id: mark_plugin
+title: mark_plugin
+sidebar_label: mark_plugin
+slug: /apis/bbcode/plugins/mark/mark_plugin
+description: 'Simple plugin: replace `==text==` with `<mark>text</mark>` using regex.'
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="func" source="bbcode.plugins.mark.mark_plugin" />
+
+```python
+mark_plugin(md: MarkdownIt)
+```
+
+Simple plugin: replace `==text==` with `<mark>text</mark>` using regex.
+
+## Arguments
+
+### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `md` | `MarkdownIt` | <InlineIcon icon={vsiCheckIcon}/> | The markdown-it handle where the plugin will be injected. |

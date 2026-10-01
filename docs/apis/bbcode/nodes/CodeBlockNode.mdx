@@ -1,0 +1,60 @@
+---
+id: CodeBlockNode
+title: CodeBlockNode
+sidebar_label: CodeBlockNode
+slug: /apis/bbcode/nodes/CodeBlockNode
+description: 'Node: Code (Block).'
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="bbcode.nodes.CodeBlockNode" />
+
+```python
+CodeBlockNode(type: Literal["code_block"] = "code_block", code: str)
+```
+
+Node: Code (Block)
+
+Provide the block code, corresponding to
+
+```html
+<pre><code>...</code></pre>
+```
+
+or
+
+```html
+<pre>...</pre>
+```
+
+Intended for `[code]...[/code]` in BBCode.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `type` | `Literal["code_block"]` | | The type identifer of this document node. |
+| `code` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The multi-line code text in the node. |
+
+## Properties
+
+### <IconObjType type="param"/> `pure_text`
+
+```python
+pure_text: str = self.pure_text
+```
+
+The pure text of the current node.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `size`
+
+```python
+size: int = self.size
+```
+
+The estimated text length of the current node.

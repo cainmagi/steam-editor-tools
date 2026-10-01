@@ -1,0 +1,48 @@
+---
+id: InlineCodeNode
+title: InlineCodeNode
+sidebar_label: InlineCodeNode
+slug: /apis/bbcode/nodes/InlineCodeNode
+description: 'Node: Code (Inline).'
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="bbcode.nodes.InlineCodeNode" />
+
+```python
+InlineCodeNode(type: Literal["inline_code"] = "inline_code", code: str)
+```
+
+Node: Code (Inline)
+
+Provide the inline code, to be rendered as [noparse]...[/noparse] in BBCode.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `type` | `Literal["inline_code"]` | | The type identifer of this document node. |
+| `code` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The code text in the node. |
+
+## Properties
+
+### <IconObjType type="param"/> `pure_text`
+
+```python
+pure_text: str = self.pure_text
+```
+
+The pure text of the current node.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `size`
+
+```python
+size: int = self.size
+```
+
+The estimated text length of the current node.

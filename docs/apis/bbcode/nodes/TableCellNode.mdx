@@ -1,0 +1,35 @@
+---
+id: TableCellNode
+title: TableCellNode
+sidebar_label: TableCellNode
+slug: /apis/bbcode/nodes/TableCellNode
+description: 'Node: Table Cell.'
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="bbcode.nodes.TableCellNode" />
+
+```python
+TableCellNode(
+    children: list[DeletedNode | TextNode | LineBreakNode | HorizontalRuleNode | InlineCodeNode | CodeBlockNode | BoldNode | ItalicNode | UnderlineNode | StrikeNode | SpoilerNode | LinkNode | HeadingNode | ParagraphNode | QuoteNode | AlertNode | ListItemNode | ListNode | TableCellNode | TableRowNode | TableNode],
+    type: Literal["table_cell"] = "table_cell",
+    header: bool
+)
+```
+
+Node: Table Cell
+
+Provide the table cells.
+
+`header = True` for `<th>`, `False` for `<td>`.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `children` | `list[DeletedNode \| TextNode \| LineBreakNode \| HorizontalRuleNode \| InlineCodeNode \| CodeBlockNode \| BoldNode \| ItalicNode \| UnderlineNode \| StrikeNode \| SpoilerNode \| LinkNode \| HeadingNode \| ParagraphNode \| QuoteNode \| AlertNode \| ListItemNode \| ListNode \| TableCellNode \| TableRowNode \| TableNode]` | <InlineIcon icon={vsiCheckIcon}/> | The children of the node. |
+| `type` | `Literal["table_cell"]` | | The type identifer of this document node. |
+| `header` | `bool` | <InlineIcon icon={vsiCheckIcon}/> | A flag. If specified, this cell will be treated as a header cell. |

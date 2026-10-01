@@ -1,0 +1,57 @@
+---
+id: ImageOverlayImage
+title: ImageOverlayImage
+sidebar_label: ImageOverlayImage
+slug: /apis/improc/overlays/ImageOverlayImage
+description: An overlay layer with a linear gradient.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="improc.overlays.ImageOverlayImage" />
+
+```python
+ImageOverlayImage(
+    image: Image,
+    size: tuple[int | None, int | None] | None = None,
+    feather_depth: int = 0,
+    pos_shift: tuple[int, int] = (0, 0),
+    mode: Literal["default", "add", "add_modulo", "screen", "lighter", "subtract", "subtract_modulo", "multiply", "darker", "difference", "soft_light", "hard_light"] = "default"
+)
+```
+
+An overlay layer with a linear gradient.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `image` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | The image filled as the overlaying layer. |
+| `size` | `tuple[int \| None, int \| None] \| None` | | <p>The size of the image. If not specified, will use the layer size.</p><p>If at least one of the size is not specified, will attempt to resize the image while preserving the ratio.</p> |
+| `feather_depth` | `int` | | Whether to apply feathering edge mask to the image. If this value is 0, will use the image as it is. |
+| `pos_shift` | `tuple[int, int]` | | The shift of the overlaying content. By default, the content will be center- aligned with the giving shape. The overlaying content that is outside the shape mask will be cut off. |
+| `mode` | `Literal["default", "add", "add_modulo", "screen", "lighter", "subtract", "subtract_modulo", "multiply", "darker", "difference", "soft_light", "hard_light"]` | | The blender mode of the overlaying effect. |
+
+## Methods
+
+### <IconObjType type="method"/> `overlay`
+
+```python
+v_1: Image | None = self.overlay(shape: Image)
+```
+
+Generate the overlay image from the given image.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `shape` | `Image` | <InlineIcon icon={vsiCheckIcon}/> | An `L` type image defining the shape of the overlay. This value is provided when rendering the overlaying effect. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image \| None` | <p>The generated overlay image. This image can be not <code>RGBA</code>, but will be automatically converted to <code>RGBA</code> by applying the <code>self.shape</code> as the alpha channel. The size can be different from the input image. However, in most cases, this size should be the same as <code>self.shape</code>.</p><p>This image should be center-aligned with the input <code>self.shape</code>.</p><p>Will return <code>None</code> if the effect should be skipped.</p> |

@@ -1,0 +1,53 @@
+---
+id: AppQuerySimple
+title: AppQuerySimple
+sidebar_label: AppQuerySimple
+slug: /apis/steaminfo/data/appdata/AppQuerySimple
+description: The query item returned by searching-the-app-by-name.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="steaminfo.data.appdata.AppQuerySimple" />
+
+```python
+AppQuerySimple(
+    type: str,
+    name: str,
+    id: int,
+    tiny_image: str,
+    metascore: int | None = None,
+    platforms: PlatformInfo | None = None
+)
+```
+
+The query item returned by searching-the-app-by-name.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `type` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The type of the queried item. It should be app for most cases. |
+| `name` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The app name. |
+| `id` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The app ID. |
+| `tiny_image` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The URL to the tiny image of the queried app. |
+| `metascore` | `int \| None` | | The metascore. |
+| `platforms` | `PlatformInfo \| None` | | The supported platform. |
+
+## Methods
+
+### <IconObjType type="method"/> `get_tiny_image`
+
+```python
+v_1: Image | None = self.get_tiny_image()
+```
+
+Download the tiny image by its url.
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image \| None` | Get the tiny image object if it exists. |

@@ -1,0 +1,97 @@
+---
+id: NamedTempFolder
+title: NamedTempFolder
+sidebar_label: NamedTempFolder
+slug: /apis/utils/NamedTempFolder
+description: Named temporary folder.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isContext={true} source="utils.NamedTempFolder" />
+
+```python
+NamedTempFolder(folder_path: str | PathLike[str] | None = None)
+```
+
+Named temporary folder.
+
+Similar to `tempfile.NamedTemporaryFile`. This context maintain a temporary folder that can be accessed by the path. When exiting from the context, the temporary folder will be automatically deleted.
+
+## Arguments
+
+### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `folder_path` | `str \| PathLike[str] \| None` | | <p>The path to the temporary folder. If not specified, will use <code>tempfile.mkdtemp()</code> to create the folder.</p><p>Note that if the specified folder path exists, will automatically add postfix to the given path until a new folder can be maintained.</p> |
+
+## Methods
+
+### <IconObjType type="method"/> `close`
+
+```python
+self.close()
+```
+
+Close the temporary folder. Will delete the folder and reset the status to the status that is not in the context.
+
+This method will be automatically called when exiting from this context.
+
+## Properties
+
+### <IconObjType type="param"/> `current_path`
+
+```python
+current_path: str | None = self.current_path
+```
+
+Get the current temporary folder path. If not in the context,
+this value will be `None`.
+
+## Operators
+
+### <IconObjType type="op"/> `__enter__`
+
+```python
+with self as v_1:
+    v_1: str
+```
+
+Enter the context.
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The current path of the temporary folder. |
+
+______________________________________________________________________
+
+### <IconObjType type="op"/> `__exit__`
+
+```python
+v_1: bool | None = self.__exit__(
+    exc_type: type[_BaseException] | None,
+    exc_value: _BaseException | None,
+    traceback: TracebackType | None,
+)
+```
+
+Raise any exception triggered within the runtime context.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `exc_type` | `type[_BaseException] \| None` | <InlineIcon icon={vsiCheckIcon}/> | The type of the exception (if existing). |
+| `exc_value` | `_BaseException \| None` | <InlineIcon icon={vsiCheckIcon}/> | The instance of the exception (if existing). |
+| `traceback` | `TracebackType \| None` | <InlineIcon icon={vsiCheckIcon}/> | The traceback stack of the exception (if existing). |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `bool \| None` | Whether to catch the exception. For this context, it will be always `None`. |

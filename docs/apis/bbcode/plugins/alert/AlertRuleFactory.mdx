@@ -1,0 +1,62 @@
+---
+id: AlertRuleFactory
+title: AlertRuleFactory
+sidebar_label: AlertRuleFactory
+slug: /apis/bbcode/plugins/alert/AlertRuleFactory
+description: Identifies blockquote tokens and transforms them to alert tokens.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+
+<APITopBar type="class" source="bbcode.plugins.alert.AlertRuleFactory" />
+
+```python
+AlertRuleFactory(
+    titles: Sequence[str] | None = None,
+    icons: Mapping[str, str] | None = None,
+    class_prefix: str = "markdown-alert",
+    *,
+    parse_nested: bool = True,
+    match_case_sensitive: bool = False
+)
+```
+
+Identifies blockquote tokens and transforms them to alert tokens.
+
+## Arguments
+
+### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `titles` | `Sequence[str] \| None` | | <p>The allowed titles that would be used to detect the alert box.</p><p>If not specified, will use the default list: <code>("tip", "note", "important", "warning", "caution")</code></p> |
+| `icons` | `Mapping[str, str] \| None` | | The icon storage. It is a mapping from the title to the icon SVG text. |
+| `class_prefix` | `str` | | The prefix of the class name when the alert box is produced. |
+| `parse_nested` | `bool` | | A flag. If specified, will render the nested alert boxes. |
+| `match_case_sensitive` | `bool` | | A flag. If specified, will match the case of the identifier (title) when rendering the alert boxes. |
+
+## Methods
+
+### <IconObjType type="method"/> `get_rule`
+
+```python
+v_1: Callable[[StateCore], None] = self.get_rule()
+```
+
+Produce the rule plugin of the MarkdownIt.
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Callable[[StateCore], None]` | The rule function that will be used as the plugin of the Markdown parser. |
+
+## Properties
+
+### <IconObjType type="param"/> `pattern`
+
+```python
+pattern: Pattern[str] = self.pattern
+```
+
+The pattern used for matching the alert boxes in the Markdown text.

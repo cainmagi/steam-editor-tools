@@ -1,0 +1,37 @@
+---
+id: Achievement
+title: Achievement
+sidebar_label: Achievement
+slug: /apis/steaminfo/data/achievements/Achievement
+description: The information of an achievement.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="steaminfo.data.achievements.Achievement" />
+
+```python
+Achievement(
+    name: str,
+    description: str = "",
+    icon_url_locked: str | None = None,
+    percent: float | None = None,
+    icon_url: str,
+    is_hidden: bool | None = None
+)
+```
+
+The information of an achievement.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `name` | `str` | <InlineIcon icon={vsiCheckIcon}/> | Achievement display name. |
+| `description` | `str` | | Description of the achievement. If extra user profiles are not provided, the description of a hidden achievement will not be detected. |
+| `icon_url_locked` | `str \| None` | | Icon shown when achievement is locked. Need to be detected from a user profile when the achievement is locked. |
+| `percent` | `float \| None` | | The percent of users who have unlocked this acheivement. Will be `None` if the value cannot be detected. |
+| `icon_url` | `str` | <InlineIcon icon={vsiCheckIcon}/> | Icon shown when achievement is unlocked. |
+| `is_hidden` | `bool \| None` | | A flag showing whether the achievement is hidden/spoiler-related. Need to be detected from extra user profiles. If this information is unknown, will be `None`. |

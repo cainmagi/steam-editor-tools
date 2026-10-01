@@ -1,0 +1,31 @@
+---
+id: ImageComposerMode
+title: ImageComposerMode
+sidebar_label: ImageComposerMode
+slug: /apis/improc/composer/ImageComposerMode
+description: The name of a composer mode.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+
+<APITopBar type="type" source="improc.composer.ImageComposerMode" />
+
+```python
+ImageComposerMode = Literal[
+    "default",
+    "add",
+    "add_modulo",
+    "screen",
+    "lighter",
+    "subtract",
+    "subtract_modulo",
+    "multiply",
+    "darker",
+    "difference",
+    "soft_light",
+    "hard_light",
+]
+```
+
+The name of a composer mode. Pass it to ImageCompoer.by_name to fetch the binary
+operator.

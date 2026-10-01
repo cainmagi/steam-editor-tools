@@ -1,0 +1,44 @@
+---
+id: batch_process_images
+title: batch_process_images
+sidebar_label: batch_process_images
+slug: /apis/improc/tools/batch_process_images
+description: Run batch processing for a group of images, and save the processed images
+  as Steam screenshots.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="func" source="improc.tools.batch_process_images" />
+
+```python
+batch_process_images(
+    processor: Callable[[ImageSingle], ImageSingle],
+    folder_path: str | PathLike[str],
+    out_folder_path: str | PathLike[str] | None = None,
+    out_file_name_prefix: str | None = None,
+    out_file_fmt: Literal["png", "jpg", "webp"] = "png",
+    quality: ImageQuality = ImageQuality.medium,
+    skip_thumbnails: bool = False,
+    verbose: bool = False,
+)
+```
+
+Run batch processing for a group of images, and save the processed images as Steam screenshots.
+
+## Arguments
+
+### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `processor` | `Callable[[ImageSingle], ImageSingle]` | <InlineIcon icon={vsiCheckIcon}/> | The processor where the input and output are loaded image and the processed image, respectively. |
+| `folder_path` | `str \| PathLike[str]` | <InlineIcon icon={vsiCheckIcon}/> | The path to the folder where the input images are stored. The image files with `jpg`, `jpeg`, `png`, or `webp` will be loaded. |
+| `out_folder_path` | `str \| PathLike[str] \| None` | | The folder where the output images are saved. If not specified, will use `<folder_path>/out` as this value. |
+| `out_file_name_prefix` | `str \| None` | | The prefix prepended to the output image file names. If not specified, will not add name prefix. |
+| `out_file_fmt` | `Literal["png", "jpg", "webp"]` | | The format of the output files. When `"png"` is used, will use quantization. |
+| `quality` | `ImageQuality` | | The quality of the output images. |
+| `skip_thumbnails` | `bool` | | A flag. If specified, will not save thumbnails. |
+| `verbose` | `bool` | | A flag. If specified, will display the processing progress. |

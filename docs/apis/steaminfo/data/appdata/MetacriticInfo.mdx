@@ -1,0 +1,26 @@
+---
+id: MetacriticInfo
+title: MetacriticInfo
+sidebar_label: MetacriticInfo
+slug: /apis/steaminfo/data/appdata/MetacriticInfo
+description: The metacritic information of a game.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="steaminfo.data.appdata.MetacriticInfo" />
+
+```python
+MetacriticInfo(score: int, url: str)
+```
+
+The metacritic information of a game.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `score` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The metacritic score of the game. |
+| `url` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The link to the metacritic page. |

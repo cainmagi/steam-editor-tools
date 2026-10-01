@@ -1,0 +1,36 @@
+---
+id: index
+title: steaminfo
+sidebar_label: steaminfo
+slug: /apis/steaminfo
+description: The steam information parser.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+
+<APITopBar type="package" source="steaminfo" />
+
+The steam information parser.
+
+This package is implemented solely using the network access to the Steam public APIs.
+
+Note that the usages of such APIs are undocumented. The performance of this package may not be ensured. If there are any issues with the results, please submit them to the GitHub issue tracker of this project.
+
+## Modules
+
+| Member | <center>Description</center> |
+| :-----: | :------ |
+| [<IconObjType type="module" hasText={true} text="utils"/>](./utils/index.mdx) | The utilities that help maintain the queried data. |
+| [<IconObjType type="package" hasText={true} text="data"/>](./data/index.mdx) | The data structures for this package. |
+| [<IconObjType type="module" hasText={true} text="query"/>](./query/index.mdx) | The methods for querying the Steam information. |
+
+## Aliases
+
+| Member | <center>Description</center> |
+| :-----: | :------ |
+| [<IconObjType type="class" hasText={true} text="AppQuerySimple"/>](./data/appdata/AppQuerySimple.mdx) | The query item returned by searching-the-app-by-name. |
+| [<IconObjType type="class" hasText={true} text="AppInfo"/>](./data/appdata/AppInfo.mdx) | The basic information of an app, provided by querying the ID. |
+| [<IconObjType type="class" hasText={true} text="AchievementList"/>](./data/achievements/AchievementList.mdx) | The list of achievements. |
+| [<IconObjType type="func" hasText={true} text="query_app_by_name_simple"/>](./query/query_app_by_name_simple.mdx) | Query the app information by name. |
+| [<IconObjType type="func" hasText={true} text="get_app_details"/>](./query/get_app_details.mdx) | Fetch the app detailed information by its ID. |
+| [<IconObjType type="func" hasText={true} text="get_achievement_list"/>](./query/get_achievement_list.mdx) | Fetch the achievement list of a specific app (game). |

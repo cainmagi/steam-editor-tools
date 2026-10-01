@@ -1,0 +1,83 @@
+---
+id: ImageLayerContentProtocol
+title: ImageLayerContentProtocol
+sidebar_label: ImageLayerContentProtocol
+slug: /apis/improc/layer/ImageLayerContentProtocol
+description: The protocol of the image layer content.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+
+<APITopBar type="type" source="improc.layer.ImageLayerContentProtocol" />
+
+```python
+ImageLayerContentProtocol(*args: Any, **kwargs: Any)
+```
+
+:::warning
+
+This protocol class is only used as type hints and does not implements any instances in run time.
+
+:::
+
+The protocol of the image layer content.
+
+## Arguments
+
+Initialization function is not specified.
+
+## Protocol methods
+
+### <IconObjType type="method"/> `copy`
+
+```python
+v_1: Self = self.copy()
+```
+
+Create a copy of this instance.
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Self` | The copy of this instance. |
+
+## Protocol properties
+
+### <IconObjType type="param"/> `height`
+
+```python
+height: int = self.height
+```
+
+The width of the image.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `img`
+
+```python
+img: Image = self.img
+```
+
+The accessible pixel-based image maintained by this instance.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `size`
+
+```python
+size: tuple[int, int] = self.size
+```
+
+The `(width, height)` tuple of the image.
+
+______________________________________________________________________
+
+### <IconObjType type="param"/> `width`
+
+```python
+width: int = self.width
+```
+
+The width of the image.

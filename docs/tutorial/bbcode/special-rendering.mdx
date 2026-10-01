@@ -1,0 +1,342 @@
+---
+id: special-rendering
+sidebar_label: Special Rendering
+title: Render BBCode with special formats.
+description: An introduction to special built-in renderers that produce different BBCode formats.
+slug: /bbcode/special-rendering
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+This section introduces the built-in renderer variants that render BBCode in different formats. They are designed for different scenarios.
+
+## 1. Prefer tables rather than lists
+
+Steam's list style does not look neat in many cases. For example, the spacing between list items is either too small or too large. The list indents may be unwanted. As a result, users may intend to avoid using lists. The [BBCodeRendererTablePreferred](../../apis/bbcode/renderer/variants/BBCodeRendererTablePreferred.mdx) implements special rendering rules in which all Markdown/HTML lists are replaced by tables in the rendered files:
+
+```python
+# diff-remove-next-line
+stet.BBCodeRenderer().render(doc)
+# diff-add-next-line
+stet.bbcode.renderer.BBCodeRendererTablePreferred().render(doc)
+```
+
+The performance can be summarized as:
+
+<Tabs
+  defaultValue="md"
+  groupId="variants"
+  values={[
+    { label: "Markdown", value: "md", },
+    { label: "BBCodeRenderer", value: "bbcode", },
+    { label: "BBCodeRendererTablePreferred", value: "var", },
+  ]
+}>
+
+<TabItem value="md">
+
+```markdown showLineNumbers
+Other formats **remains to be the same**.
+
+* Unordered list item 1.
+* Unordered list item 2.
+* * Nested list item 1.
+  * Nested list item 2.
+
+1. Ordered list item 1.
+2. Ordered list item 2.
+3. | Table in list |
+   | :-----------: |
+   | Content.      |
+```
+
+</TabItem>
+
+<TabItem value="bbcode">
+
+```bbcode showLineNumbers
+Other formats [b]remains to be the same[/b].
+
+[list]
+[*]Unordered list item 1.
+[*]Unordered list item 2.
+[*][list]
+[*]Nested list item 1.
+[*]Nested list item 2.
+[/list]
+[/list]
+
+[olist]
+[*]Ordered list item 1.
+[*]Ordered list item 2.
+[*][table]
+[tr][th]Table in list[/th][/tr]
+[tr][td]Content.[/td][/tr]
+[/table]
+[/olist]
+```
+
+</TabItem>
+
+<TabItem value="var">
+
+```bbcode showLineNumbers
+Other formats [b]remains to be the same[/b].
+
+[table]
+[tr][th]⚪[/th][td]Unordered list item 1.[/td][/tr]
+[tr][th]⚪[/th][td]Unordered list item 2.[/td][/tr]
+[tr][th]⚪[/th][td][table]
+[tr][th]⚪[/th][td]Nested list item 1.[/td][/tr]
+[tr][th]⚪[/th][td]Nested list item 2.[/td][/tr]
+[/table][/td][/tr]
+[/table]
+
+[table]
+[tr][th]①[/th][td]Ordered list item 1.[/td][/tr]
+[tr][th]②[/th][td]Ordered list item 2.[/td][/tr]
+[tr][th]③[/th][td][table]
+[tr][th]Table in list[/th][/tr]
+[tr][td]Content.[/td][/tr]
+[/table][/td][/tr]
+[/table]
+```
+
+</TabItem>
+
+</Tabs>
+
+:::info
+
+This style was used to render reviews before 2026 because lists weren't rendered correctly. After Q1 2026, Steam made a significant change to the reviews displayed on the store page, which causes tables to fail to render but lists to render correctly. Therefore, this renderer is not very useful now.
+
+:::
+
+## 2. Prefer lists rather than tables
+
+Since Steam does not render tables correctly on store pages, users may prefer lists instead. We offer a special renderer, [BBCodeRendererListPreferred](../../apis/bbcode/renderer/variants/BBCodeRendererListPreferred.mdx), for this scenario.
+
+```python
+# diff-remove-next-line
+stet.BBCodeRenderer().render(doc)
+# diff-add-next-line
+stet.bbcode.renderer.BBCodeRendererListPreferred().render(doc)
+```
+
+<Tabs
+  defaultValue="md"
+  groupId="variants"
+  values={[
+    { label: "Markdown", value: "md", },
+    { label: "BBCodeRenderer", value: "bbcode", },
+    { label: "BBCodeRendererListPreferred", value: "var", },
+  ]
+}>
+
+<TabItem value="md">
+
+```markdown showLineNumbers
+Other formats **remains to be the same**.
+
+1. Ordered list item 1.
+2. | Table in list |
+   | :------: |
+   | Content. |
+
+|   A   | Normal | Table     |
+| :---: | :----- | :-------- |
+| Row 1 |        |           |
+| Row 2 | Text.  | Contents. |
+
+|           |                 |
+| :-------- | :-------------- |
+| **Table** | Without header. |
+| The       | Second row.     |
+```
+
+</TabItem>
+
+<TabItem value="bbcode">
+
+```bbcode showLineNumbers
+Other formats [b]remains to be the same[/b].
+
+[olist]
+[*]Ordered list item 1.
+[*][table]
+[tr][th]Table in list[/th][/tr]
+[tr][td]Content.[/td][/tr]
+[/table]
+[/olist]
+
+[table]
+[tr][th]A[/th][th]Normal[/th][th]Table[/th][/tr]
+[tr][td]Row 1[/td][td][/td][td][/td][/tr]
+[tr][td]Row 2[/td][td]Text.[/td][td]Contents.[/td][/tr]
+[/table]
+
+[table]
+[tr][th]Table[/th][td]Without header.[/td][/tr]
+[tr][td]The[/td][td]Second row.[/td][/tr]
+[/table]
+```
+
+</TabItem>
+
+<TabItem value="var">
+
+```bbcode showLineNumbers
+Other formats [b]remains to be the same[/b].
+
+[olist]
+[*]Ordered list item 1.
+[*][list]
+[*][b]Table in list[/b]
+[*]Content.
+[/list]
+[/olist]
+
+[list]
+[*][b]A[/b]: [b]Normal[/b] | [b]Table[/b]
+[*]Row 1 
+[*]Row 2 | Text. | Contents.
+[/list]
+
+[list]
+[*][b]Table[/b] | Without header.
+[*]The | Second row.
+[/list]
+```
+
+</TabItem>
+
+</Tabs>
+
+## 3. Renderer for writing reviews
+
+:::info
+
+After the Steam major update in Q1, 2026, many previously working styles have become problematic on the store page. For example, the `[table]` was considered a very good choice to align review items. However, it is not rendered at all now.
+
+Briefly, I can confirm that the ordered and unordered lists can be rendered on both the store and review pages. However, on the review (detail) page, there is a vertical margin for each list, but that margin is absent on the store page, which makes this feature still half-baked.
+
+After several experiments, I can confirm that the following features are totally broken during the current store-page review rendering:
+
+* `[table]`
+
+The following features have style issues:
+
+* `[h2][h3]`: On the store page, h2 will become white small text, while h3 is still larger blue text, which make h2 smaller than h3.
+
+Currently, this package provides a workaround for such issues by implementing a variant of the renderer with format-transformation features. The following example first reads a BBCode file, then transforms all tables into lists before rendering the content to a new file.
+
+:::
+
+[BBCodeRendererListPreferred](../../apis/bbcode/renderer/variants/BBCodeRendererListPreferred.mdx) only implements minimal conversion from tables to lists. Beyond that, I optimized the rendering rules to match my preferences for writing reviews. This deeply customized renderer, [BBCodeRendererForReview](../../apis/bbcode/renderer/variants/BBCodeRendererForReview.mdx), will specialize in itemized review points:
+
+```python
+# diff-remove-next-line
+stet.BBCodeRenderer().render(doc)
+# diff-add-next-line
+stet.bbcode.renderer.BBCodeRendererForReview().render(doc)
+```
+
+<Tabs
+  defaultValue="md"
+  groupId="variants"
+  values={[
+    { label: "Markdown", value: "md", },
+    { label: "BBCodeRenderer", value: "bbcode", },
+    { label: "BBCodeRendererForReview", value: "var", },
+  ]
+}>
+
+<TabItem value="md">
+
+```markdown showLineNumbers
+|   A   | Normal | Table     |
+| :---: | :----- | :-------- |
+| Row 1 |        |           |
+| Row 2 | Text.  | Contents. |
+
+Reviews on features:
+
+| | | |
+| :---: | :----- |  :-------- |
+| ➕ | The first good point | The long description of this good point ... | 
+| ➕ | The second good point | Some further detailed descriptions. |
+| ➖ | A negative review | For some reasons, the ... aspect is not promising, ... |
+
+Itemized descriptions:
+
+| | |
+| :---: | :----- | 
+| ① | A simple list, point 1. |
+| ② | The second point. |
+| ③ | The third point. |
+```
+
+</TabItem>
+
+<TabItem value="bbcode">
+
+```bbcode showLineNumbers
+[table]
+[tr][th]A[/th][th]Normal[/th][th]Table[/th][/tr]
+[tr][td]Row 1[/td][td][/td][td][/td][/tr]
+[tr][td]Row 2[/td][td]Text.[/td][td]Contents.[/td][/tr]
+[/table]
+
+Reviews on features:
+
+[table]
+[tr][td]➕[/td][td]The first good point[/td][td]The long description of this good point ...[/td][/tr]
+[tr][td]➕[/td][td]The second good point[/td][td]Some further detailed descriptions.[/td][/tr]
+[tr][td]➖[/td][td]A negative review[/td][td]For some reasons, the ... aspect is not promising, ...[/td][/tr]
+[/table]
+
+Itemized descriptions:
+
+[table]
+[tr][td]①[/td][td]A simple list, point 1.[/td][/tr]
+[tr][td]②[/td][td]The second point.[/td][/tr]
+[tr][td]③[/td][td]The third point.[/td][/tr]
+[/table]
+```
+
+</TabItem>
+
+<TabItem value="var">
+
+```bbcode showLineNumbers
+[list]
+[*][b]A[/b]: [b]Normal[/b] | [b]Table[/b]
+[*]Row 1 
+[*]Row 2 | Text. | Contents.
+[/list]
+
+Reviews on features:
+
+[list]
+[*][b]➕[/b]【[b]The first good point[/b]】 The long description of this good point ...
+
+[*][b]➕[/b]【[b]The second good point[/b]】 Some further detailed descriptions.
+
+[*][b]➖[/b]【[b]A negative review[/b]】 For some reasons, the ... aspect is not promising, ...
+[/list]
+
+Itemized descriptions:
+
+[list]
+[*][b]①[/b]: A simple list, point 1.
+
+[*][b]②[/b]: The second point.
+
+[*][b]③[/b]: The third point.
+[/list]
+```
+
+</TabItem>
+
+</Tabs>

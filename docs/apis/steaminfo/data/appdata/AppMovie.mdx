@@ -1,0 +1,55 @@
+---
+id: AppMovie
+title: AppMovie
+sidebar_label: AppMovie
+slug: /apis/steaminfo/data/appdata/AppMovie
+description: The information of an app release trailer movie.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="steaminfo.data.appdata.AppMovie" />
+
+```python
+AppMovie(
+    id: int,
+    name: str,
+    thumbnail: str,
+    dash_av1: str | None = None,
+    dash_h264: str | None = None,
+    hls_h264: str | None = None,
+    highlight: bool = False
+)
+```
+
+The information of an app release trailer movie.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `id` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The ID of the movie. It is maintained in the whole store scope. |
+| `name` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The name of the video. |
+| `thumbnail` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The url to the thumbnail screenshot. |
+| `dash_av1` | `str \| None` | | The url to the Dash AV1 stream. |
+| `dash_h264` | `str \| None` | | The url to the Dash H264 stream. |
+| `hls_h264` | `str \| None` | | The url to the HLS H264 (m3u8) stream. |
+| `highlight` | `bool` | | Whether the movie will be displayed in highlights. |
+
+## Methods
+
+### <IconObjType type="method"/> `get_thumbnail`
+
+```python
+v_1: Image | None = self.get_thumbnail()
+```
+
+Download the thumbnail image by its url.
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image \| None` | Get the thumbnail image object if it exists. |

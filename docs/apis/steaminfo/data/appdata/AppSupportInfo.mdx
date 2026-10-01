@@ -1,0 +1,24 @@
+---
+id: AppSupportInfo
+title: AppSupportInfo
+sidebar_label: AppSupportInfo
+slug: /apis/steaminfo/data/appdata/AppSupportInfo
+description: The support information of a game app.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+
+<APITopBar type="class" isDataClass={true} source="steaminfo.data.appdata.AppSupportInfo" />
+
+```python
+AppSupportInfo(url: str = "", email: str = "")
+```
+
+The support information of a game app.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `url` | `str` | | The supporter URL. |
+| `email` | `str` | | The supporter Email. |

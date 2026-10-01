@@ -1,0 +1,29 @@
+---
+id: AchievementIconName
+title: AchievementIconName
+sidebar_label: AchievementIconName
+slug: /apis/steaminfo/data/achievements/AchievementIconName
+description: The file names of an achievement icon.
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="steaminfo.data.achievements.AchievementIconName" />
+
+```python
+AchievementIconName(id: int, name: str, name_locked: str)
+```
+
+The file names of an achievement icon.
+
+This name is the name (not the full path) of the file produced by `AchievementList.save_icons()`.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `id` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The index of the achievement. |
+| `name` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The file name of the icon. |
+| `name_locked` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The file name of the icon in the locked status. |

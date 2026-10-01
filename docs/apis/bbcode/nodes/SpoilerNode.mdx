@@ -1,0 +1,39 @@
+---
+id: SpoilerNode
+title: SpoilerNode
+sidebar_label: SpoilerNode
+slug: /apis/bbcode/nodes/SpoilerNode
+description: 'Node: Spoiler.'
+---
+
+import APITopBar from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="bbcode.nodes.SpoilerNode" />
+
+```python
+SpoilerNode(
+    children: list[DeletedNode | TextNode | LineBreakNode | HorizontalRuleNode | InlineCodeNode | CodeBlockNode | BoldNode | ItalicNode | UnderlineNode | StrikeNode | SpoilerNode | LinkNode | HeadingNode | ParagraphNode | QuoteNode | AlertNode | ListItemNode | ListNode | TableCellNode | TableRowNode | TableNode],
+    type: Literal["spoiler"] = "spoiler"
+)
+```
+
+Node: Spoiler
+
+Provide the spoiler inline format.
+
+This format is specially supported by Steam. We use
+
+```html
+<mark>...</mark>
+```
+
+i.e., the highlight text to specify this style.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `children` | `list[DeletedNode \| TextNode \| LineBreakNode \| HorizontalRuleNode \| InlineCodeNode \| CodeBlockNode \| BoldNode \| ItalicNode \| UnderlineNode \| StrikeNode \| SpoilerNode \| LinkNode \| HeadingNode \| ParagraphNode \| QuoteNode \| AlertNode \| ListItemNode \| ListNode \| TableCellNode \| TableRowNode \| TableNode]` | <InlineIcon icon={vsiCheckIcon}/> | The children of the node. |
+| `type` | `Literal["spoiler"]` | | The type identifer of this document node. |

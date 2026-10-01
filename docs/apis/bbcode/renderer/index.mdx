@@ -1,0 +1,34 @@
+---
+id: index
+title: renderer
+sidebar_label: renderer
+slug: /apis/bbcode/renderer
+description: Render the AST (Document/Node) into BBCode.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+
+<APITopBar type="package" source="bbcode.renderer" />
+
+Render the AST (Document/Node) into BBCode.
+
+Users may customzie the BBCode styles by instantiating their own `BBCodeConfig`.
+
+## Modules
+
+| Member | <center>Description</center> |
+| :-----: | :------ |
+| [<IconObjType type="module" hasText={true} text="configs"/>](./configs/index.mdx) | The configurations of BBCode renderer. |
+| [<IconObjType type="module" hasText={true} text="base"/>](./base/index.mdx) | The implementation of the basic renderer. |
+| [<IconObjType type="module" hasText={true} text="variants"/>](./variants/index.mdx) | The variants of the BBCode renderer. |
+
+## Aliases
+
+| Member | <center>Description</center> |
+| :-----: | :------ |
+| [<IconObjType type="class" hasText={true} text="AlertTitleConfigs"/>](./configs/AlertTitleConfigs.mdx) | The translation list of alert box titles. |
+| [<IconObjType type="class" hasText={true} text="BBCodeRenderer"/>](./base/BBCodeRenderer.mdx) | The BBCode renderer. |
+| [<IconObjType type="class" hasText={true} text="BBCodeConfig"/>](./configs/BBCodeConfig.mdx) | Configurations of BBCode renderer. |
+| [<IconObjType type="class" hasText={true} text="BBCodeRendererTablePreferred"/>](./variants/BBCodeRendererTablePreferred.mdx) | The BBCode renderer with table format preferred. |
+| [<IconObjType type="class" hasText={true} text="BBCodeRendererListPreferred"/>](./variants/BBCodeRendererListPreferred.mdx) | The BBCode renderer with list format preferred. |
+| [<IconObjType type="class" hasText={true} text="BBCodeRendererForReview"/>](./variants/BBCodeRendererForReview.mdx) | The BBCode renderer specialized for rendering reviews. |

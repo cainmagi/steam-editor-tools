@@ -1,0 +1,179 @@
+---
+id: BBCodeRendererForReview
+title: BBCodeRendererForReview
+sidebar_label: BBCodeRendererForReview
+slug: /apis/bbcode/renderer/variants/BBCodeRendererForReview
+description: The BBCode renderer specialized for rendering reviews.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" source="bbcode.renderer.variants.BBCodeRendererForReview" />
+
+```python
+BBCodeRendererForReview(
+    configs: BBCodeConfig | None = None,
+    is_quote_converted: bool = False,
+    is_codeblock_converted: bool = False,
+    is_h_converted: bool = True,
+)
+```
+
+The BBCode renderer specialized for rendering reviews.
+
+This renderer variant will specialize the format when rendering:
+
+- tables
+
+and provide optional options for rendering:
+
+- quote
+- code
+- h2/h3...
+
+These features are particularly optimized for the best format when writing Steam Reviews, with all incorrect features replaced by other available features.
+
+## Arguments
+
+### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `configs` | `BBCodeConfig \| None` | | <p>The configurations used for customizing the BBCode tags.</p><p>If not specified, will use <code>BBCodeConfig()</code> by default.</p> |
+| `is_quote_converted` | `bool` | | <p>A flag that enabling the optional feature of converting the format of quote blocks. If enabled, will render the quotes in the following format:</p><pre><code>[quote][u]...[/u][/quote]</code></pre> |
+| `is_codeblock_converted` | `bool` | | <p>A flag that enabling the optional feature of converting the format of code blocks. If enabled, will render the codes as texts like this:</p><pre><code>> line 1> line 2> ...</code></pre> |
+| `is_h_converted` | `bool` | | A flag that enabling the optional feature of converting the section heads. If enabled, will make all h tags formatted as the h1 tag. |
+
+## Methods
+
+### <IconObjType type="method"/> `render_code_block`
+
+```python
+v_1: str = self.render_code_block(node: CodeBlockNode)
+```
+
+Specific renderring. Render the block code as
+
+```
+> ...
+> ...
+> ...
+```
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `CodeBlockNode` | <InlineIcon icon={vsiCheckIcon}/> | The code block to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered code block. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_heading`
+
+```python
+v_1: str = self.render_heading(node: HeadingNode)
+```
+
+Specific renderring. Render the heading (title).
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `HeadingNode` | <InlineIcon icon={vsiCheckIcon}/> | The data to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The formatted heading/title. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_list`
+
+```python
+v_1: str = self.render_list(node: ListNode)
+```
+
+Specific rendering. Render the ordered or unordered list.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `ListNode` | <InlineIcon icon={vsiCheckIcon}/> | The list to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered list bbcode. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_quote`
+
+```python
+v_1: str = self.render_quote(node: QuoteNode)
+```
+
+Specific renderring. Render the quote block.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `QuoteNode` | <InlineIcon icon={vsiCheckIcon}/> | The data to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The formatted quote block. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `render_table`
+
+```python
+v_1: str = self.render_table(node: TableNode)
+```
+
+Specific renderring. Render the table.
+
+This overriden table rendering will convert a table to the following list:
+
+```bbcode
+[list]
+[*] [b]Header[/b] | [b]Header[/b]
+
+[*] Cell | Cell
+[/list]
+```
+
+When the list needs to be replaced by the ordered list, use the following configs:
+
+```python
+configs.table = "ordered"
+```
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `node` | `TableNode` | <InlineIcon icon={vsiCheckIcon}/> | The table to be rendered. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `str` | The rendered table bbcode. |

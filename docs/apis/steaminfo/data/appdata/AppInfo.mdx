@@ -1,0 +1,129 @@
+---
+id: AppInfo
+title: AppInfo
+sidebar_label: AppInfo
+slug: /apis/steaminfo/data/appdata/AppInfo
+description: The basic information of an app, provided by querying the ID.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" isDataClass={true} source="steaminfo.data.appdata.AppInfo" />
+
+```python
+AppInfo(
+    type: str,
+    name: str,
+    steam_appid: int,
+    required_age: int = 0,
+    is_free: bool,
+    controller_support: str | None = None,
+    dlc: list[int] = [],
+    detailed_description: str = "",
+    about_the_game: str = "",
+    short_description: str = "",
+    supported_languages: str = "",
+    reviews: str = "",
+    header_image: str | None = None,
+    capsule_image: str | None = None,
+    capsule_imagev5: str | None = None,
+    website: str | None = None,
+    legal_notice: str | None = None,
+    developers: list[str] = [],
+    publishers: list[str] = [],
+    price_overview: AppPrice | None = None,
+    platforms: PlatformInfo | None = None,
+    metacritic: MetacriticInfo | None = None,
+    categories: list[AppCategory] = [],
+    genres: list[AppCategory] = [],
+    screenshots: list[AppScreenShot] = [],
+    movies: list[AppMovie] = [],
+    release_date: AppDate | None = None,
+    support_info: AppSupportInfo | None = None,
+    background: str | None = None,
+    background_raw: str | None = None
+)
+```
+
+The basic information of an app, provided by querying the ID.
+
+## Fields
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `type` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The type of the app. It should be "game" for most cases. |
+| `name` | `str` | <InlineIcon icon={vsiCheckIcon}/> | The app name. |
+| `steam_appid` | `int` | <InlineIcon icon={vsiCheckIcon}/> | The app ID. |
+| `required_age` | `int` | | The required age of the game. |
+| `is_free` | `bool` | <InlineIcon icon={vsiCheckIcon}/> | Whether the game is free or not. |
+| `controller_support` | `str \| None` | | How does it support the controller. |
+| `dlc` | `list[int]` | | A list of DLCs' app IDs. |
+| `detailed_description` | `str` | | A long game description formatted by HTML. |
+| `about_the_game` | `str` | | A long game description displayed in the store page. It is ususally the same as "detailed_description". Formatted by HTML. |
+| `short_description` | `str` | | A short game description displayed in the game title bar. |
+| `supported_languages` | `str` | | The names of supported languages. It is formatted by HTML. |
+| `reviews` | `str` | | The media reviews. It is formatted by HTML. |
+| `header_image` | `str \| None` | | The URL of the header image. This is usually big. |
+| `capsule_image` | `str \| None` | | The URL of the capsule image. This is usally smaller than header_image. |
+| `capsule_imagev5` | `str \| None` | | The URL of the capsule v5 image. This is usally smaller than capsule_image. |
+| `website` | `str \| None` | | The official website of the game. |
+| `legal_notice` | `str \| None` | | The legal notice of the game. |
+| `developers` | `list[str]` | | The list of developer names. |
+| `publishers` | `list[str]` | | The list of publishers names. |
+| `price_overview` | `AppPrice \| None` | | The price of the app. |
+| `platforms` | `PlatformInfo \| None` | | The supported platform. |
+| `metacritic` | `MetacriticInfo \| None` | | The metacritic information of the game. |
+| `categories` | `list[AppCategory]` | | The related categories of the game. This list is displayed as tags on the store page. |
+| `genres` | `list[AppCategory]` | | The related categories of the game. This list is displayed as game type. |
+| `screenshots` | `list[AppScreenShot]` | | The list of screenshots. |
+| `movies` | `list[AppMovie]` | | The list of moviews. |
+| `release_date` | `AppDate \| None` | | The release date of the app. |
+| `support_info` | `AppSupportInfo \| None` | | The support information of the app. |
+| `background` | `str \| None` | | The background image of the store page. |
+| `background_raw` | `str \| None` | | The background image (raw version) of the store page. |
+
+## Methods
+
+### <IconObjType type="method"/> `get_background_image`
+
+```python
+v_1: Image | None = self.get_background_image(raw: bool = False)
+```
+
+Download the header image by its url.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `raw` | `bool` | | Whether to get the raw version of the image. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image \| None` | The downloaded image. If no image can be downloaded, return `None`. |
+
+______________________________________________________________________
+
+### <IconObjType type="method"/> `get_header_image`
+
+```python
+v_1: Image | None = self.get_header_image(level: Literal["full", "capsule", "capsulev5"] = "full")
+```
+
+Download the header image by its url.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `level` | `Literal["full", "capsule", "capsulev5"]` | | <p>The level of the header image. The sizes are sorted as:</p><p>full > capsule > capsulev5</p> |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `Image \| None` | The downloaded image. If no image can be downloaded, return `None`. |

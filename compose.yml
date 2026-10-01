@@ -1,0 +1,46 @@
+name: steam-editor-tools-docs
+
+services:
+  # The main application service.
+  # Users can modify the volume path to the directory where the data is stored.
+  # Skipped, because this project only needs the dev environment.
+
+  # The main application service.
+  # Users can modify the volume path to the directory where the data is stored.
+  app:
+    image: nodejs-yarn:v26
+    pull_policy: missing
+    shm_size: 1gb
+    ports:
+      - 0.0.0.0:3000:3000
+    ulimits:
+      memlock: -1
+      stack: 67108864
+    stdin_open: true
+    tty: true
+    # command: sh
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - backend
+    volumes:
+      - type: bind
+        # Modify the following "source" directory to where you save your own data.
+        # The folder should cotains subfolders: database, datasets
+        # If any folder does not exist, the application will create these folders.
+        source: ./
+        # Do not change the target path here.
+        target: /workdir
+
+networks:
+  backend:
+    name: steam-editor-tools-docs
+    driver: bridge

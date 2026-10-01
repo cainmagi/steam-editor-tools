@@ -1,0 +1,391 @@
+---
+id: formats
+sidebar_label: Format Overview
+title: Overview of different formats
+description: An overview of the rendering results with the default renderer. The provided texts vary in different formats. 
+slug: /bbcode/formats
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+The following table summarizes the main input and output formats of the default renderer.
+
+| <center>Markdown Format</center> | <center>BBCode Format</center> |
+| :-------------- | :------------ |
+| `## title` | `[h2]title[/h2]` |
+| `text` | `text` |
+| `**bold text**` | `[b]bold text[/b]` |
+| `*italic text*` | `[i]italic text[/i]` |
+| `<u>underlined text</u>` | `[u]underlined text[/u]` |
+| `<ins>underlined text</ins>` | `[u]underlined text[/u]` |
+| `~~strike text~~` | `[strike]strike text[/strike]` |
+| `==spoiler text==` | `[spoiler]spoiler text[/spoiler]` |
+| `-----` | `[hr][/hr]` |
+| `[Link](https://google.com)` | `[url=https://google.com]Link[/url]` |
+| `![image](image.png)` | *(Removed)* |
+| `> quote block` | `[quote]quote block[/quote]` |
+| <pre><code>quote block<br/>{"<cite>with author</cite>"}</code></pre> | `[quote=with author]quote block[/quote]` |
+| <pre><code>{"```"}<br/>Multi-line codes<br/>{"```"}</code></pre> | <pre><code>{"[code]"}<br/>Multi-line codes<br/>{"[/code]"}</code></pre> |
+| <code>{"`inline code`"}</code> | `[noparse]inline code[/noparse]` |
+| `* Unordered list` | `[list][*] Unordered list[/list]` |
+| `1. Ordered list` | `[olist][*] Ordered list[/olist]` |
+| `\| table \| ...` | `[table][tr][th]table[/th]...[/tr][/table]` |
+| <pre><code>{"> [!caution]"}<br/>{"Multi-line spoiler text."}</code></pre> | <pre><code>{"[spoiler]"}<br/>Multi-line spoiler text.<br/>{"[/spoiler]"}</code></pre> |
+| <pre><code>{"> [!important]"}<br/>{"Multi-line bold text."}</code></pre> | <pre><code>{"[b]"}<br/>Multi-line bold text.<br/>{"[/b]"}</code></pre> |
+| <pre><code>{"> [!warning]"}<br/>{"Multi-line underlined text."}</code></pre> | <pre><code>{"[u]"}<br/>Multi-line underlined text.<br/>{"[/u]"}</code></pre> |
+
+Examples of the rendering can be referred in the following snippets.
+
+<Tabs
+  defaultValue="md"
+  groupId="results"
+  values={[
+    { label: 'Markdown', value: 'md', },
+    { label: 'BBCode', value: 'bbcode', },
+  ]
+}>
+
+<TabItem value="md">
+
+```markdown showLineNumbers
+# 1. Title
+
+## 2. Subtitle
+
+Example table
+
+| Head |               Head2               |                Head3 |
+| :--- | :-------------------------------: | -------------------: |
+| val1 |                 2                 |             **val3** |
+|      | ![](https://placehold.co/600x400) | [Google](google.com) |
+```
+
+</TabItem>
+
+<TabItem value="bbcode">
+
+```bbcode showLineNumbers
+[h1]1. Title[/h1]
+[h2]2. Subtitle[/h2]
+Example table
+
+[table]
+[tr][th]Head[/th][th]Head2[/th][th]Head3[/th][/tr]
+[tr][td]val1[/td][td]2[/td][th]val3[/th][/tr]
+[tr][td][/td][td][/td][td][url=google.com]Google[/url][/td][/tr]
+[/table]
+```
+
+</TabItem>
+
+</Tabs>
+
+<Tabs
+  defaultValue="md"
+  groupId="results"
+  values={[
+    { label: 'Markdown', value: 'md', },
+    { label: 'BBCode', value: 'bbcode', },
+  ]
+}>
+
+<TabItem value="md">
+
+```markdown showLineNumbers
+## 3. Subtitle 2
+
+Examples of text styles:
+
+**bold** text
+
+_italic_ text
+
+<ins>underline</ins> text
+
+**_Bold italic_** text
+
+~~Strike~~ text
+
+==Spoiler== text
+
+---
+
+[Example Link](https://google.com)
+
+[Example Link2][google]
+
+[](https://google.com)
+
+[google]: https://google.com
+```
+
+</TabItem>
+
+<TabItem value="bbcode">
+
+```bbcode showLineNumbers
+[h2]3. Subtitle 2[/h2]
+Examples of text styles:
+
+[b]bold[/b] text
+
+[i]italic[/i] text
+
+[u]underline[/u] text
+
+[b][i]Bold italic[/i][/b] text
+
+[strike]Strike[/strike] text
+
+[spoiler]Spoiler[/spoiler] text
+
+[hr][/hr]
+[url=https://google.com]Example Link[/url]
+
+[url=https://google.com]Example Link2[/url]
+
+[url=https://google.com][/url]
+```
+
+</TabItem>
+
+</Tabs>
+
+<Tabs
+  defaultValue="md"
+  groupId="results"
+  values={[
+    { label: 'Markdown', value: 'md', },
+    { label: 'BBCode', value: 'bbcode', },
+  ]
+}>
+
+<TabItem value="md">
+
+````markdown showLineNumbers
+### 3.1. Sub-sub title
+
+Example blocks
+
+> A simple quote block
+
+> A quote block
+>
+> > Quote in Quote
+>
+> > <cite>Author</cite>
+> >
+> > Quote with an author. Only the first `<cite>` tag will be catched. More `<cite>` tags in the same block will be rendered as text.
+> >
+> > <cite>Author2</cite>
+>
+> ```python
+> Code block in quote
+> ```
+
+```js
+const example = () => {
+  return 1;
+};
+```
+````
+
+</TabItem>
+
+<TabItem value="bbcode">
+
+```bbcode showLineNumbers
+[h3]3.1. Sub-sub title[/h3]
+Example blocks
+
+[quote]
+A simple quote block
+[/quote]
+
+[quote]
+A quote block
+
+[quote]
+Quote in Quote
+[/quote]
+
+[quote=Author]
+Quote with an author. Only the first [noparse]<cite>[/noparse] tag will be catched. More [noparse]<cite>[/noparse] tags in the same block will be rendered as text.
+
+Author2
+[/quote]
+
+[code]
+Code block in quote
+[/code]
+[/quote]
+
+[code]
+const example = () => {
+  return 1;
+};
+[/code]
+```
+
+</TabItem>
+
+</Tabs>
+
+<Tabs
+  defaultValue="md"
+  groupId="results"
+  values={[
+    { label: 'Markdown', value: 'md', },
+    { label: 'BBCode', value: 'bbcode', },
+  ]
+}>
+
+<TabItem value="md">
+
+```markdown showLineNumbers
+### 3.2. Sub-sub title 2
+
+Example lists
+
+- Item 1
+- Item 2
+- Item 3
+
+1. Item 1
+2. Item 2
+3. Item 3
+
+- Item 1
+  1. Item-item 1
+  2. Item-item 2
+- Item 2
+
+1. Item 1
+   - Item-item 1
+   - Item-item 2
+2. Item 2
+3. Table in item
+   | Test |
+   | :---- |
+   | This is a table |
+```
+
+</TabItem>
+
+<TabItem value="bbcode">
+
+```bbcode showLineNumbers
+[h3]3.2. Sub-sub title 2[/h3]
+Example lists
+
+[list]
+[*]Item 1
+[*]Item 2
+[*]Item 3
+[/list]
+
+[olist]
+[*]Item 1
+[*]Item 2
+[*]Item 3
+[/olist]
+
+[list]
+[*]Item 1[olist]
+[*]Item-item 1
+[*]Item-item 2
+[/olist]
+[*]Item 2
+[/list]
+
+[olist]
+[*]Item 1[list]
+[*]Item-item 1
+[*]Item-item 2
+[/list]
+[*]Item 2
+[*]Table in item[table]
+[tr][th]Test[/th][/tr]
+[tr][td]This is a table[/td][/tr]
+[/table]
+[/olist]
+```
+
+</TabItem>
+
+</Tabs>
+
+<Tabs
+  defaultValue="md"
+  groupId="results"
+  values={[
+    { label: 'Markdown', value: 'md', },
+    { label: 'BBCode', value: 'bbcode', },
+  ]
+}>
+
+<TabItem value="md">
+
+```markdown showLineNumbers
+#### 3.2.1. H4 title 1
+
+Examples of extensive blocks
+
+> [!caution]
+> A caution block is accepted by Typora and GitHub.
+>
+> It will be rendered as spoiler block in Steam BBcode.
+
+> [!important]
+> The important block will be rendered as `[b]...[/b]`.
+>
+> > [!warning]
+> > This is a block in block. it will be rendered as `[u]...[/u]`.
+
+> [!note]
+>
+> > [!tip]
+> >
+> > `[!note]` or `[!tip]` blocks will fallback into `[quote]` blocks.
+
+##### 3.2.1.1. H5 title
+
+###### 3.2.1.1.1. H6 title
+```
+
+</TabItem>
+
+<TabItem value="bbcode">
+
+```bbcode showLineNumbers
+[h3]3.2.1. H4 title 1[/h3]
+Examples of extensive blocks
+
+[spoiler]
+A caution block is accepted by Typora and GitHub.
+
+It will be rendered as spoiler block in Steam BBcode.
+[/spoiler]
+
+[b]
+The important block will be rendered as [noparse][b]...[/b][/noparse].
+
+[u]
+This is a block in block. it will be rendered as [noparse][u]...[/u][/noparse].
+[/u]
+[/b]
+
+[quote]
+[quote]
+[noparse][!note][/noparse] or [noparse][!tip][/noparse] blocks will fallback into [noparse][quote][/noparse] blocks.
+[/quote]
+[/quote]
+
+[h3]3.2.1.1. H5 title[/h3]
+[h3]3.2.1.1.1. H6 title[/h3]
+```
+
+</TabItem>
+
+</Tabs>

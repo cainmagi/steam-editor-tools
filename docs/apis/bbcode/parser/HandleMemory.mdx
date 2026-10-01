@@ -1,0 +1,51 @@
+---
+id: HandleMemory
+title: HandleMemory
+sidebar_label: HandleMemory
+slug: /apis/bbcode/parser/HandleMemory
+description: Temporary memory designed for parsing the data that may need to handle
+  children by customized methods and record special information.
+---
+
+import APITopBar, {IconObjType} from "@site/src/components/APITopBar";
+import InlineIcon from "@site/src/components/InlineIcon";
+import vsiCheckIcon from "@iconify-icons/codicon/check";
+
+<APITopBar type="class" source="bbcode.parser.HandleMemory" />
+
+```python
+HandleMemory[_Tag](process_func: Callable[[dict[str, Any], str, _Tag], _Tag | None])
+```
+
+Temporary memory designed for parsing the data that may need to handle children by customized methods and record special information.
+
+## Arguments
+
+### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `process_func` | `Callable[[dict[str, Any], str, _Tag], _Tag \| None]` | <InlineIcon icon={vsiCheckIcon}/> | <p>A scope-limited processor function.</p><p>The input arguments are:</p><ol><li>storage: The storage provided by this memory. It is mutable and allows users to store data during the process_func.</li><li>name: The node name pre-processed by <code>str.casefold</code>.</li><li>node: The bs4 tag node that allows users to extract the data from the node.</li></ol><p>It will return the argument <code>node</code> if the node should be passed to further parsing steps. If it returns <code>None</code>, this node will be dropped during the parsing.</p> |
+
+## Methods
+
+### <IconObjType type="method"/> `process`
+
+```python
+v_1: _Tag | None = self.process(name: str, node: _Tag)
+```
+
+Run the processing for a specific tag node.
+
+#### Requires
+
+| Name | Type | Required | <center>Description</center> |
+| :-----: | :-----: | :-----: | :------ |
+| `name` | `str` | <InlineIcon icon={vsiCheckIcon}/> | Equivalent to `tag.name.casefold()` |
+| `node` | `_Tag` | <InlineIcon icon={vsiCheckIcon}/> | The HTML tag node that would be used for catching the data. |
+
+#### Returns
+
+| Name | Type | <center>Description</center> |
+| :-----: | :-----: | :------ |
+| `v_1` | `_Tag \| None` | Return `Tag` if it should be further parsed. If this value is `None`, the given `node` (including its children) will be dropped in the parsed results. |
