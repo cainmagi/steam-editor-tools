@@ -76,6 +76,10 @@ const config: Config = {
         },
         // Replace blog block with false if the blog is not used.
         blog: false,
+        gtag: {
+          trackingID: "G-3G7WWG8C17",
+          anonymizeIP: true,
+        },
         theme: {
           customCss: "./src/css/custom.scss",
         },
