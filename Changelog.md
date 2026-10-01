@@ -9,6 +9,7 @@
 #### :wrench: Fix
 
 1. Fix: The `metascore` in the queried information has a incorrect type. Add a field validator to handle its content.
+2. Fix: Correct the numbering of achievements when rendering the BBCode.
 
 ### 0.6.1 @ 09/29/2026
 
