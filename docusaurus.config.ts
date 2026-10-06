@@ -9,7 +9,7 @@ import rehypeKatex from "rehype-katex";
 const config: Config = {
   title: "Steam Editor Tools",
   tagline:
-    "This package offers editor tools helping users write Steam guides and reviews. Support Steam information queries, image editing tools, and BBCode text processing tools.",
+    "This package offers editor tools to help users write Steam guides and reviews. It supports Steam queries, image editing, and BBCode processing.",
   favicon: "img/favicon.ico",
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -260,17 +260,11 @@ const config: Config = {
         "@type": "SoftwareSourceCode",
         name: "Steam Editor Tools",
         description:
-          "This package offers editor tools helping users write Steam guides and reviews. Support Steam information queries, image editing tools, and BBCode text processing tools.",
+          "This package offers editor tools to help users write Steam guides and reviews. It supports Steam queries, image editing, and BBCode processing.",
         programmingLanguage: {
           "@type": "ComputerLanguage",
           name: "Python",
           url: "https://python.org",
-        },
-        runtimePlatform: {
-          "@type": "RuntimePlatform",
-          runtimePlatform: "Python 3.10+",
-          applicationCategory: "Text Processing",
-          downloadUrl: "https://pypi.org/project/steam-editor-tools/",
         },
         codeRepository: "https://github.com/cainmagi/steam-editor-tools",
         license:
@@ -289,6 +283,41 @@ const config: Config = {
           name: "Yuchen Jin (cainmagi)",
           email: "cainmagi@gmail.com",
           url: "https://cainmagi.github.io/",
+        },
+        // For compatibility with Google SEO:
+        // We have to preserve most of the repeated information.
+        targetProduct: {
+          "@type": "SoftwareApplication",
+          name: "Steam Editor Tools",
+          description:
+            "This package offers editor tools to help users write Steam guides and reviews. It supports Steam queries, image editing, and BBCode processing.",
+          applicationCategory: "DeveloperApplication",
+          applicationSubCategory: "Text Processing",
+          operatingSystem: "OS-Independent",
+          downloadUrl: "https://pypi.org/project/steam-editor-tools/",
+          runtimePlatform: "Python 3.10+",
+          softwareVersion: "0.6.3",
+          offers: {
+            "@type": "Offer",
+            price: 0,
+            priceCurrency: "USD",
+          },
+          license:
+            "https://github.com/cainmagi/steam-editor-tools/blob/main/LICENSE",
+          keywords:
+            "bbcode, html-to-bbcode, image-processing, markdown-to-bbcode, python, python3, steam, steam-api, steam-bbcode, steam-bbcode-converter, steam-guide",
+          author: {
+            "@type": "Person",
+            name: "Yuchen Jin (cainmagi)",
+            email: "cainmagi@gmail.com",
+            url: "https://cainmagi.github.io/",
+          },
+          maintainer: {
+            "@type": "Person",
+            name: "Yuchen Jin (cainmagi)",
+            email: "cainmagi@gmail.com",
+            url: "https://cainmagi.github.io/",
+          },
         },
       }),
     },

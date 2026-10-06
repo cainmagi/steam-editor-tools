@@ -4,6 +4,12 @@
 
 ## CHANGELOG
 
+### 0.6.3 @ 10/06/2026
+
+#### :wrench: Fix
+
+1. Fix: Improve the JSON-LD data and description for SEO optimization.
+
 ### 0.6.3 @ 10/01/2026
 
 #### :mega: New
